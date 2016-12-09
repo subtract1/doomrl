@@ -292,7 +292,7 @@ function DoomRL.loadweapons()
 		missile       = "wolf_msub2",
 	}
 	register_item "wolf_sub3" {
-		name     = "grease gun", --American: M3
+		name     = "grease gun", --American: M3.  Possibly include a Marlin as well.
 		color    = LIGHTMAGENTA,
 		level    = 5,
 		weight   = 8,
@@ -336,6 +336,29 @@ function DoomRL.loadweapons()
 		shots         = 3,
 		altfire       = ALT_CHAIN,
 		missile       = "wolf_msub4",
+	}
+	register_item "wolf_sub5" {
+		name     = "marlin", --American: United Defense M42.  Used ONLY in the paratrooper challenge for a bit of flair.
+		color    = LIGHTMAGENTA,
+		level    = 200,
+		weight   = 0,
+		psprite  = SPRITE_PLAYER_CHAINGUN,
+		sprite   = SPRITE_SUB5,
+		group    = "weapon-sub",
+		desc     = "The M42 is a niche weapon used by resistance forces and OSS operatives.",
+		flags    = { IF_EXOTIC },
+
+		type          = ITEMTYPE_RANGED,
+		ammo_id       = "wolf_9mm",
+		ammomax       = 25,
+		damage        = "2d4",
+		damagetype    = DAMAGE_BULLET,
+		acc           = 3,
+		fire          = 10,
+		reload        = 15,
+		shots         = 3,
+		altfire       = ALT_CHAIN,
+		missile       = "wolf_msub5",
 	}
 
 	--bolt action rifles.  Todo: consider OnReload override that replicates the pascal code but with better flavour text.  Possibly add OnFire that checks for nearby beings and decreases accuracy too.

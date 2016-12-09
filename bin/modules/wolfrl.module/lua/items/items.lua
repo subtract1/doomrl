@@ -1056,7 +1056,13 @@ function DoomRL.loaditems()
 
 		OnUse = function(self, being)
 			if self.target_area:size() >= area.FULL_SHRINKED:size() then
-				ui.msg("Looks like you've overstayed your welcome.")
+				if math.random(10) == 10 then
+					-- Just a random shout out.
+					ui.msg("Project: Fuck The World engaged.")
+				else
+					ui.msg("Looks like you've overstayed your welcome.")
+				end
+
 				being:add_history("He flooded the entire level @1 with lava!")
 			else
 				ui.msg("The ground explodes in flames!")

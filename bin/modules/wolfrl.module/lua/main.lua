@@ -47,7 +47,7 @@ core.declare( "STYLE_BLAKE"  , 10);
 
 
 function DoomRL.OnLoaded()
-	ui.msg('Welcome to the @YWolfenstein@> the Roguelike...')
+	ui.msg('Welcome to @YWolfenstein@> the Roguelike...')
 end
 
 function DoomRL.OnLoadBase()
@@ -167,7 +167,11 @@ function DoomRL.get_result_description( result, highscore )
 				end
 			end
 			if highscore or not killed_by then
-				killed_by = 'killed by '.. DoomRL.a_an(killer.name)..' '..killer.name
+				if killer.flags[BF_UNIQUENAME] == true then
+					killed_by = 'killed by '..killer.name
+				else
+					killed_by = 'killed by '.. DoomRL.a_an(killer.name)..' '..killer.name
+				end
 			end
 		end
 	end
@@ -188,6 +192,7 @@ end
 function DoomRL.print_mortem()
 	local result_id    = DoomRL.get_result_id()
 	local death_reason = DoomRL.get_result_description( result_id, false )
+
 	local function version_string( v )
 		local result = v[1].."."..v[2].."."..v[3]
 		if v[4] then result = result.."."..v[4] end
@@ -222,7 +227,7 @@ function DoomRL.print_mortem()
 			player:mortem_print(" "..player.name..",")
 			player:mortem_print(" "..player_description)
 		end
-		local epi_name = player.episode[player.depth].deathname or player.episode[player.depth].name or "a Unknown Location"
+		local epi_name = player.episode[player.depth].deathname or player.episode[player.depth].name or "an Unknown Location"
 		local depth    = player.episode[player.depth].number or 0
 		if depth ~= 0 then
 			player:mortem_print( " "..death_reason.." on level "..depth.." of "..epi_name.."." )
@@ -474,7 +479,7 @@ function DoomRL.print_mortem()
 		player:mortem_print( "  "..v )
 	end
 	if game_type == GAMESTANDARD and not player:has_won() then
-		player:mortem_print( "  On level "..player.depth.." he "..death_reason..".")
+		player:mortem_print( "  On level "..player.depth.." he was "..death_reason..".")
 	end
 	player:mortem_print()
 
@@ -552,7 +557,7 @@ function DoomRL.print_mortem()
 				if sacrifice[6] > 0 then player:mortem_print(" "..sacrifice[6].." Ep6 suicide (should not be possible)" ) end
 				if win[6]       > 0 then player:mortem_print(" "..win[6]..      " defeated General Fettgesicht." ) end
 				if fullwin[6]   > 0 then player:mortem_print(" "..fullwin[6]..  " Ep6 full win (should not be possible)" ) end
-				if sacrifice[7] > 0 then player:mortem_print(" "..sacrifice[7].." buried the spear beneath a castle of rubble." ) end
+				if sacrifice[7] > 0 then player:mortem_print(" "..sacrifice[7].." buried the spear beneath a pile of rubble." ) end
 				if win[7]       > 0 then player:mortem_print(" "..win[7]..      " reached the spear intact." ) end
 				if fullwin[7]   > 0 then player:mortem_print(" "..fullwin[7]..  " escaped with the spear alive." ) end
 			end
@@ -768,16 +773,16 @@ function DoomRL.generatePlayerInventory()
 			player.inv:add( "wolf_lmed" )
 			player.inv:add( "wolf_lmed" )
 		else
-			player.eq.weapon = "wolf_semi1"
-			player.eq.prepared = "wolf_pistol4"
+			player.eq.weapon = "wolf_semi3"
+			player.eq.prepared = "wolf_sub5"
 			player.inv:add( "wolf_knife" )
-			player.inv:add( "wolf_8mm", { ammo = 16 } )
-			player.inv:add( "wolf_45acp", { ammo = 64 } )
+			player.inv:add( "wolf_30c", { ammo = 30 } )
+			player.inv:add( "wolf_9mm", { ammo = 50 } )
 			player.inv:add( "wolf_lmed" )
 			player.inv:add( "wolf_lmed" )
 		end
 	elseif (CHALLENGE == "challenge_obj" or SCHALLENGE == "challenge_obj") then
-		--Pacifism overrides everything that it can be paired with, which isn't as much as other tchallenges.
+		--Pacifism overrides everything that it can be paired with, which isn't as much as other challenges.
 		player.eq.armor = "wolf_armor2"
 		player.inv:add( "wolf_lmed" )
 		player.inv:add( "wolf_lmed" )
@@ -858,9 +863,9 @@ function DoomRL.donator_text()
 [[@rSpecial Thanks go out to:
 @R   ds_creamer, Madtrixr, Laptop, Simon, Sorear, Tavana, Tehtmi, Thomas, CIA-bot, Gargulec, Xander, Q, Mad, Para, Malek
 
-@yAre you still playing your OLD DoomRL ]]..VERSION_STRING..[[? Why? @RWHAT'S WRONG WITH YOU!? @yThese people all donated so they have access to the EXCLUSIVE beta. @yThat makes them all MUCH cooler than you.
+@yAre you still playing your OLD DoomRL ]]..VERSION_STRING..[[? Why? @RWHAT'S WRONG WITH YOU!? @yJupiter Hell is coming and you can DONATE to it now!  These people all donated. @yThat makes them all MUCH cooler than you.
 
-@rLatest donators: @ythelaptop, Nori, Septa, capn.lee, MaiZure, duomo, Lekon, papercuts6, drugon, tbradshaw, Handro, Game Hunter, Radiocarbon, tehtmi, danielhiryu, jonypawks, skylisdr, Blade, Shancial, Fobbah, Nightwolf, rchandra, jonypawks, Corporate Dog, Stormlock, Nachtfischer, Arenot2be, Test-0, tootboot, snids, salinger, Dimdamm, theduck101, GrimmC, Uite, Raz, alver, ehushagen, AtTheGates, okult, elswyyr, barmaley, SquidgyB, byrel, phrzn, mrblonde, Farquar, Chawlz, Kashi, MoArtis, Jouniz, VinylScratch, AlterAsc, Lprsti99, Tormuse, Dubris, phirt, stants, spacedust, Olesh, Kriminel, brokenfury8585, zakastra, MarsGuyPhil, lnxr0x, naib, michailv, xpsg, Eb, Templeton, Anacone, Althalaus, mihey1993, NamoDyn, grillkick, D1g1talDragon, jvecer and Oogle.
+@rLatest donators: @y*todo once the KS is done*
 ]]
 end
 

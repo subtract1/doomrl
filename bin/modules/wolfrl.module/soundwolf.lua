@@ -287,6 +287,11 @@ Sound = {
 		pickup  = "wolf_wav/mac_sounds/Ammo.wav",
 		reload  = "wolf_wav/mac_sounds/Ammo.wav",
 	},
+	wolf_sub5 = {
+		fire    = "wolf_wav/wolf_sounds/DSWMGUN.wav",
+		pickup  = "wolf_wav/mac_sounds/Ammo.wav",
+		reload  = "wolf_wav/mac_sounds/Ammo.wav",
+	},
 
 
 	wolf_bolt1 = {

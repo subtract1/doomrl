@@ -889,16 +889,80 @@ function DoomRL.loadnpcs()
 		max_lev      = 60,
 		corpse       = true,
 		danger       = 6,
-		weight       = 100,
+		weight       = 20,
 		bulk         = 100,
 		flags        = { BF_OPENDOORS },
 		ai_type      = "former_ai",
 
 		resist = { fire = 50 },
 
-		desc            = "War takes both good men and bad men. Judging by the crimson aura, this was not one of the good men.",
+		desc            = "War takes both good men and bad men. Judging by the crimson aura this was not one of the good men.",
 		kill_desc       = "killed by a nightmare guard",
 		kill_desc_melee = "beaten by a nightmare guard",
+
+		OnCreate = function (self)
+
+			--Hellion bonus
+			self.todamall = self.todamall + 1
+
+			--Tinker with health and accuracy slightly
+			local weapon = "wolf_pistol1"
+			local ammo   = "wolf_9mm"
+			local armor  = nil
+
+			if(level.danger_level > 5) then
+				if(level.danger_level > 12) then
+					if(math.random(10) == 1) then self.tohit = self.tohit + 1                                    self.expvalue = self.expvalue + 2 end
+					if(math.random(15) == 1) then self.hpmax = math.floor(self.hpmax * 1.2) self.hp = self.hpmax self.expvalue = self.expvalue + 2 end
+				end
+				if(math.random(10)  == 1) then self.tohit = self.tohit + 1                                    self.expvalue = self.expvalue + 2 end
+				if(math.random(20)  == 1) then self.hpmax = math.floor(self.hpmax * 1.2) self.hp = self.hpmax self.expvalue = self.expvalue + 2 end
+				if(math.random(100) == 1) then weapon = "wolf_pistol2"                                        self.expvalue = self.expvalue + 2 end
+				if(math.random(75)  == 1) then armor = "wolf_armor1"                                          self.expvalue = self.expvalue + 2 end
+			end
+
+			--Weaker guard (must have stubbed a toe)
+			if(math.random(30) == 1) then self.hp = math.floor(self.hpmax * math.random(70,90) / 100) self.expvalue = self.expvalue - 2 end
+
+			--Generate weapon
+			if(weapon) then self.eq.weapon = item.new(weapon) end
+			if(armor)  then self.eq.armor  = item.new(armor)  end
+			if(ammo)   then self.inv:add(item.new(ammo))      end
+		end,
+		OnDie = function (self)
+			--This lets us randomly choose a death cry.
+			local s = self.__proto.sound_id .. ".die" .. math.random(7)
+			self:play_sound( { s } )
+		end,
+	}
+	register_being "wolf_nguard2" {
+		name         = "nightmare sub guard",
+		sound_id     = "wolf_guard2",
+		ascii        = "h",
+		color        = GREEN + (RED * 16),
+		sprite       = SPRITE_WOLF_GUARD2,
+		coscolor     = { 1.0, 0.2, 0.0, 1.0 },
+		--overlay      = { 0.8, 0.2, 0.0, 1.0 },
+		glow         = { 1.0, 0.1, 0.1, 1.0 },
+		hp           = 30,
+		armor        = 1,
+		speed        = 125,
+		todam        = 1,
+		tohit        = -2,
+		min_lev      = 35,
+		max_lev      = 60,
+		corpse       = true,
+		danger       = 6,
+		weight       = 5,
+		bulk         = 100,
+		flags        = { BF_OPENDOORS },
+		ai_type      = "former_ai",
+
+		resist = { fire = 50 },
+
+		desc            = "War takes both good men and bad men. Judging by the crimson aura this was not one of the good men.",
+		kill_desc       = "killed by Willie's nightmare guard",
+		kill_desc_melee = "beaten by Willie's nightmare guard",
 
 		OnCreate = function (self)
 

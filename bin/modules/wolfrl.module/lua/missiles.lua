@@ -93,6 +93,14 @@ function DoomRL.loadmissiles()
 		miss_base  = 10,
 		miss_dist  = 5,
 	}
+	register_missile "wolf_msub5" {
+		sound_id   = "wolf_sub5",
+		color      = LIGHTGRAY,
+		sprite     = SPRITE_SHOT,
+		delay      = 30,
+		miss_base  = 10,
+		miss_dist  = 5,
+	}
 
 	register_missile "wolf_mbolt1" {
 		sound_id   = "wolf_bolt1",

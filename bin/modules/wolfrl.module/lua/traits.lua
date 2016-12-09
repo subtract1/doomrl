@@ -1,4 +1,4 @@
---[[ Some quotes I've picked up that could be useful (Patton qotes are quite good for DoomRL :)
+--[[ Some quotes I've picked up that could be useful (Patton quotes are quite good for DoomRL :)
  *A good plan violently executed now is better than a perfect plan executed next week. 
  *A pint of sweat will save a gallon of blood.
  *A sucking chest wound is Nature's way of telling you to slow down.
@@ -234,7 +234,7 @@ function DoomRL.load_traits()
 		name   = "Whizkid",
 		desc   = "Increases maximum amount of mod slots",
 		quote  = "\"Never tell people how to do things. Tell them what to do and they will surprise you with their ingenuity.\"",
-		full   = "You always were a brainy guy... Mom said you could have been an inventor but the Marine Corps picked you up first. Whether it's a toaster or a chaingun, there's always room for improvement! And with each level of this trait you can increase the number of mod slots on a weapon by 2 (by 1 on a armor).",
+		full   = "You always were a brainy guy... Mom said you could have been an inventor but the OSS picked you up first. Whether it's a toaster or a chaingun, there's always room for improvement! And with each level of this trait you can increase the number of mod slots on a weapon by 2 (by 1 on a armor).",
 		author = "Kornel",
 		abbr   = "WK",
 		OnPick = function (being)
