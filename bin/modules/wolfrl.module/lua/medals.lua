@@ -2,7 +2,7 @@
 function DoomRL.loadmedals()
 
 	register_medal "killall" {
-		name  = "Medal of Prejudice",
+		name  = "Genocide Superstar",
 		desc  = "Awarded for a perfect kill rate",
 		winonly = true,
 		condition = function() return statistics.kills == statistics.max_kills end,

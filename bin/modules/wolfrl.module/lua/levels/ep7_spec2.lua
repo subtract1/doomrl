@@ -25,7 +25,7 @@ register_level "vault" {
 	end,
 
 	Create = function ()
-
+--todo find some way of giving the player c4 before this level.  I know I wrote that code, where did it go?
 		generator.fill( "void", area.FULL )
 
 		--The different characters aren't actually used, I just like the handy markers.
@@ -236,7 +236,7 @@ register_level "vault" {
 		local result = level.status
 
 		if result == 0 then
-			player:add_history("He came, he saw, but he left.")
+			player:add_history("He came, he saw, he left.")
 		elseif result == 1 then
 			player:add_history("He managed to scavenge a part of the Vault's treasures.")
 		elseif result == 2 then
@@ -250,5 +250,6 @@ register_level "vault" {
 		end
 
 		level.status = level.status + 2
+		player.wolf_levelstatus[level.id] = level.status
 	end,
 }

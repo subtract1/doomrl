@@ -92,7 +92,11 @@ register_level "range" {
 	end,
 
 	OnEnter = function ()
-		level.status = math.random(2) --Todo: make this dependant on previous level conditions
+		if player.wolf_levelstatus["tll2"] >= 1 then
+			level.status = 2 -- Beat Quarkblitz so make this harder
+		else
+			level.status = 1
+		end
 
 		level.data.target_area = area.new(19,2,68,19)
 		level.data.units = {}
@@ -144,5 +148,6 @@ register_level "range" {
 		end
 
 		level.status = level.status + 2
+		player.wolf_levelstatus[level.id] = level.status
 	end,
 }

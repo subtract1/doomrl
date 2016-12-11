@@ -676,6 +676,7 @@ function DoomRL.loadbasedata()
 			self:add_property( "wolf_treasure3", 0 )
 			self:add_property( "wolf_treasure4", 0 )
 			self:add_property( "wolf_drankblood", false )
+			self:add_property( "wolf_levelstatus", {} )
 
 			self:add_property( "medals", {} )
 			self:add_property( "badges", {} )

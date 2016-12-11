@@ -17,7 +17,7 @@ register_level "tll1" {
 	end,
 
 	OnCompletedCheck = function ()
-		return level.status == 3
+		return level.status >= 1
 	end,
 
 	OnRegister = function ()
@@ -77,6 +77,10 @@ register_level "tll1" {
 
 	end,
 
+	OnKillAll = function (being)
+		level.status = 1
+	end,
+
 	OnExit = function (being)
 		if statistics.damage_on_level == 0 then
 			player:add_history("He won without damage.")
@@ -84,6 +88,6 @@ register_level "tll1" {
 			player:add_history("He won.")
 		end
 
-		level.status = level.status + 2
+		player.wolf_levelstatus[level.id] = level.status
 	end,
 }

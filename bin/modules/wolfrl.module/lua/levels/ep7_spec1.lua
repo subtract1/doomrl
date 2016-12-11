@@ -24,7 +24,11 @@ register_level "sewer" {
 
 	Create = function ()
 		level.name = "Raging Waters"
-		level.status = math.random(2) --Todo: make this dependant on previous level conditions
+		if player.wolf_levelstatus["tll1"] >= 1 then
+			level.status = 2 -- Beat Willie so make this harder
+		else
+			level.status = 1
+		end
 
 		generator.fill( "void", area.FULL )
 
@@ -70,7 +74,9 @@ register_level "sewer" {
 		generator.place_tile( translation, map, 8, 3 )
 
 		if (level.status >= 2) then
-			generator.scatter( area.FULL,"water","acid", 60)
+			generator.transmute("bridge", "water")
+			generator.scatter( area.FULL,"floor","water", 120)
+			generator.scatter( area.FULL,"water","acid", 120)
 		end
 
 		level:player(12, 10)
@@ -117,5 +123,6 @@ register_level "sewer" {
 		end
 
 		level.status = level.status + 2
+		player.wolf_levelstatus[level.id] = level.status
 	end,
 }

@@ -49,6 +49,7 @@ function DoomRL.loadweapons()
 		altfire     = ALT_THROW,
 		missile     = "wolf_mknife",
 	}
+	-- Bayonet might make for a good assembly or chainsaw replacement or something
 	register_item "wolf_axe" {
 		name     = "battle axe",
 		color    = CYAN,

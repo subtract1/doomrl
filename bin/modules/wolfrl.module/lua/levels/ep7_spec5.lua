@@ -38,6 +38,7 @@ register_level "tele" {
 			[">"] = "stairs",
 			['#'] = "wolf_dkwall",
 			['$'] = { "wolf_dkwall", flags = { LFPERMANENT } },
+			['%'] = "wolf_cvwall",
 			['&'] = { "wolf_cvwall", flags = { LFPERMANENT } },
 			['S'] = "rock",
 
@@ -54,6 +55,7 @@ register_level "tele" {
 			['#'] = "wolf_dkwall",
 			['$'] = { "wolf_dkwall", flags = { LFPERMANENT } },
 			['&'] = { "wolf_cvwall", flags = { LFPERMANENT } },
+			['%'] = "wolf_cvwall",
 			['S'] = { "rock", item = { "teleport", target = coord.new(4,11) } },
 
 			["+"] = "door",
@@ -76,11 +78,11 @@ register_level "tele" {
 &&....+.........#.......###......+...................+..######.######........$
 &.....#####################......+...................+.......................$
 &&...............................#####.####.####.#####.......................$
-&&&...........................&..#........#.#........#......&&&&&............$
-`&&.....&.....................&&.#........#.#........#....&&&,,,&&.##+#####+#$
-`&.....&&&.......................##########+##########..&&&,,,,,,&.#..........
-&&....&&`&&....###+###############...................#.&&,,,,,,&&&.#..........
-&.....&```&&...+.................+...................+..&&&&&&&&...+......>...
+&&&...........................&..#........#.#........#......%%%%%............$
+`&&.....&.....................&&.#........#.#........#....%%%,,,%%.##+#####+#$
+`&.....&&&.......................##########+##########..%%%,,,,,,%.#..........
+&&....&&`&&....###+###############...................#.%%,,,,,,%%%.#..........
+&.....&```&&...+.................+...................+..%%%%%%%%...+......>...
 .....&&````&&&.#.................+.........&&&&.&&...+.............+........&&
 &....&```````&&&$$$$$$$$$$$$$$$$$$$$$$$$$$&&&&&.&&&$$$$$$$$$$$$$$$$$&....&&&&`]]
 
@@ -101,8 +103,9 @@ register_level "tele" {
 		end
 
 
+		local start_area = area.new(1,1,4,2)
 		local tele_targets = {}
-		local count = 1000
+		local count = 500
 		repeat
 			count = count - 1
 
@@ -116,11 +119,11 @@ register_level "tele" {
 
 				if (pos1 == nil) then
 					pos1 = generator.random_empty_coord{ EF_NOITEMS, EF_NOSTAIRS, EF_NOBLOCK, EF_NOHARM, EF_NOSPAWN }
-					if (level.data.teleporters[pos1.x*25+pos1.y] ~= nil or tele_targets[pos1.x*25+pos1.y]) then pos1 = nil end
+					if (level.data.teleporters[pos1.x*25+pos1.y] ~= nil or tele_targets[pos1.x*25+pos1.y] or start_area:contains(pos1) or pos1 == pos2) then pos1 = nil end
 				end
 				if (pos2 == nil) then
 					pos2 = generator.random_empty_coord{ EF_NOITEMS, EF_NOSTAIRS, EF_NOBLOCK, EF_NOHARM, EF_NOSPAWN }
-					if (level.data.teleporters[pos2.x*25+pos2.y] ~= nil) then pos2 = nil end
+					if (level.data.teleporters[pos2.x*25+pos2.y] ~= nil or pos1 == pos2) then pos2 = nil end
 				end
 
 				if (pos1 ~= nil and pos2 ~= nil) then break end
@@ -179,8 +182,8 @@ register_level "tele" {
 		end
 
 		local destroyedGenerator = (level.status == 2)
-		local bruteForce = (level.data.walls * 2 / 3 > walls)
-		local demolitionMan = (level.data.walls * 1 / 3 > walls)
+		local bruteForce = (level.data.walls * 4 / 5 > walls)
+		local demolitionMan = (level.data.walls * 3 / 5 > walls)
 		local mishaps = level.data.mishaps
 
 		if (not destroyedGenerator) then
@@ -199,5 +202,6 @@ register_level "tele" {
 		end
 
 		level.status = level.status + 2
+		player.wolf_levelstatus[level.id] = level.status
 	end,
 }

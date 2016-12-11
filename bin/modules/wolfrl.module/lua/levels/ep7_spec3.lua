@@ -111,5 +111,6 @@ register_level "torment" {
 
 		player.vision = player.vision + level.data.penalty
 		level.status = level.status + 2
+		player.wolf_levelstatus[level.id] = level.status
 	end,
 }

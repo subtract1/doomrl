@@ -101,7 +101,7 @@ function DoomRL.ep1_OnCreateEpisode()
 
 	--Assign our levels.  There's too much flair to loop
 	player.episode = {}
---[[--]]	player.episode[1]  = {style = table.random_pick( { STYLE_BLUE,     STYLE_WHITE,                  } ), number = 1,  name = "Wolfenstein", deathname = "Castle Wolfenstein", danger = 2}
+--	player.episode[1]  = {style = table.random_pick( { STYLE_BLUE,     STYLE_WHITE,                  } ), number = 1,  name = "Wolfenstein", deathname = "Castle Wolfenstein", danger = 2}
 	player.episode[2]  = {style = table.random_pick( { STYLE_BLUE,     STYLE_WHITE                   } ), number = 2,  name = "Wolfenstein", deathname = "Castle Wolfenstein", danger = 2}
 	player.episode[3]  = {style = table.random_pick( { STYLE_BLUE,     STYLE_WHITE,    STYLE_BROWN   } ), number = 3,  name = "Wolfenstein", deathname = "Castle Wolfenstein", danger = 3}
 	player.episode[4]  = {style = STYLE_WHITE,                                                            number = 4,  name = "Wolfenstein", deathname = "Castle Wolfenstein", danger = 3}
@@ -110,7 +110,7 @@ function DoomRL.ep1_OnCreateEpisode()
 	player.episode[7]  = {style = STYLE_RED,                                                              number = 7,  name = "Wolfenstein", deathname = "Castle Wolfenstein", danger = 5}
 	player.episode[8]  = {style = table.random_pick( { STYLE_WHITE,    STYLE_BROWN                   } ), number = 8,  name = "Wolfenstein", deathname = "Castle Wolfenstein", danger = 5}
 	player.episode[9]  = {style = STYLE_RED,                                                              number = 9,  name = "Wolfenstein", deathname = "Castle Wolfenstein", danger = 6}
---[[--]]	player.episode[10] = {style = STYLE_RED,                                                              number = 10, name = "Wolfenstein", deathname = "Castle Wolfenstein", danger = 6}
+--	player.episode[10] = {style = STYLE_RED,                                                              number = 10, name = "Wolfenstein", deathname = "Castle Wolfenstein", danger = 6}
 
 	player.episode[1]  = {script = "intro1", style=table.random_pick({ STYLE_BLUE, STYLE_WHITE }), deathname = "Castle Wolfenstein"}
 	player.episode[10] = {script = "boss1", style=STYLE_RED, deathname = "Castle Wolfenstein"}

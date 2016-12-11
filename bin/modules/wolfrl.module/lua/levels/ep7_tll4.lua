@@ -75,8 +75,13 @@ register_level "tll4" {
 		level.name = "Metal Gods"
 		generator.fill( "void", area.FULL )
 
-		--If the teleporter lab was blown up disable a lever (todo, level status data)
-		level.status = 1 --or 2 if the lab was busted
+		if player.wolf_levelstatus["tele"] >= 4 then
+			level.status = 2 --If the teleporter lab was blown up disable a lever
+		else
+			level.status = 1
+		end
+		
+		
 		local translation = {
 			['.'] = "floor",
 			['~'] = "water",
@@ -158,5 +163,6 @@ register_level "tll4" {
 		else
 			player:add_history("Not knowing what to do he left.")
 		end
+		player.wolf_levelstatus[level.id] = level.status
 	end,
 }

@@ -83,7 +83,7 @@ register_level "tower1" {
 		generator.transmute("rock", "floor")
 
 		level.data.exit = "tower2"
-		level:player(29, 16)
+		level:player(28, 16)
 	end,
 
 	OnEnter = function ()
@@ -355,6 +355,7 @@ register_level "tower5" {
 			player:add_history("He fled the apex in fear.")
 		end
 
+		player.wolf_levelstatus[level.id] = level.status
 		player:remove_property( "tower_damage_on_level" )
 	end,
 }

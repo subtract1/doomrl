@@ -127,7 +127,7 @@ register_level "spec1" {
 		level.status = level.status + 1
 
 		if level.status == 3 and statistics.damage_on_level == 0 then
-			player:add_history("He came in looking for the kill.")
+			player:add_history("He was in for the kill.")
 		elseif level.status == 3 then
 			player:add_history("He cleaned the place out.")
 		elseif level.status == 2 then
