@@ -109,12 +109,18 @@ function DoomRL.load_traits()
 	register_trait "nails" {
 		id     = "nails",
 		name   = "Tough as nails",
-		desc   = "Increases body armor by 1/level.",
+		desc   = "Increases natural body armor.",
 		quote  = "\"A sucking chest wound is Nature's way of telling you to slow down.\"",
 		full   = "That sound you're hearing isn't from the bullets flying off the walls, but from the bullets flying off of YOU! Your skin is so hard that you'll shrug off 1 more point of damage for every level of this trait.",
 		abbr   = "TaN",
 		OnPick = function (being)
-			being.armor = being.armor + 1
+			being.resist.melee = (being.resist.melee or 0) + 15
+			being.resist.shrapnel = (being.resist.shrapnel or 0) + 20
+			being.resist.bullet = (being.resist.bullet or 0) + 15
+			being.resist.plasma = (being.resist.plasma or 0) + 10
+			being.resist.fire = (being.resist.fire or 0) + 15
+			being.resist.acid = (being.resist.acid or 0) + 10
+
 		end,
 	}
 	register_trait "bitch" {

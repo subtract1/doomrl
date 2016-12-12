@@ -97,11 +97,11 @@ register_level "spec6" {
 
 			["a"] = {"floor", being = "pac_blinky", item = "wolf_key1"},
 			["A"] = "dirt",
-			["b"] = {"floor", being = "wolf_minitrans"},
+			["b"] = {"floor", being = "wolf_bosstrans"},
 			["B"] = "grass1",
-			["c"] = {"floor", being = "wolf_minigretel"},
+			["c"] = {"floor", being = "wolf_bossgretel"},
 			["C"] = "grass2",
-			["d"] = {"floor", being = "wolf_minihans"},
+			["d"] = {"floor", being = "wolf_bosshans"},
 
 			["+"] = "door",
 			["="] = { "lmdoor1", flags = { LFPERMANENT } },
@@ -227,7 +227,7 @@ register_level "spec6" {
 	end,
 
 	OnKill = function (being)
-		if being.id == "wolf_minihans" or being.id == "wolf_minitrans" or being.id == "wolf_minigretel" then
+		if being.id == "wolf_bosshans" or being.id == "wolf_bosstrans" or being.id == "wolf_bossgretel" then
 			--Drop key, which is a powerup and thus must actually be spawned here.
 			local key = level:drop_item( "wolf_key1", being.position )
 			if (key == nil) then
@@ -248,7 +248,7 @@ register_level "spec6" {
 	OnExit = function (being)
 		--It is not fair to count the ghost as a missed kill
 		for b in level:beings() do
-			if (b.id == "pac_blinky") then
+			if (b.id == "pac_blinky" or b.id == "pac_pinky" or b.id == "pac_inky" or b.id == "pac_clyde") then
 				statistics.max_kills = statistics.max_kills - 1
 			end
 		end

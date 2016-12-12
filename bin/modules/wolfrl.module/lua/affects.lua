@@ -8,7 +8,7 @@ function DoomRL.loadaffects()
 		message_ending = "You feel your anger slowly wearing off...",
 		message_done   = "You feel more calm.",
 		status_effect  = STATUSRED,
-		status_strength= 5,
+		status_strength= 7,
 
 		OnAdd          = function(being)
 			being.flags[ BF_BERSERK ] = true
@@ -101,7 +101,7 @@ function DoomRL.loadaffects()
 		message_ending = "",
 		message_done   = "",
 		status_effect  = STATUSMAGENTA,
-		status_strength= 7,
+		status_strength= 8,
 
 		OnAdd          = function(being)
 			being.todamall = being.todamall + 20
@@ -118,7 +118,7 @@ function DoomRL.loadaffects()
 		message_ending = "",
 		message_done   = "",
 		status_effect  = STATUSCYAN,
-		status_strength= 3,
+		status_strength= 6,
 
 		--Consider adding the 'don't take damage from scratches' flag.
 		OnAdd          = function(being)
@@ -136,7 +136,7 @@ function DoomRL.loadaffects()
 		message_ending = "",
 		message_done   = "",
 		status_effect  = STATUSGRAY,
-		status_strength= 4,
+		status_strength= 9,
 
 		--[[
 		  Mire is tricky as we are definitely abusing the engine in ways that
@@ -168,6 +168,87 @@ function DoomRL.loadaffects()
 			--powerup for a little bit after you go back down to 5000)
 			being.scount = being.scount + 1000
 		end,
+	}
+
+	register_affect "drugs" {
+		name           = "œ“œ",
+		color          = YELLOW,
+		color_expire   = BROWN,
+		message_init   = "Whoa!",
+		message_ending = "",
+		message_done   = "",
+		status_effect  = STATUSYELLOW,
+		status_strength= 2,
+
+		OnAdd          = function(being)
+			being:add_property( "wolf_drugadjust", { hpmax = 0, vision = 0, tohit = 0, } )
+		end,
+		OnTick         = function(being)
+			--Nifty color effects!  And it only cost us 3 extra affect slots...
+			local random_color = math.random(4)
+			if     random_color == 1 then being:set_affect("drugs_a",2) being:remove_affect("drugs_b")
+			elseif random_color == 2 then being:set_affect("drugs_b",2) being:remove_affect("drugs_a")
+			else being:remove_affect("drugs_a") being:remove_affect("drugs_b")
+			end
+
+			local hpmax_middle  = being.hpnom + (player:get_trait( traits["ironman"].nid ) * math.floor(0.2 * being.hpnom))
+			local vision_middle = 8 + beings[being.id].vision + (player:get_trait( traits["cateye"].nid ) * 2) --VisionBaseValue==8 but that constant is not exposed to the modding engine
+			local tohit_middle  = 0 + (player:get_trait( traits["eagle"].nid ) * 2)
+			local min_hpmax  = math.max( being.hp / 2, math.floor(hpmax_middle/5) )
+			local min_vision = vision_middle - 3
+			local min_tohit  = tohit_middle - 2
+			local max_hpmax  = math.floor( hpmax_middle*2 )
+			local max_vision = vision_middle + 3
+			local max_tohit  = tohit_middle + 2
+
+			local hpmax_adj  = math.random(-1*being.hpnom, 1*being.hpnom)
+			local vision_adj = math.random(-2, 2)
+			local tohit_adj  = math.random(-1, 1)
+
+			if     ( being.hpmax + hpmax_adj < min_hpmax ) then hpmax_adj = being.hpmax - min_hpmax
+			elseif ( being.hpmax + hpmax_adj > max_hpmax ) then hpmax_adj = max_hpmax - being.hpmax
+			end
+			if     ( being.vision + vision_adj < min_vision ) then vision_adj = being.vision - min_vision
+			elseif ( being.vision + vision_adj > max_vision ) then vision_adj = max_vision - being.vision
+			end
+			if     ( being.tohit + tohit_adj < min_tohit ) then tohit_adj = being.tohit - min_tohit
+			elseif ( being.tohit + tohit_adj > max_tohit ) then tohit_adj = max_tohit - being.tohit
+			end
+
+			being.hpmax  = being.hpmax  + hpmax_adj
+			being.vision = being.vision + vision_adj
+			being.tohit  = being.tohit  + tohit_adj
+			being.wolf_drugadjust.hpmax  = being.wolf_drugadjust.hpmax  + hpmax_adj
+			being.wolf_drugadjust.vision = being.wolf_drugadjust.vision + vision_adj
+			being.wolf_drugadjust.tohit  = being.wolf_drugadjust.tohit  + tohit_adj
+		end,
+		OnRemove       = function(being)
+			being.hpmax  = being.hpmax  - being.wolf_drugadjust.hpmax
+			being.vision = being.vision - being.wolf_drugadjust.vision
+			being.tohit  = being.tohit  - being.wolf_drugadjust.tohit
+
+			being:remove_property( "wolf_drugadjust" )
+		end,
+	}
+	register_affect "drugs_a" {
+		name           = "",
+		color          = BLACK,
+		color_expire   = BLACK,
+		message_init   = "",
+		message_ending = "",
+		message_done   = "",
+		status_effect  = STATUSRED,
+		status_strength= 3,
+	}
+	register_affect "drugs_b" {
+		name           = "",
+		color          = BLACK,
+		color_expire   = BLACK,
+		message_init   = "",
+		message_ending = "",
+		message_done   = "",
+		status_effect  = STATUSBLUE,
+		status_strength= 3,
 	}
 
 	register_affect "poison" {

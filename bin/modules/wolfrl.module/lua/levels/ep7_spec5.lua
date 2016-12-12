@@ -7,9 +7,96 @@
      tile.  So we displace the item when dropping.  Annoying but the best way.
 
      Since all the magic happens in OnTick a player with a move speed below 0.1s
-     can actually run over a teleporter (mire crystal).  There's nothing I can do
-     about this without some egregious hacks.
+     can actually run over a teleporter (mire crystal).  There's nothing I can
+     do about this without some egregious hacks.
+
+     Lastly, despite my protests I had to whip up a pathfinding algorithm in
+     LUA.  It is not fast.
 --]]
+local pathfinding_gettableentry = function( coord, cell_table )
+	--I need these two procs because cells are complex user objects
+	--and I need a way to treat them like primitives in a hashset
+	if cell_table[coord.x] ~= nil then return cell_table[coord.x][coord.y] else return nil end
+end
+local pathfinding_settableentry = function( coord, val, out_cell_table )
+	--I need these two procs because cells are complex user objects
+	--and I need a way to treat them like primitives in a hashset
+	if out_cell_table[coord.x] == nil then out_cell_table[coord.x] = {} end
+	out_cell_table[coord.x][coord.y] = val
+end
+local pathfinding_manhattan_estimate = function( start_coord, end_coord )
+	local straight_move_cost = 10
+	return (math.abs(start_coord.x - end_coord.x) + math.abs(start_coord.y - end_coord.y)) * straight_move_cost
+end
+local pathfinding_find_lowest_est = function( list, f )
+	local best_weight = 9999
+	local best_index = 0
+
+	--If there are performance issues we could try optimizing
+	--this by maintaining a sorted list
+	for i,c in ipairs( list ) do
+		local current_f = pathfinding_gettableentry( c, f )
+		if current_f <= best_weight then -->= ensures we favor more recent nodes
+			best_weight = current_f
+			best_index = i
+		end
+	end
+
+	return best_index
+end
+local pathfinding_astar = function( start_coord, end_coord, border )
+	--Unfortunately the pascal pathfinding algos are not available
+	--to us in a usable format...
+	local diag_move_cost = 10
+	local straight_move_cost = 10
+
+	--Initial setup (made harder because coords are complex 
+	--datatypes that don't play nicely with lua table indexes)
+	local open_list = {}
+	local open_list_set = {} --true false and nil for open closed and never entered.
+	local g_scores = {}
+	local f_scores = {}
+	table.insert( open_list, start_coord )
+	pathfinding_settableentry( start_coord, true, open_list_set )
+	pathfinding_settableentry( start_coord, 0, g_scores )
+	pathfinding_settableentry( start_coord, pathfinding_gettableentry( start_coord, g_scores ) + pathfinding_manhattan_estimate( start_coord, end_coord ), f_scores )
+
+	while #open_list > 0 do
+		--Get best candidate
+		local current_node_index = pathfinding_find_lowest_est( open_list, f_scores )
+		local current_node = open_list[current_node_index]
+		if current_node == end_coord then return true end
+
+		--Add to closed set, remove from open list
+		table.remove(open_list, current_node_index)
+		pathfinding_settableentry( current_node, false, open_list_set )
+
+		--Calculate values for bordering cells
+		for neighbor_node in current_node:around_coords() do
+			if ( border:contains(neighbor_node) and pathfinding_gettableentry(neighbor_node, open_list_set) == nil ) then
+				--Okay, the coordinate is valid, now check the cell
+				local cell_proto = cells[ level.map[ neighbor_node ] ]
+				if ( ( not cell_proto.flags[ CF_BLOCKMOVE ] or cell_proto.set == CELLSET_DOORS ) and level.data.teleporters[neighbor_node.x*25+neighbor_node.y] == nil ) then
+					--Okay, the cell type also checks out, calc G and F
+					local new_g = pathfinding_gettableentry( current_node, g_scores )
+					if neighbor_node.x == current_node.x or neighbor_node.y == current_node.y then new_g = new_g + straight_move_cost else new_g = new_g + diag_move_cost end
+					local new_f = new_g + pathfinding_manhattan_estimate( neighbor_node, end_coord )
+
+					--Ordinarily we'd check to see if we got a better f value with our current node than some past node.
+					--That might concern us if we both cared to return a path and cared for it to be as efficient as possible.
+					--We don't so I'm just going to add it to the open set.
+					--Otherwise add it to the candidate pool and establish the g/h values.
+					pathfinding_settableentry( neighbor_node, new_g, g_scores )
+					pathfinding_settableentry( neighbor_node, new_f, f_scores )
+					pathfinding_settableentry( neighbor_node, true, open_list_set )
+					table.insert( open_list, neighbor_node:clone() )
+				end
+			end
+		end
+	end
+
+	return false
+end
 
 register_level "tele" {
 	name  = "Teleporter Labs",
@@ -102,7 +189,10 @@ register_level "tele" {
 			end
 		end
 
-
+		--I'd like to just mention that we've got two different coord indexing methods in use.
+		--The first is more proper, the second is a hack that works as long as level sizes are
+		--no greater than 25 vertical.  I wrote them at different points in time and have not,
+		--despite meaning to make things 'simple' for modders, rectified that yet.
 		local start_area = area.new(1,1,4,2)
 		local tele_targets = {}
 		local count = 500
@@ -202,6 +292,6 @@ register_level "tele" {
 		end
 
 		level.status = level.status + 2
-		player.wolf_levelstatus[level.id] = level.status
+		player.level_statuses[level.id] = level.status
 	end,
 }

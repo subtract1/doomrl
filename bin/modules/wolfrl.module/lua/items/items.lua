@@ -1,6 +1,23 @@
 function DoomRL.loaditems()
 
 	-- Armors --
+
+	--[[ Percentage based damage reduction is a lot different from flat.
+	  At early levels one point of protection is roughly equal to 15%
+	  defense against damage.  This is not a linear equation and things
+	  diverge once you get into higher end monsters.  Overall damage
+	  taken is more consistent.
+	    
+	    Damage_Bullet	Kurz weapons, equal to mid-range rifles
+	    Damage_Melee	Melee of course
+	    Damage_Sharpnel	Shotguns and pistol rounds, would prefer two types
+	    Damage_Acid	Acid (which is pretty rare)
+	    Damage_Fire	Fire + explosions (not quite as rare)
+	    Damage_Plasma	Rifle rounds.  The eating through walls is a problem...
+	    Damage_SPlasma	Ignored since it ties to plasma defensive-wise
+	    Damage_IgnoreArmor	Used only if
+	  Our armor modifiers aren't .5 1 2; with percentages we can be flexible.
+	--]]
 	register_item "wolf_armor1" {
 		name     = "light armor",
 		color    = WHITE,
@@ -10,8 +27,10 @@ function DoomRL.loaditems()
 		weight   = 200,
 		desc     = "This armor is flexible and lightweight and still helps protect against light arms fire.",
 
+		resist = { melee = 15, sharpnel = 20, bullet = 15, plasma = 10, fire = 15, acid = 10 },
+
 		type       = ITEMTYPE_ARMOR,
-		armor      = 1,
+		armor      = 0,
 		movemod    = 0,
 	}
 	register_item "wolf_armor2" {
@@ -23,8 +42,10 @@ function DoomRL.loaditems()
 		weight   = 150,
 		desc     = "This armor boasts decent protection without too much bulk.",
 
+		resist = { melee = 30, sharpnel = 40, bullet = 30, plasma = 20, fire = 30, acid = 20 },
+
 		type       = ITEMTYPE_ARMOR,
-		armor      = 2,
+		armor      = 0,
 		movemod    = -10,
 	}
 	register_item "wolf_armor3" {
@@ -36,10 +57,10 @@ function DoomRL.loaditems()
 		weight   = 150,
 		desc     = "This armor is slow, heavy, and able to deflect artillery. The perfect thing for a walking tank like you.",
 
-		resist = { bullet = 10, shrapnel = 10, fire = 10 },
+		resist = { melee = 45, sharpnel = 60, bullet = 45, plasma = 30, fire = 45, acid = 30 },
 
 		type       = ITEMTYPE_ARMOR,
-		armor      = 4,
+		armor      = 0,
 		movemod    = -20,
 	}
 
@@ -53,8 +74,10 @@ function DoomRL.loaditems()
 		flags    = { IF_PLURALNAME },
 		desc     = "These boots will keep your feet warm.",
 
+		resist = { acid = 30 },
+
 		type       = ITEMTYPE_BOOTS,
-		armor      = 1,
+		armor      = 0,
 		knockmod   = -10,
 	}
 	register_item "wolf_boots2" {
@@ -67,10 +90,10 @@ function DoomRL.loaditems()
 		flags    = { IF_PLURALNAME },
 		desc     = "These boots are made for walking.",
 
-		resist = { acid = 25 },
+		resist = { acid = 60, fire = 30 },
 
 		type       = ITEMTYPE_BOOTS,
-		armor      = 2,
+		armor      = 0,
 		knockmod   = -20,
 	}
 	register_item "wolf_boots3" {
@@ -83,10 +106,10 @@ function DoomRL.loaditems()
 		flags    = { IF_PLURALNAME },
 		desc     = "If the shoes make the man these shoes make you invincible.",
 
-		resist = { acid = 50, fire = 25 },
+		resist = { acid = 90, fire = 60 },
 
 		type       = ITEMTYPE_BOOTS,
-		armor      = 4,
+		armor      = 0,
 		knockmod   = -50,
 	}
 
@@ -319,8 +342,8 @@ function DoomRL.loaditems()
 			being:set_affect("light",core.power_duration(60))
 		end,
 	}
-	register_item "wolf_backpack" {
-		name     = "backpack",
+	register_item "wolf_ammopack" {
+		name     = "ammo pack",
 		ascii    = '"',
 		color    = BROWN,
 		sprite   = SPRITE_BACKPACK,
@@ -332,10 +355,10 @@ function DoomRL.loaditems()
 
 		OnPickup = function(self, being)
 			if being.flags[ BF_BACKPACK ] then
-				ui.msg("Another backpack.")
+				ui.msg("Another ammo pack.")
 				return
 			end
-			ui.msg("BackPack!")
+			ui.msg("Ammo Pack!")
 			ui.blink(YELLOW,50)
 			being:power_backpack()
 		end,
@@ -680,9 +703,19 @@ function DoomRL.loaditems()
 					item.damage_dice = item.damage_dice + 1
 				end
 			elseif item.itype == ITEMTYPE_ARMOR then
-				item.armor = item.armor + 2
+				item.resist.melee     = math.min( (item.resist.melee    or 0) + 15, 95 )
+				item.resist.shrapnel  = math.min( (item.resist.shrapnel or 0) + 20, 95 )
+				item.resist.bullet    = math.min( (item.resist.bullet   or 0) + 15, 95 )
+				item.resist.plasma    = math.min( (item.resist.plasma   or 0) + 10, 95 )
+				item.resist.fire      = math.min( (item.resist.fire     or 0) + 15, 95 )
+				item.resist.acid      = math.min( (item.resist.acid     or 0) + 10, 95 )
 			elseif item.itype == ITEMTYPE_BOOTS then
-				item.armor = item.armor * 2
+				item.resist.melee     = math.min( (item.resist.melee    or 0) + 15, 95 )
+				item.resist.shrapnel  = math.min( (item.resist.shrapnel or 0) + 20, 95 )
+				item.resist.bullet    = math.min( (item.resist.bullet   or 0) + 15, 95 )
+				item.resist.plasma    = math.min( (item.resist.plasma   or 0) + 10, 95 )
+				item.resist.fire      = math.min( (item.resist.fire     or 0) + 15, 95 )
+				item.resist.acid      = math.min( (item.resist.acid     or 0) + 10, 95 )
 			end
 			item:add_mod('P')
 			return true
@@ -1408,5 +1441,180 @@ function DoomRL.loaditems()
 			return true
 		end,
 	}
+
+	-- Special Items --
+	register_item "wolf_demo1" {
+		name     = "demolition pack",
+		ascii    = "ñ",
+		--asciilow = '+';
+		color    = BROWN,
+		sprite   = SPRITE_DEMO,
+		level    = 200,
+		weight   = 0,
+		desc     = "Explosives that can be detonated via remote control!",
+
+		type = ITEMTYPE_PACK,
+
+		OnUse = function(self, being)
+			if being:is_player() then
+				local isOnGround = level:get_item(self.position) == self 
+				if (isOnGround) then
+					being:msg("You arm the charges.")
+					local position = self.position
+					self:destroy()
+					level:drop_item( "wolf_demo2", position )
+					return false
+				else
+					being:msg("You arm and set the charges.")
+					level:drop_item( "wolf_demo2", being.position )
+					return true
+				end
+			else
+				return false
+			end
+		end,
+	}
+	register_item "wolf_demo2" {
+		name     = "demolition pack",
+		ascii    = "ñ",
+		--asciilow = '+';
+		color    = LIGHTRED,
+		sprite   = SPRITE_DEMO,
+		glow     = { 0.5,0.0,0.0,0.5 },
+		level    = 200,
+		weight   = 0,
+		desc     = "Explosives. There's a red light blinking on the side.",
+
+		type = ITEMTYPE_PACK,
+
+		OnUse = function(self, being)
+			if being:is_player() then
+				local isOnGround = level:get_item(self.position) == self 
+				if (isOnGround) then
+					being:msg("You check the charges. They are armed.")
+					return false
+				else
+					being:msg("You set the charges.")
+					level:drop_item( "wolf_demo2", being.position )
+					return true
+				end
+			else
+				return false
+			end
+		end,
+	}
+	register_item "wolf_demodet" {
+		name     = "detonator",
+		ascii    = "à",
+		--asciilow = '*';
+		color    = LIGHTGREEN,
+		sprite   = SPRITE_DET,
+		level    = 200,
+		weight   = 0,
+		desc     = "A remote control detonator. This probably blows stuff up.",
+
+		type = ITEMTYPE_PACK,
+
+		OnUse = function(self, being)
+			if being:is_player() then
+				local foundMap = false
+				local foundPerson = false
+
+				--Search the map for armed explosives.
+				--Since the explosion can DESTROY other objects and generally wrecks our iterators
+				--we must scan the level, get the items, then detonate them carefully to avoid errors.
+				local explosives = {}
+				for item in level:items() do
+					if ( item.id == "wolf_demo2" ) then
+						table.insert( explosives, item )
+						foundMap = true
+					end
+				end
+
+				--Search the player inventory for armed explosives (you moron).
+				for item in being.inv:items() do
+					if ( item.id == "wolf_demo2" ) then
+						table.insert( explosives, item )
+						foundPerson = true
+					end
+				end
+
+				--Blow it up.
+				for _,item in ipairs(explosives) do
+					if ( item.__ptr ) then
+						local position = item.position
+						item:destroy()
+						level:explosion( position, 3, 50, 8, 8, LIGHTRED, "barrel.explode", DAMAGE_FIRE )
+					end
+				end
+
+				--Message printing
+				if (foundPerson == true) then
+					being:msg("Whoops!")
+				elseif (foundMap == true) then
+					being:msg("Kaboom!")
+				else
+					being:msg("Nothing happens.")
+				end
+			end
+
+			--Never consume the detonator
+			return false
+		end,
+	}
+	register_item "wolf_drugs1" {
+		name     = "adrenaline pack",
+		color_id = "wolf_berserk",
+		ascii    = "^",
+		color    = LIGHTGREEN,
+		sprite   = SPRITE_BERSERK,
+		level    = 200,
+		weight   = 0,
+
+		type    = ITEMTYPE_POWER,
+
+		OnPickup = function(self, being)
+			being:set_affect("drugs",core.power_duration(40))
+			being.tired = false
+		end,
+	}
+	register_item "wolf_drugs2" {
+		name     = "super serum",
+		color_id = "wolf_inv",
+		ascii    = "^",
+		color    = WHITE,
+		sprite   = SPRITE_INV,
+		level    = 200,
+		weight   = 0,
+
+		type    = ITEMTYPE_POWER,
+
+		OnPickup = function(self, being)
+			being:set_affect("drugs",core.power_duration(50))
+			being.tired = false
+		end,
+	}
+	register_item "wolf_sigil" {
+		name     = "sigil",
+		ascii    = "ê",
+		--asciilow = '&';
+		color    = YELLOW,
+		sprite   = SPRITE_DET,
+		level    = 200,
+		weight   = 0,
+		desc     = "???",
+
+		type = ITEMTYPE_PACK,
+
+		OnUse = function(self, being)
+			if being:is_player() then
+				being:msg("Nothing happens.")
+			end
+
+			--Never consume
+			return false
+		end,
+	}
+
 
 end

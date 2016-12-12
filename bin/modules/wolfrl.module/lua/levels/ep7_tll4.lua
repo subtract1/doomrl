@@ -75,18 +75,14 @@ register_level "tll4" {
 		level.name = "Metal Gods"
 		generator.fill( "void", area.FULL )
 
-		if player.wolf_levelstatus["tele"] >= 4 then
-			level.status = 2 --If the teleporter lab was blown up disable a lever
-		else
-			level.status = 1
-		end
-		
-		
+		--If the teleporter lab was blown up disable a lever (todo, level status data)
+		level.status = (player.level_statuses["tele"] or 0) >= 4 and 2 or 1 --Blowing up the tele labs disables the robot labs.  All you can do is leave...
+
 		local translation = {
 			['.'] = "floor",
 			['~'] = "water",
 			['"'] = "bridge",
-			
+
 			["`"] = "void",
 			[">"] = "stairs",
 			["<"] = "ystairs",
@@ -94,6 +90,11 @@ register_level "tll4" {
 			['$'] = { "wolf_whwall", flags = { LFPERMANENT } }, --Todo: flarify special levels
 			['-'] = "wolf_rewall",
 			['|'] = "wolf_rewall", --flair
+
+			['*'] = { "floor", item = "wolf_smed" },
+			['!'] = { "floor", item = "wolf_lmed" },
+			[':'] = { "floor", item = "wolf_rocket" },
+			['/'] = { "floor", item = "wolf_sigil" },
 
 			["+"] = "door",
 			["="] = { "lmdoor1", flags = { LFPERMANENT } },
@@ -107,12 +108,12 @@ register_level "tll4" {
 		local map = [[
 #######`````````````````#############
 #.....#`````````````````#...........#
-#..<..####################+####.....#
+#.<...####################+####.....#
 #.....#.#.....|.......|.....#`#.....#
 #.....#.+.....|.......|..@..#`#.....#
 #.....#&#.....####+####-----#`#.....#
 #.....###.....#`#...#`#.....#`#.....#
-#.....#`#.....#`#...#`#.....#`#.....#
+#.....#`#.....#`#./.#`#.....#`#.....#
 #.....#`#.....#`#...#`#.....#`#.....#
 #.....#`#.....#########-----#`#.....#
 #.....#`#...................#`#.....#
@@ -163,6 +164,7 @@ register_level "tll4" {
 		else
 			player:add_history("Not knowing what to do he left.")
 		end
-		player.wolf_levelstatus[level.id] = level.status
+
+		player.level_statuses[level.id] = level.status
 	end,
 }

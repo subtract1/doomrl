@@ -7,11 +7,11 @@ function DoomRL.loadweapons()
 	  In a game, balance is more important than accuracy.
 	  For that reason most fully automatic weapons are weaker than single shot
 	  weapons.  Let's just assume that it's a built in 'recoil' penalty.
-	  Balance also means that the German weapons get gimped a little bit in favor
-	  of the exotics.  Let's say that's because BJ's more familiar with them.
-	  Ammunition is a tricky point here; I'm not so crude as to make all weapons
-	  accept 'ammo' or some equally poor substitute, but it's not reasonable to
-	  assume a nazi fortress is going to be loaded with 303s..
+	  Balance also means that the German weapons get gimped a little bit in
+	  favor of the exotics.  Let's say that's because BJ's more familiar with
+	  them.  Ammunition is a tricky point here; I'm not so crude as to make all
+	  weapons accept 'ammo' or some equally poor substitute, but it's not
+	  reasonable to assume a Nazi fortress is going to be loaded with 303s...
 
 	  There are a few ways around this:
 	  Make all ammo types spawn at least semi-regularly
@@ -19,15 +19,26 @@ function DoomRL.loadweapons()
 	  Treat ammo as rare and spawn 'exotics' with abandon
 	  Use special levels to generate guaranteed exotic ammo caches
 
-	  My current design focuses on weapon caches and with weapons being discarded
-	  as better models become available.  For this reason biasing the generator
-	  and relying on special levels seems a safe bet; you get a bunch of special
-	  ammo with the weapon and simply discard it when you run out.
+	  My current design focuses on weapon caches and with weapons being
+	  discarded as better models become available.  For this reason biasing the
+	  generator and relying on special levels seems a safe bet; you get a bunch
+	  of special ammo with the weapon and simply discard it when you run out.
 
-	  Lastly, to better divide our categories: shrapnel damage is used for pistol rounds
-	  to give armor a boost, physical is used for the kurz, and plasma for the large rifle
-	  rounds.  This gives us armor effectiveness values of 2, 1, and .5 (though this also
-	  lets rifle rounds eat through walls--I'll fix it when possible)
+	  Lastly, damage types and armor.  Unfortunately I do not have access to
+	  custom damage types nor is it possible to alter the characteristics of
+	  the current types.  On top of that the hard truth is percentage based
+	  reduction + flat damage reduction simply doesn't work.  Given what I have
+	  to work with the best option seems to be discarding flat reduction
+	  completely.  This also bypasses the hardcoded armor modifiers.
+	    Damage_Bullet	Kurz weapons, equal to mid-range rifles
+	    Damage_Melee	Melee of course
+	    Damage_Sharpnel	Shotguns and pistol rounds, would prefer two types
+	    Damage_Acid	Acid (which is pretty rare)
+	    Damage_Fire	Fire + explosions (not quite as rare)
+	    Damage_Plasma	Rifle rounds.  The eating through walls is a problem...
+	    Damage_SPlasma	Ignored since it ties to plasma defensive-wise
+	    Damage_IgnoreArmor	Exactly what it says on the tin
+	  Our armor modifiers aren't .5 1 2; with percentages we can be flexible.
 	--]]
 
 	--melee
@@ -37,9 +48,9 @@ function DoomRL.loadweapons()
 		sprite   = SPRITE_KNIFE,
 		psprite  = SPRITE_PLAYER_KNIFE,
 		level    = 1,
-		weight   = 540,
+		weight   = 240,
 		group    = "weapon-melee",
-		desc     = "Some of your best work has been with a knife, but this situation calls for heavier firepower.",
+		desc     = "Some of your best work has been with a knife. But this mission calls for heavier firepower.",
 		flags    = { IF_BLADE, IF_THROWDROP },
 
 		type        = ITEMTYPE_MELEE,
@@ -49,7 +60,55 @@ function DoomRL.loadweapons()
 		altfire     = ALT_THROW,
 		missile     = "wolf_mknife",
 	}
-	-- Bayonet might make for a good assembly or chainsaw replacement or something
+	register_item "wolf_bayonet" {
+		name     = "bayonet",
+		color    = WHITE,
+		sprite   = SPRITE_KNIFE,
+		psprite  = SPRITE_PLAYER_KNIFE,
+		level    = 1,
+		weight   = 120,
+		group    = "weapon-melee",
+		desc     = "A little bit tougher than a knife but you can't throw it very well.",
+		flags    = { IF_BLADE, IF_BLADE },
+
+		type        = ITEMTYPE_MELEE,
+		damage      = "2d6+1",
+		damagetype  = DAMAGE_MELEE,
+		acc         = 1,
+		missile     = "wolf_mknife",
+	}
+	register_item "wolf_mace" {
+		name     = "mace",
+		color    = MAGENTA ,
+		sprite   = SPRITE_KNIFE,
+		psprite  = SPRITE_PLAYER_KNIFE,
+		level    = 7,
+		weight   = 100,
+		group    = "weapon-melee",
+		desc     = "This weapon is unwieldly but when it hits it often hurts.",
+		flags    = { },
+
+		type        = ITEMTYPE_MELEE,
+		damage      = "1d15",
+		damagetype  = DAMAGE_MELEE,
+		acc         = -2,
+	}
+	register_item "wolf_sword" {
+		name     = "sword",
+		color    = RED ,
+		sprite   = SPRITE_KNIFE,
+		psprite  = SPRITE_PLAYER_KNIFE,
+		level    = 10,
+		weight   = 40,
+		group    = "weapon-melee",
+		desc     = "An antiquated relic of a bygone era.",
+		flags    = { IF_HALFKNOCK, IF_BLADE },
+
+		type        = ITEMTYPE_MELEE,
+		damage      = "3d6",
+		damagetype  = DAMAGE_MELEE,
+		acc         = -1,
+	}
 	register_item "wolf_axe" {
 		name     = "battle axe",
 		color    = CYAN,
@@ -64,6 +123,7 @@ function DoomRL.loadweapons()
 		type        = ITEMTYPE_MELEE,
 		damage      = "5d5",
 		damagetype  = DAMAGE_MELEE,
+		acc         = 0,
 	}
 	register_item "wolf_spear" {
 		name     = "Longinus Spear",
@@ -80,6 +140,7 @@ function DoomRL.loadweapons()
 		type        = ITEMTYPE_MELEE,
 		damage      = "8d8",
 		damagetype  = DAMAGE_PLASMA,
+		acc         = 0,
 		altfire     = ALT_SCRIPT,
 		altfirename = "holy flame",
 
@@ -293,7 +354,7 @@ function DoomRL.loadweapons()
 		missile       = "wolf_msub2",
 	}
 	register_item "wolf_sub3" {
-		name     = "grease gun", --American: M3.  Possibly include a Marlin as well.
+		name     = "grease gun", --American: M3.
 		color    = LIGHTMAGENTA,
 		level    = 5,
 		weight   = 8,

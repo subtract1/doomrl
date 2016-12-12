@@ -36,7 +36,8 @@ register_level "spear1" {
 			["b"] = {"floor", being = "wolf_dog1"},
 			["c"] = {"floor", being = "wolf_ss1"},
 			["d"] = {"floor", being = "wolf_officer1"},
-			["@"] = {"floor", being = "wolf_bosstrans"},
+			["@"] = "floor",
+			--["@"] = {"floor", being = "wolf_bosstrans"},
 
 			["1"] = {"floor", being = core.bydiff{nil, "wolf_guard1"}},
 			["2"] = {"floor", being = core.bydiff{nil, nil, "wolf_guard1"}},
@@ -76,11 +77,21 @@ register_level "spear1" {
 		level:player(12, 10)
 	end,
 
-	--OnPickup = function (item, being)
-	--	if item and item.id == "wolf_key2" then
-	--		level:drop_being("wolf_bosstrans",coord.new(67, 10))
-	--	end
-	--end,
+	OnPickup = function (item, being)
+		if item and item.id == "wolf_key2" and being == player then
+			--Spawn Trans.  Since Trans also acts as a 'regular' enemy we must make 'boss level' upgrades to his stats.
+			--We cannot change the AI (not reasonably anyway) or the descriptive text (that must remain neutral).
+			local boss = level:drop_being("wolf_bosstrans", coord.new(67, 10))
+			boss.hpmax = (boss.hpmax + 20) + DIFFICULTY * DIFFICULTY * 1
+			boss.hp = boss.hpmax
+			boss.flags[BF_HUNTING] = true
+			boss.expvalue = 0
+			boss.tohitmelee = boss.tohitmelee + 1
+			--for i=1,4 do
+			--	boss.inv:add( "wolf_kurz", { ammo = 50 } )
+			--end
+		end
+	end,
 
 	OnKill = function (being)
 		if being.id == "wolf_bosstrans" then

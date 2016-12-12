@@ -131,7 +131,10 @@ core.declare( "SPRITE_KEY1",      OBJECT_ROW_6 + 15 )
 core.declare( "SPRITE_KEY2",      OBJECT_ROW_6 + 16 )
 
 core.declare( "SPRITE_WOLF_RAT",       OBJECT_ROW_7 + 7 ) --Temp
+core.declare( "SPRITE_WOLF_PIRANHA",   OBJECT_ROW_7 + 7 ) --Temp
 core.declare( "SPRITE_TOMBSTONE",   TERRAIN_ROW_31 + 16 ) --Temp
+core.declare( "SPRITE_DEMO",   OBJECT_ROW_5 + 10 ) --Temp
+core.declare( "SPRITE_DET",   OBJECT_ROW_5 + 10 ) --Temp
 
 core.declare( "SPRITE_WOLF_GUARD1",     OBJECT_ROW_7 + 1 )
 core.declare( "SPRITE_WOLF_GUARD2",     OBJECT_ROW_7 + 2 )

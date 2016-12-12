@@ -94,8 +94,7 @@ function DoomRL.load_generators()
 			generator.generate_caves_dungeon()
 		end
 	}
-	register_generator "gen_caves_2"
-	{
+	register_generator "gen_caves_2" {
 		weight     = { 20 },
 		min_dlevel = 8,
 		min_diff   = 2,
@@ -303,7 +302,7 @@ function DoomRL.load_generators()
 				soldier = { beings = { { "wolf_soldier1", 0.5,  }, { "wolf_soldier2",  0.3,  }, { "wolf_soldier3",   0.2,  }, }, enter = "This looks like a rifle range.",                 mortem = "On level @1 he stumbled into complex full of soldiers." },
 				trooper = { beings = { { "wolf_trooper1", 0.3,  }, { "wolf_trooper2",  0.6,  }, { "wolf_trooper3",   0.1,  }, }, enter = "The sound of boots fills the air.",              mortem = "On level @1 he stumbled into complex full of troopers." },
 				super   = { beings = { { "wolf_super",    1.0,  },                                                            }, enter = "Armor and servo motors are stacked in corners.", mortem = "On level @1 he stumbled into complex full of super soldiers!" },
-				hans    = { beings = { { "wolf_minihans", 0.34, }, { "wolf_minitrans", 0.33, }, { "wolf_minigretel", 0.33, }, }, enter = "You see a banner, 'Grosse Family Reunion'",      mortem = "On level @1 he stumbled into the Grosse family picnic!" },
+				hans    = { beings = { { "wolf_bosshans", 0.34, }, { "wolf_bosstrans", 0.33, }, { "wolf_bossgretel", 0.33, }, }, enter = "You see a banner, 'Grosse Family Reunion'",      mortem = "On level @1 he stumbled into the Grosse family picnic!" },
 			}
 
 			local roll    = math.min( level.danger_level + (DIFFICULTY - 2)*3-4, 20) + math.random(10)

@@ -27,7 +27,6 @@ function DoomRL.loadammo()
 		type    = ITEMTYPE_AMMO,
 		ammo    = 30,
 		ammomax = 80,
-
 	}
 	--[[
 	--A 30sw/455 break top revolver would be a worse weapon than our 9 and 45s.
@@ -83,7 +82,6 @@ function DoomRL.loadammo()
 		type    = ITEMTYPE_AMMO,
 		ammo    = 15,
 		ammomax = 30,
-
 	}
 
 	register_item "wolf_kurz" {
@@ -91,7 +89,7 @@ function DoomRL.loadammo()
 		color    = LIGHTCYAN,
 		sprite   = SPRITE_KURZAMMO,
 		level    = 7,
-		weight   = 180,
+		weight   = 60,
 		desc     = "The 7.92x33mm Kurz is quite possibly the first cartridge ever designed with medium range combat in mind.",
 
 		type    = ITEMTYPE_AMMO,
@@ -128,7 +126,7 @@ function DoomRL.loadammo()
 		color    = BROWN,
 		sprite   = SPRITE_RLAMMO,
 		level    = 5,
-		weight   = 360,
+		weight   = 30,
 		desc     = "Rockets. Heavy, big, and go boom.",
 
 		type    = ITEMTYPE_AMMO,

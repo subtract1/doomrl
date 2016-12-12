@@ -878,7 +878,7 @@ register_ai "teleboss_ai"
 				elseif self.ai_state == "teleport" then
 					local phase = nil
 					local phase_check = 0
-					local phase_rad = self.teleradius or 5
+					local phase_rad = (self:has_property("teleradius") and self.teleradius) or 5
 
 					if dist <= phase_rad then
 						local flee = coord.new(2*(s.x-p.x), 2*(s.y-p.y))
@@ -935,11 +935,11 @@ register_ai "teleboss_ai"
 
 		teleport = function( self )
 			self.assigned = false
-			self:play_sound("soldier.phase")
-			level:explosion( self, 2, 50, 0, 0, YELLOW )
+			self:play_sound( self.id .. ".phase", "phase" )
+			level:explosion( self, 2, 50, 0, 0, MAGENTA )
 			local target = generator.drop_coord( self.move_to, {EF_NOBEINGS,EF_NOBLOCK} )
 			self:relocate( target )
-			level:explosion( self, 1, 50, 0, 0, YELLOW )
+			level:explosion( self, 1, 50, 0, 0, MAGENTA )
 			self.scount = self.scount - 1000
 			return "thinking"
 		end,
@@ -1232,7 +1232,7 @@ register_ai "pac_blinky_ai" {
 
 				local closest = 999
 				for _,cc in ipairs(move_options) do
-					local distance = math.sqrt(math.abs(cc.x-target.x)^2 + math.abs(cc.y-target.y)^2)
+					local distance = coord.real_distance(cc, target)
 					if distance  < closest then
 						move = cc
 						closest = distance
@@ -1357,7 +1357,7 @@ register_ai "pac_pinky_ai" {
 
 				local closest = 999
 				for _,cc in ipairs(move_options) do
-					local distance = math.sqrt(math.abs(cc.x-target.x)^2 + math.abs(cc.y-target.y)^2)
+					local distance = coord.real_distance(cc, target)
 					if distance  < closest then
 						move = cc
 						closest = distance
@@ -1496,7 +1496,7 @@ register_ai "pac_inky_ai" {
 
 				local closest = 999
 				for _,cc in ipairs(move_options) do
-					local distance = math.sqrt(math.abs(cc.x-target.x)^2 + math.abs(cc.y-target.y)^2)
+					local distance = coord.real_distance(cc, target)
 					if distance  < closest then
 						move = cc
 						closest = distance
@@ -1621,7 +1621,7 @@ register_ai "pac_clyde_ai" {
 
 				local closest = 999
 				for _,cc in ipairs(move_options) do
-					local distance = math.sqrt(math.abs(cc.x-target.x)^2 + math.abs(cc.y-target.y)^2)
+					local distance = coord.real_distance(cc, target)
 					if distance  < closest then
 						move = cc
 						closest = distance

@@ -61,18 +61,18 @@ function DoomRL.load_rooms()
 		setup       = function ( room )
 			--If you have an exotic weapon that ammo type becomes available
 			local availableAmmoHashset = {}
-			availableAmmoHashset["wolf_9mm"]    = true
-			availableAmmoHashset["wolf_45acp"]  = false
-			availableAmmoHashset["wolf_455c"]   = false
-			availableAmmoHashset["wolf_8mm"]    = true
-			availableAmmoHashset["wolf_3006"]   = false
-			availableAmmoHashset["wolf_303"]    = false
-			availableAmmoHashset["wolf_kurz"]   = true
-			availableAmmoHashset["wolf_30c"]    = false
-			availableAmmoHashset["wolf_fuel"]   = false
-			availableAmmoHashset["wolf_rocket"] = true
-			availableAmmoHashset["wolf_cell"]   = false
-			availableAmmoHashset["wolf_shell"]  = false
+			availableAmmoHashset["wolf_9mm"]    = generator.is_common_ammo("wolf_9mm")
+			availableAmmoHashset["wolf_45acp"]  = generator.is_common_ammo("wolf_45acp")
+			availableAmmoHashset["wolf_455c"]   = generator.is_common_ammo("wolf_455c")
+			availableAmmoHashset["wolf_8mm"]    = generator.is_common_ammo("wolf_8mm")
+			availableAmmoHashset["wolf_3006"]   = generator.is_common_ammo("wolf_3006")
+			availableAmmoHashset["wolf_303"]    = generator.is_common_ammo("wolf_303")
+			availableAmmoHashset["wolf_kurz"]   = generator.is_common_ammo("wolf_kurz")
+			availableAmmoHashset["wolf_30c"]    = generator.is_common_ammo("wolf_30c")
+			availableAmmoHashset["wolf_fuel"]   = generator.is_common_ammo("wolf_fuel")
+			availableAmmoHashset["wolf_rocket"] = generator.is_common_ammo("wolf_rocket")
+			availableAmmoHashset["wolf_cell"]   = generator.is_common_ammo("wolf_cell")
+			availableAmmoHashset["wolf_shell"]  = generator.is_common_ammo("wolf_shell")
 			if player.eq.weapon and player.eq.weapon == ITEMTYPE_RANGED and items[player.eq.weapon.ammoid] then
 				availableAmmoHashset[items[player.eq.weapon.ammoid].id] = true
 			end

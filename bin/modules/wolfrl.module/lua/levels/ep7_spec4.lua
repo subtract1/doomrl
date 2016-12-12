@@ -5,8 +5,9 @@
      give the level something to blow up.  Graphically this level--if we have the
      sprites to do dirt and to torch grass--could be very interesting.
 
-     An alternate level mode that can occur based on previous player actions is a single
-     erratic mortar being fired.  Less damage potential, but far harder to predict.
+     An alternate level mode that can occur based on previous player actions is a bunch
+     of mortars unpredictably POUNDING the area.  They're not using it for practice--
+     they know you're nearby, that's why.
 --]]
 
 register_level "range" {
@@ -40,6 +41,7 @@ register_level "range" {
 			["`"] = "void",
 			[">"] = "stairs",
 			['#'] = "wolf_whwall",
+			["$"] = { "wolf_whwall", flags = { LFPERMANENT } },
 			['&'] = "wolf_whwall",
 			['%'] = "wolf_rfwall",
 
@@ -54,6 +56,7 @@ register_level "range" {
 			["`"] = "void",
 			[">"] = "stairs",
 			['#'] = "wolf_whwall",
+			["$"] = { "wolf_whwall", flags = { LFPERMANENT } },
 			['&'] = "wolf_flrsign1",
 			['%'] = "wolf_rfwall",
 
@@ -62,43 +65,39 @@ register_level "range" {
 			["-"] = { "lmdoor2", flags = { LFPERMANENT } },
 		}
 
-
+		level.data.target_area = area.new(19,2,68,19)
 		local map = [[
 ,,,,,,,,,,,,%%%,,,,,,,,,,,,,,,,,,,,,,,,.,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,##,#...
-,,,,,,,,,,,%%%,,,,,,,,#,,,,,,,,,,,,,,,,,,,,,,,,,,,,,##,,,,,,,,,,,,,,,,##,#.>.
-,,,##+##,,%%%,,,,##,,,,,,,,,,,,#####,,,,,,,,,,,,,,,,#,,,,,,,,,,,,####,##,#...
-,,,#...#,,%%%%,,,##,,,,,,,,,,,,,...,,,,,,,,,,,,,,,#,,,,,,,,,,,,,,,..#,##,#...
-,,,#...#,,,%%%,,,,,,,,,,,,,,,,,,,#,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,.#,##,#...
-,,,#####,,%%%,,,,,.,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,#,##,#...
+,,,,,,,,,,,%%%,,,,,,,,$,,,,,,,,,,,,,,,,,,,,,,,,,,,,,$$,,,,,,,,,,,,,,,,##,#.>.
+,,,##+##,,%%%,,,,$#,,,,,,,,,,,,#$$$$,,,,,,,,,,,,,,,,#,,,,,,,,,,,,$$$$,##,#...
+,,,#...#,,%%%%,,,$$,,,,,,,,,,,,,...,,,,,,,,,,,,,,,$,,,,,,,,,,,,,,,..#,##,#...
+,,,#...#,,,%%%,,,,,,,,,,,,,,,,,,,$,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,.$,##,#...
+,,,#####,,%%%,,,,,.,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,$,##,#...
 ,,,,,,,,,&,%%,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,##,##+#
-.................,,,,,,,#,,,,,,,.,,,,,,,,,#,,,,,,,,,,,,,,,#,,,,,,,,,,,##,,,,,
-,,,,,,,,,&,%%,,,,,,,,,,,#.,,,,,,,,,,,,,,,...,,,,,,,,,,,,,..#,,,,,,,,,,##,,,,,
-,,,#####,,,%%%,,,,,,,,,,##,,,,,,,,,,,,,,.,,,#,,,,,,,,,,,...#,,,,,,,,,,##,&,,,
-,,,+...#,,%%%%,,,,,,,,,,,,,,,,,,,,,,,,,..,,,,,,,,,,,,,,,,###,,,,,...,........
-,,,#...#,,,%%%,,,,,,,,,,##,,,,,,,,,,,,,,##,,,,,,,,,,,,,,,,,,,,,,,,,,,,##,&,,,
-#,,#####,,,,%%,,,,,,,,,,,,,,,,,,,,,,,,,,,#,,,,,,,,,,,,,,,,,,,,,,,,,,,,##,,,,,
-#,,,,,,,,,,,,%%,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,#,,,,,,,,##,,,,,
+.................,,,,,,,#,,,,,,,.,,,,,,,,,#,,,,,,,,,,,,,,,$,,,,,,,,,,,##,,,,,
+,,,,,,,,,&,%%,,,,,,,,,,,$.,,,,,,,,,,,,,,,...,,,,,,,,,,,,,..$,,,,,,,,,,##,,,,,
+,,,#####,,,%%%,,,,,,,,,,$$,,,,,,,,,,,,,,.,,,$,,,,,,,,,,,...$,,,,,,,,,,##,&,,,
+,,,+...#,,%%%%,,,,,,,,,,,,,,,,,,,,,,,,,..,,,,,,,,,,,,,,,,$$#,,,,,...,........
+,,,#...#,,,%%%,,,,,,,,,,$$,,,,,,,,,,,,,,$$,,,,,,,,,,,,,,,,,,,,,,,,,,,,##,&,,,
+#,,#####,,,,%%,,,,,,,,,,,,,,,,,,,,,,,,,,,$,,,,,,,,,,,,,,,,,,,,,,,,,,,,##,,,,,
+#,,,,,,,,,,,,%%,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,$,,,,,,,,##,,,,,
 #,,,,,,,,,,,%%%%,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,##,##+#
 #,,,,#####,,,%%,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,#,##,#...
 #,,,,+...#,,%%,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,##,#...
-#,,,,#...#,,%%,,,,,#,,,,,,,,,,,,...,,,,,,,,,,,,,#,,,,,,,,,,,,,,,,,##,,##,#...
-#,,,,#####,%%%%,,,,##,,,,,,,,,,#####,,,,,,,,,,,##,,,,,,,,,,,,,,,,..#,,##,#.>.
-#,,,,,,,,,,,%%%%,,,,,,,,,,,,.,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,########,,##,#...
+#,,,,#...#,,%%,,,,,#,,,,,,,,,,,,...,,,,,,,,,,,,,$,,,,,,,,,,,,,,,,,$$,,##,#...
+#,,,,#####,%%%%,,,,$$,,,,,,,,,,$$$#$,,,,,,,,,,,$$,,,,,,,,,,,,,,,,..$,,##,#.>.
+#,,,,,,,,,,,%%%%,,,,,,,,,,,,.,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,$$$$$$$#,,##,#...
 ]]
 		generator.place_tile( basetranslation, map, 1, 1 )
 		generator.place_tile( gametranslation, map, 1, 1 )
+		level:flood_items{ amount = math.ceil( generator.item_amount() * 0.5 ), area = level.data.target_area }
 
 		level:player(2, 8)
 	end,
 
 	OnEnter = function ()
-		if player.wolf_levelstatus["tll2"] >= 1 then
-			level.status = 2 -- Beat Quarkblitz so make this harder
-		else
-			level.status = 1
-		end
+		level.status = (player.level_statuses["tll2"] or 0) >= 3 and 2 or 1 --Beating Quarkblitz clues the artillery guys in on your presence
 
-		level.data.target_area = area.new(19,2,68,19)
 		level.data.units = {}
 		if (level.status == 1) then
 			--Normal operation, two crossing artillery paths
@@ -107,6 +106,8 @@ register_level "range" {
 		else
 			--Damaged operation, half capacity with erratic aim
 			level.data.units[1] = { fire_next = 30, fire_delay = 30, fire_random = 20, fire_pos = coord.new(58,10), fire_step = coord.new(-4,0),  fire_shift = 3 }
+			level.data.units[2] = { fire_next = 30, fire_delay = 30, fire_random = 20, fire_pos = coord.new(58,10), fire_step = coord.new(-4,0),  fire_shift = 3 }
+			level.data.units[3] = { fire_next = 30, fire_delay = 30, fire_random = 20, fire_pos = coord.new(58,16), fire_step = coord.new(-4,0),  fire_shift = 3 }
 		end
 	end,
 
@@ -148,6 +149,6 @@ register_level "range" {
 		end
 
 		level.status = level.status + 2
-		player.wolf_levelstatus[level.id] = level.status
+		player.level_statuses[level.id] = level.status
 	end,
 }

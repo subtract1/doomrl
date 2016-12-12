@@ -27,7 +27,7 @@ register_level "torment" {
 
 		--Generate the map...
 		local basetranslation = {
-			['.'] = "water",
+			['.'] = "acid",
 			[','] = "floor",
 
 			["`"] = "void",
@@ -42,7 +42,7 @@ register_level "torment" {
 			["-"] = { "lmdoor2", flags = { LFPERMANENT } },
 		}
 		local gametranslation = {
-			['.'] = "water",
+			['.'] = "acid",
 			[','] = "floor",
 
 			["`"] = "void",
@@ -82,7 +82,14 @@ register_level "torment" {
 		generator.place_tile( gametranslation, map, 2, 2 )
 		generator.scatter_blood(area.FULL,"floor",math.random(20)+70)
 		generator.scatter( area.FULL,"floor","bloodpool", math.random(20))
-		generator.transmute("water", "floor")
+
+		--Q+D generation so that there's something here for sneak peek
+		local monster_list = { "wolf_dog1", "wolf_mutant1", "wolf_supermutant1",
+		                       "wolf_dog2", "wolf_mutant2", "wolf_supermutant2", }
+		level:flood_monsters{ danger = math.ceil( generator.being_weight() * 0.5 ), list = monster_list }
+		level:flood_items{ amount = math.ceil( generator.item_amount() * 0.5 ) }
+
+		generator.transmute("acid", "floor")
 
 		level:player(34, 14)
 	end,
@@ -111,6 +118,6 @@ register_level "torment" {
 
 		player.vision = player.vision + level.data.penalty
 		level.status = level.status + 2
-		player.wolf_levelstatus[level.id] = level.status
+		player.level_statuses[level.id] = level.status
 	end,
 }

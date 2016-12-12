@@ -1444,6 +1444,42 @@ function DoomRL.loadcells()
 		flags      = { CF_NOCHANGE, CF_NORUN, CF_OVERLAY, CF_NUKABLE, CF_CRITICAL, CF_HIGHLIGHT},
 		sprite     = SPRITE_NUKE,
 	}
+	register_cell "deepwater" {
+		name       = "water",
+		ascii      = "=",
+		color      = COLOR_WATER,
+		flags      = {F_GTSHIFT, F_GFLUID, CF_LIQUID, CF_NOCHANGE},
+		sprite     = SPRITE_WATER,
+	}
+	register_cell "wolf_glass_h" {
+		name       = "glass",
+		color      = LIGHTCYAN,
+		coscolor   = { 1.0,1.0,1.0,1.0 },
+		sprite     = SPRITE_CAVEWALL,
+		blname     = "blooded glass",
+		blcolor    = RED,
+		blsprite   = SPRITE_WALLBLOOD,
+		ascii      = "-",
+		armor      = 1,
+		hp         = 30,
+		set        = CELLSET_WALLS,
+		flags      = {CF_BLOCKMOVE, CF_MULTISPRITE, CF_STICKWALL, CF_FRAGILE},
+	}
+	register_cell "wolf_glass_v" {
+		name       = "glass",
+		color      = LIGHTCYAN,
+		coscolor   = { 1.0,1.0,1.0,1.0 },
+		sprite     = SPRITE_CAVEWALL,
+		blname     = "blooded glass",
+		blcolor    = RED,
+		blsprite   = SPRITE_WALLBLOOD,
+		ascii      = "|",
+		armor      = 1,
+		hp         = 30,
+		set        = CELLSET_WALLS,
+		flags      = {CF_BLOCKMOVE, CF_MULTISPRITE, CF_STICKWALL, CF_FRAGILE},
+	}
+
 	register_cell "wolf_pushwall" {
 		name       = "stone wall",
 		color      = LIGHTGRAY,

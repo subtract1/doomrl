@@ -1,4 +1,19 @@
--- XXX Maximum length for desc is 44 characters (maybe 43)
+--[[ XXX Maximum length for desc is 44 characters (maybe 43)
+-- Add republican and democrat medals from ROTT
+-- Supercharge Bonus      Got all powerups on level
+-- Adrenaline Bonus       100% Kills
+-- Bleeder Bonus          used all health items on level
+-- Skin of Teeth          ended level with 1 dot of health
+-- Republican Bonus 1     Got all missile weapons on level
+-- Republican Bonus 2     Destroyed all plants on level
+-- Democrat Bonus 1       Never used a handgun on level
+-- Democrat Bonus 2       All shrooms & healing basins used on level
+-- Ground Zero Bonus      Hit with your own missile (hint: FW)
+-- Bull in China Shop     Destroyed all life items on level
+-- Curiosity Bonus        Every switch, pushwall, pillar, sound area
+--                        pushed, messed with, or whatever
+-- Bonus Bonus            Got all bonuses
+--]]
 function DoomRL.loadmedals()
 
 	register_medal "killall" {
@@ -12,7 +27,7 @@ function DoomRL.loadmedals()
 		desc  = "Won & killed everything with knives and fists",
 		hidden  = true,
 		winonly = true,
-		condition = function() return kills.get_type( "other" ) + kills.get_type( "melee" ) + kills.get_type( "wolf_knife" ) == statistics.kills end,
+		condition = function() return kills.get_type( "other" ) + kills.get_type( "melee" ) + kills.get_type( "wolf_knife" ) + kills.get_type( "wolf_bayonet" ) == statistics.kills end,
 	}
 	register_medal "fist" {
 		name  = "Sunrise Iron Fist",
@@ -421,8 +436,8 @@ function DoomRL.check_badges()
 			end
 
 			-- strongman badges
-			if kills.get_type( "other" ) + kills.get_type( "melee" ) + kills.get_type( "wolf_knife" ) + kills.get_type( "wolf_knife" ) == statistics.kills then player:add_badge("strongman1") end
-			if kills.get_type( "other" ) + kills.get_type( "melee" ) + kills.get_type( "wolf_knife" ) == statistics.kills then
+			if kills.get_type( "other" ) + kills.get_type( "melee" ) + kills.get_type( "wolf_knife" ) + kills.get_type( "wolf_bayonet" ) + kills.get_type( "wolf_mace" ) + kills.get_type( "wolf_sword" ) == statistics.kills then player:add_badge("strongman1") end
+			if kills.get_type( "other" ) + kills.get_type( "melee" ) + kills.get_type( "wolf_knife" ) + kills.get_type( "wolf_bayonet" ) == statistics.kills then
 				player:add_badge("strongman2")
 				if DIFFICULTY >= DIFF_HARD then player:add_badge("strongman3") end
 			end

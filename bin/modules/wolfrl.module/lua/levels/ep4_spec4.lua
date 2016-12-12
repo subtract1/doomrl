@@ -4,6 +4,7 @@
      to go all out with it.
 
      Having a red teleporter instead of red stairs would be nice but it would also be hacky.
+     Fluid klaxons that blink on and off if noise is triggered could be nice.
 --]]
 
 register_level "spec4" {

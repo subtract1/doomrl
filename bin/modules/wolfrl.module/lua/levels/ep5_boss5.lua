@@ -84,7 +84,19 @@ register_level "boss5" {
 		if(level.status <= 500) then
 			if (player.position.x > 54 or level.status == 500) then
 				level.status = 501
-				level:drop_being("wolf_bossgretel",coord.new(62,13))
+
+				--Spawn Gretel.  Since Gretel also acts as a 'regular' enemy we must make 'boss level' upgrades to his stats.
+				--We cannot change the AI (not reasonably anyway) or the descriptive text (that must remain neutral).
+				local boss = level:drop_being("wolf_bossgretel", coord.new(68,11))
+				boss.hpmax = (boss.hpmax + 20) + DIFFICULTY * DIFFICULTY * 3
+				boss.hp = boss.hpmax
+				boss.flags[BF_HUNTING] = true
+				boss.expvalue = 0
+				boss.tohitmelee = boss.tohitmelee + 1
+				boss.armor = boss.armor + 1
+				for i=1,4 do
+					boss.inv:add( "wolf_kurz", { ammo = 50 } )
+				end
 			else
 				level.status = level.status + 1
 			end

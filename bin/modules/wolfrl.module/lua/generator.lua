@@ -1,10 +1,14 @@
 --[[
-  WolfRL's generator leaves the original, hard-to-understand-because-KK-doesn't-document
-  generator mostly intact.  Of course some changes are unavoidable, and some are just desired:
+  WolfRL's generator leaves most of the original, hard-to-understand-because-KK-
+  doesn't-document level generation procedures intact.  What happens before the
+  code gets here is another story.  Generators are not often passed raw--instead
+  the episodes manually clone and modify the generator to suit their own needs.
+  Changes:
+  * Structural redesign as mentioned above
   * Some level events have been massaged/removed
   * Code for tile flair has been slopped in, it changes slightly in G-mode
   * Treasure has its own special code handling so as not to interfere with useful drops
-  * Rare weapons spawn with ammo (only applies to vaults)
+  * Rare weapons spawn with ammo
   * Ammo basins can spawn rare ammo if you have an appropriate weapon in your inventory
   * No perm water walls on map edges.  Me no likey that.
   * Default SIDs change wherever I need them changed
@@ -21,6 +25,36 @@ generator.fluid_to_perm = {
 	plava  = "lava",
 	pacid  = "acid",
 }
+
+function generator.clone( gen )
+	--This only clones the bits that matter when generating; selection is assumed taken care of.
+	local new_gen =
+	{
+	    id           = gen.id
+	  , events       = gen.events
+	  , place_stairs = gen.place_stairs
+	  , place_player = gen.place_player
+	  , monsters     = gen.monsters
+	  , items        = gen.items
+	  , treasure     = gen.treasure
+	  , flair_rdoor  = gen.flair_rdoor
+	  , flair_rwall  = gen.flair_rwall
+	  , flair_cwall  = gen.flair_cwall
+	  , flair_ccorn  = gen.flair_ccorn
+	  , flair_cdoor  = gen.flair_cdoor
+	  , flair_nwall  = gen.flair_nwall
+	  , flair_ncorn  = gen.flair_ncorn
+	  , flair_ndoor  = gen.flair_ndoor
+	  , rooms        = gen.rooms
+	  , barrels      = gen.barrels
+	  , fluids       = gen.fluids
+	  , rivers       = gen.rivers
+	  , run          = gen.run
+	  , post_run     = gen.post_run
+	}
+
+	return new_gen
+end
 
 function generator.run( gen )
 	generator.reset()
@@ -75,7 +109,7 @@ function generator.run( gen )
 	if type( gen.items ) == "function" then
 		gen.items( generator.item_amount() ) 
 	elseif gen.items > 0.01 then
-		level:flood_items{ amount = math.ceil( generator.item_amount() * gen.items ) }
+		generator.flood_items_w_rare_ammo{ amount = math.ceil( generator.item_amount() * gen.items ) }
 	end
 
 	if type( gen.treasure ) == "function" then
@@ -255,7 +289,6 @@ function generator.add_random_flair_door(ar, flair, rate)
 	end
 end
 
-
 -- Treasure related
 function generator.flood_treasure(treasureValue)
 	core.log("generator.flood_treasure()")
@@ -279,6 +312,7 @@ function generator.treasure_amount()
 	return math.ceil(treasureValue / 3)
 end
 
+--Being and Item related
 function generator.being_weight()
 	    if DIFFICULTY == DIFF_EASY      then return math.ceil( level.danger_level*2.2+6 )
 	elseif DIFFICULTY == DIFF_MEDIUM    then return math.ceil( math.sqrt(level.danger_level*500)*0.6)
@@ -289,10 +323,50 @@ function generator.being_weight()
 	end
 end
 
+function generator.is_common_ammo( ammo_id )
+	if type(ammo_id) == "number" and items[ammo_id] ~= nil then ammo_id = items[ammo_id].id end
+
+	local isAmmoCommon = { wolf_9mm = true, wolf_8mm = true, wolf_kurz = true, wolf_fuel = true, wolf_rocket = true, wolf_shell = true }
+	return isAmmoCommon[ ammo_id ] or false
+end
+
 function generator.item_amount()
 	return math.ceil( 21 - math.max( 25-level.danger_level, 0 ) / 3 )
 end
 
+function generator.drop_item_w_rare_ammo( item, c, onfloor )
+	--This mimics the regular drop_item function EXCEPT it has special code to handle exotics w unusual weapon types.
+	--We could probably explicitly replace level:flood_items but I'm not a fan of masking procedures in libraries.
+	local new_item = level:drop_item( item, c, onfloor )
+
+	if new_item and new_item.itype == ITEMTYPE_RANGED and new_item.ammoid and not generator.is_common_ammo( new_item.ammoid ) then
+		for i = 1, math.random(1,2) do
+			level:drop_item( new_item.ammoid, c, onfloor )
+		end
+	end
+end
+
+function generator.flood_items_w_rare_ammo( params )
+	--This mimics the regular flood_items function EXCEPT it has special code to handle exotics w unusual weapon types.
+	--We could probably explicitly replace level:flood_items but I'm not a fan of masking procedures in libraries.
+	params = params or {}
+	local amount  = params.amount or params
+	local list    = level:get_item_table( params.level or level.danger_level, params.weights, params.reqs )
+
+	while amount > 0 do
+		local ip = list:roll()
+		if not ( ip.is_unique and level.flags[ LF_UNIQUEITEM ] ) then
+			if ip.is_unique then
+				level.flags[ LF_UNIQUEITEM ] = true
+			end
+			local where = generator.random_empty_coord{ EF_NOITEMS, EF_NOBLOCK, EF_NOHARM, EF_NOSPAWN }
+			generator.drop_item_w_rare_ammo( ip.id, where, true )
+			amount = amount - 1
+		end
+	end
+end
+
+--Terrain related
 function generator.restore_walls( wall_cell, keep_fluids )
 	core.log("generator.restore_walls("..wall_cell..")")
 	if keep_fluids then
@@ -377,6 +451,7 @@ function generator.generate_rivers( allow_horiz, allow_more )
 	end
 end
 
+--Special generators
 function generator.warehouse_dungeon()
 	local wall_cell    = generator.styles[ level.style ].wall
 	local floor_cell   = generator.styles[ level.style ].floor
@@ -568,7 +643,7 @@ function generator.generate_caves_dungeon()
 	local set = list:roll()
 	local amount  = math.floor( generator.being_weight() * 0.67 )
 	if set.history then player:add_history(set.history) end
-	level:flood_items{ amount = 10 }
+	generator.flood_items_w_rare_ammo{ amount = 10 }
 
 	if type( set.list ) == "string" then
 		level:flood_monster{ id = set.list, danger = amount }

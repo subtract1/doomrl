@@ -1,7 +1,6 @@
---[[ A sewer level of some sort; I'll think of something.
-     Right now all I have is that completing Sub Willie's level floods the level.
-     Under normal circumstances that would be a good thing--no corpses.  So I'll
-     have to mix it up a bit with currents or no gunplay in deep water or something.
+--[[ A sewer level of some sort.  There's very little danger so this makes a
+     nice intro level.  Enemies are annoying but mostly harmless if you avoid
+     the currents and there are nifty water-like effects to keep it interesting.
 --]]
 
 register_level "sewer" {
@@ -24,11 +23,7 @@ register_level "sewer" {
 
 	Create = function ()
 		level.name = "Raging Waters"
-		if player.wolf_levelstatus["tll1"] >= 1 then
-			level.status = 2 -- Beat Willie so make this harder
-		else
-			level.status = 1
-		end
+		level.status = (player.level_statuses["tll1"] or 0) >= 3 and 2 or 1 --Beating Sub Willie floods this level with acid just because.
 
 		generator.fill( "void", area.FULL )
 
@@ -74,9 +69,7 @@ register_level "sewer" {
 		generator.place_tile( translation, map, 8, 3 )
 
 		if (level.status >= 2) then
-			generator.transmute("bridge", "water")
-			generator.scatter( area.FULL,"floor","water", 120)
-			generator.scatter( area.FULL,"water","acid", 120)
+			generator.scatter( area.FULL,"water","acid", 60)
 		end
 
 		level:player(12, 10)
@@ -123,6 +116,6 @@ register_level "sewer" {
 		end
 
 		level.status = level.status + 2
-		player.wolf_levelstatus[level.id] = level.status
+		player.level_statuses[level.id] = level.status
 	end,
 }

@@ -1,9 +1,14 @@
 --[[ The vault will have treasure and other rocketable items.  Since the player
      won't have phases yet they will have to rocket the vaults until they crack.
-     But how do we clue the player in to which (random) sections are vulneurable?
-     A riddle?  Math?  Blood spatter?  At first I thought of using very subtle
-     cell differences but that would be quickly defeated by a trip to the wiki.
-     Now I'm leaning towards time based reasoning.
+
+     Unfotunately when mapping out the levels there were a few too many which
+     had to go into the mid-game or beyond and somebody--the vaults--had to be
+     pushed forward before rockets can be reasonably expected.  To resolve this,
+     and to give the vaults its own bit of custom flavor, I created satchel
+     charges which can be used to remotely detonate explosions.
+
+     The vaults themselves are semi-random.  The opening for two are flagged by
+     blood.  The center vault is time based...
 --]]
 
 register_level "vault" {
@@ -25,7 +30,7 @@ register_level "vault" {
 	end,
 
 	Create = function ()
---todo find some way of giving the player c4 before this level.  I know I wrote that code, where did it go?
+
 		generator.fill( "void", area.FULL )
 
 		--The different characters aren't actually used, I just like the handy markers.
@@ -40,6 +45,8 @@ register_level "vault" {
 			['*'] = "floor",
 			['|'] = "floor",
 			[':'] = "floor",
+			['^'] = "floor",
+			['*'] = "floor",
 
 			["`"] = "void",
 			[">"] = "stairs",
@@ -57,11 +64,18 @@ register_level "vault" {
 			['*'] = { "floor", item = "wolf_smed" },
 			['|'] = { "floor", item = "wolf_9mm" },
 			[':'] = { "floor", item = "wolf_8mm" },
+			['^'] = { "floor", item = "wolf_demo1" },
+			['*'] = { "floor", item = "wolf_demodet" },
 
 			["`"] = "void",
 			[">"] = "stairs",
 			['#'] = { "wolf_whwall", flags = { LFPERMANENT } },
 			['X'] = { "wolf_whwall", flags = { LFPERMANENT } },
+
+			['1'] = { "floor", item = "wolf_cross"  },
+			['2'] = { "floor", item = "wolf_chalice" },
+			['3'] = { "floor", item = "wolf_chest" },
+			['4'] = { "floor", item = "wolf_crown" },
 		}
 
 		local map = [[
@@ -71,12 +85,12 @@ register_level "vault" {
 `````##~..####XX####.~##``##..XXXXXXXXXXXXXXXX..##``##~.####XX####..~##`````
 ````##~..X##......##X.~####..XXX............XXX..####~.X##......##X..~##````
 ```##...XXX........XXX..##..XXX..............XXX..##..XXX........XXX...##```
-``##...##X..........X##....XXX................XXX....##X..........X##...##``
-`##...###............###..XXX.......####.......XXX..###............###...##`
-`#.>~.XX......##......XX~.XX.......##``##.......XX.~XX......##......XX.~..#`
-`#..~.XX......##......XX~.XX.......##``##.......XX.~XX......##......XX.~..#`
-`##...###............###..XXX.......####.......XXX..###............###...##`
-``##...##X..........X##....XXX................XXX....##X..........X##...##``
+``##^..##X..........X##....XXX................XXX....##X..........X##...##``
+`##^..###............###..XXX.......####.......XXX..###............###...##`
+`#*>~.XX......##......XX~.XX.......##``##.......XX.~XX......##......XX.~..#`
+`#^.~.XX......##......XX~.XX.......##``##.......XX.~XX......##......XX.~..#`
+`##^..###............###..XXX.......####.......XXX..###............###...##`
+``##^..##X..........X##....XXX................XXX....##X..........X##...##``
 ```##...XXX........XXX..##..XXX..............XXX..##..XXX........XXX...##```
 ````##~..X##......##X.~####..XXX............XXX..####~.X##......##X..~##````
 `````##~..####XX####.~##``##..XXXXXXXXXXXXXXXX..##``##~.####XX####..~##`````
@@ -94,7 +108,8 @@ register_level "vault" {
 
 		level.data.ticks = 0
 		level.data.hint = false
-		level.data.access = false
+		level.data.access1 = false
+		level.data.access2 = false
 		level.data.left =  { { area.new(16,  4, 17,  5), },
 		                     { area.new(21,  7, 23,  7), area.new(22,  6, 22,  8), },
 		                     { area.new(24, 10, 25, 11), },
@@ -113,6 +128,8 @@ register_level "vault" {
 		                     { area.new(54, 10, 55, 11), },
 		                     { area.new(56,  7, 58,  7), area.new(57,  6, 57,  8), },
 		                   }
+		level.data.leftinside =  { area.new(10,  8, 23, 13), area.new(13,  6, 20, 15) }
+		level.data.rightinside = { area.new(56,  8, 69, 13), area.new(59,  6, 66, 15) }
 		level.data.leftblood =  { { coord.new(16, 3), coord.new(17, 3), },
 		                          { coord.new(23, 5), coord.new(24, 6), },
 		                          { coord.new(26,10), coord.new(26,11), },
@@ -131,8 +148,7 @@ register_level "vault" {
 		                          { coord.new(53,10), coord.new(53,11), },
 		                          { coord.new(56, 5), coord.new(55, 6), },
 		                        }
-		level.data.center1 = area.new(29,  8, 50, 13)
-		level.data.center2 = area.new(33,  4, 46, 17)
+		level.data.centerinside = { area.new(29,  8, 50, 13), area.new(33,  4, 46, 17) }
 		level.data.centerwalls = area.new(27,  3, 52, 18)
 
 		tempentry = level.data.left[vault1]
@@ -149,6 +165,54 @@ register_level "vault" {
 		tempentry = level.data.rightblood[vault2]
 		level.light[table.random_pick(tempentry)][LFBLOOD] = true
 
+		--Now work out the rewards (which we do manually in order to
+		--get a proper scattered look and to control ammo types)
+		for i = 1, 4 do
+			generator.drop_item_w_rare_ammo("wolf_cross", generator.random_empty_coord( { EF_NOITEMS, EF_NOBLOCK, EF_NOHARM, EF_NOSPAWN }, level.data.leftinside[  math.random(2)] ), true)
+			generator.drop_item_w_rare_ammo("wolf_cross", generator.random_empty_coord( { EF_NOITEMS, EF_NOBLOCK, EF_NOHARM, EF_NOSPAWN }, level.data.rightinside[ math.random(2)] ), true)
+			generator.drop_item_w_rare_ammo("wolf_cross", generator.random_empty_coord( { EF_NOITEMS, EF_NOBLOCK, EF_NOHARM, EF_NOSPAWN }, level.data.centerinside[math.random(2)] ), true)
+		end
+		for i = 1, 3 do
+			generator.drop_item_w_rare_ammo("wolf_chalice", generator.random_empty_coord( { EF_NOITEMS, EF_NOBLOCK, EF_NOHARM, EF_NOSPAWN }, level.data.leftinside[  math.random(2)] ), true)
+			generator.drop_item_w_rare_ammo("wolf_chalice", generator.random_empty_coord( { EF_NOITEMS, EF_NOBLOCK, EF_NOHARM, EF_NOSPAWN }, level.data.rightinside[ math.random(2)] ), true)
+			generator.drop_item_w_rare_ammo("wolf_chalice", generator.random_empty_coord( { EF_NOITEMS, EF_NOBLOCK, EF_NOHARM, EF_NOSPAWN }, level.data.centerinside[math.random(2)] ), true)
+		end
+		for i = 1, 3 do
+			generator.drop_item_w_rare_ammo("wolf_chest", generator.random_empty_coord( { EF_NOITEMS, EF_NOBLOCK, EF_NOHARM, EF_NOSPAWN }, level.data.centerinside[math.random(2)] ), true)
+		end
+		for i = 1, 1 do
+			generator.drop_item_w_rare_ammo("wolf_crown", generator.random_empty_coord( { EF_NOITEMS, EF_NOBLOCK, EF_NOHARM, EF_NOSPAWN }, level.data.centerinside[math.random(2)] ), true)
+		end
+		for i = 1, 3 do
+			generator.drop_item_w_rare_ammo(level:roll_item{ level = 7,  type = ITEMTYPE_MELEE,                }, generator.random_empty_coord( { EF_NOITEMS, EF_NOBLOCK, EF_NOHARM, EF_NOSPAWN }, level.data.leftinside[  math.random(2)] ), true)
+			generator.drop_item_w_rare_ammo(level:roll_item{ level = 7,  type = ITEMTYPE_MELEE,                }, generator.random_empty_coord( { EF_NOITEMS, EF_NOBLOCK, EF_NOHARM, EF_NOSPAWN }, level.data.rightinside[ math.random(2)] ), true)
+			generator.drop_item_w_rare_ammo(level:roll_item{ level = 10, type = ITEMTYPE_MELEE, exotic_mod = 5 }, generator.random_empty_coord( { EF_NOITEMS, EF_NOBLOCK, EF_NOHARM, EF_NOSPAWN }, level.data.centerinside[math.random(2)] ), true)
+		end
+		for i = 1, 6 do
+			generator.drop_item_w_rare_ammo(level:roll_item{ level = 7,  type = ITEMTYPE_RANGED,                }, generator.random_empty_coord( { EF_NOITEMS, EF_NOBLOCK, EF_NOHARM, EF_NOSPAWN }, level.data.leftinside[  math.random(2)] ), true)
+			generator.drop_item_w_rare_ammo(level:roll_item{ level = 7,  type = ITEMTYPE_RANGED,                }, generator.random_empty_coord( { EF_NOITEMS, EF_NOBLOCK, EF_NOHARM, EF_NOSPAWN }, level.data.rightinside[ math.random(2)] ), true)
+			generator.drop_item_w_rare_ammo(level:roll_item{ level = 10, type = ITEMTYPE_RANGED, exotic_mod = 5 }, generator.random_empty_coord( { EF_NOITEMS, EF_NOBLOCK, EF_NOHARM, EF_NOSPAWN }, level.data.centerinside[math.random(2)] ), true)
+		end
+		for i = 1, 6 do
+			generator.drop_item_w_rare_ammo(level:roll_item{ level = 7,  type = {ITEMTYPE_ARMOR,ITEMTYPE_BOOTS},                }, generator.random_empty_coord( { EF_NOITEMS, EF_NOBLOCK, EF_NOHARM, EF_NOSPAWN }, level.data.leftinside[  math.random(2)] ), true)
+			generator.drop_item_w_rare_ammo(level:roll_item{ level = 7,  type = {ITEMTYPE_ARMOR,ITEMTYPE_BOOTS},                }, generator.random_empty_coord( { EF_NOITEMS, EF_NOBLOCK, EF_NOHARM, EF_NOSPAWN }, level.data.rightinside[ math.random(2)] ), true)
+			generator.drop_item_w_rare_ammo(level:roll_item{ level = 10, type = {ITEMTYPE_ARMOR,ITEMTYPE_BOOTS}, exotic_mod = 5 }, generator.random_empty_coord( { EF_NOITEMS, EF_NOBLOCK, EF_NOHARM, EF_NOSPAWN }, level.data.centerinside[math.random(2)] ), true)
+		end
+		for i = 1, 5 do
+			generator.drop_item_w_rare_ammo(level:roll_item{ level = 8,  type = ITEMTYPE_AMMO,                }, generator.random_empty_coord( { EF_NOITEMS, EF_NOBLOCK, EF_NOHARM, EF_NOSPAWN }, level.data.leftinside[  math.random(2)] ), true)
+			generator.drop_item_w_rare_ammo(level:roll_item{ level = 8,  type = ITEMTYPE_AMMO,                }, generator.random_empty_coord( { EF_NOITEMS, EF_NOBLOCK, EF_NOHARM, EF_NOSPAWN }, level.data.rightinside[ math.random(2)] ), true)
+			generator.drop_item_w_rare_ammo(level:roll_item{ level = 10, type = ITEMTYPE_AMMO, exotic_mod = 5 }, generator.random_empty_coord( { EF_NOITEMS, EF_NOBLOCK, EF_NOHARM, EF_NOSPAWN }, level.data.centerinside[math.random(2)] ), true)
+		end
+		for i = 1, 2 do
+			generator.drop_item_w_rare_ammo(level:roll_item{ level = 8,  type = {ITEMTYPE_AMMO,ITEMTYPE_AMMOPACK},                }, generator.random_empty_coord( { EF_NOITEMS, EF_NOBLOCK, EF_NOHARM, EF_NOSPAWN }, level.data.leftinside[  math.random(2)] ), true)
+			generator.drop_item_w_rare_ammo(level:roll_item{ level = 8,  type = {ITEMTYPE_AMMO,ITEMTYPE_AMMOPACK},                }, generator.random_empty_coord( { EF_NOITEMS, EF_NOBLOCK, EF_NOHARM, EF_NOSPAWN }, level.data.rightinside[ math.random(2)] ), true)
+			generator.drop_item_w_rare_ammo(level:roll_item{ level = 10, type = {ITEMTYPE_AMMO,ITEMTYPE_AMMOPACK}, exotic_mod = 5 }, generator.random_empty_coord( { EF_NOITEMS, EF_NOBLOCK, EF_NOHARM, EF_NOSPAWN }, level.data.centerinside[math.random(2)] ), true)
+		end
+		for i = 1, 3 do
+			generator.drop_item_w_rare_ammo(level:roll_item{ level = 8,  type = ITEMTYPE_PACK,                }, generator.random_empty_coord( { EF_NOITEMS, EF_NOBLOCK, EF_NOHARM, EF_NOSPAWN }, level.data.leftinside[  math.random(2)] ), true)
+			generator.drop_item_w_rare_ammo(level:roll_item{ level = 8,  type = ITEMTYPE_PACK,                }, generator.random_empty_coord( { EF_NOITEMS, EF_NOBLOCK, EF_NOHARM, EF_NOSPAWN }, level.data.rightinside[ math.random(2)] ), true)
+			generator.drop_item_w_rare_ammo(level:roll_item{ level = 10, type = ITEMTYPE_PACK, exotic_mod = 5 }, generator.random_empty_coord( { EF_NOITEMS, EF_NOBLOCK, EF_NOHARM, EF_NOSPAWN }, level.data.centerinside[math.random(2)] ), true)
+		end
 
 		level:player(4,11)
 		level.status = 0
@@ -162,15 +226,19 @@ register_level "vault" {
 		level.data.ticks = level.data.ticks + 1
 
 		--Do they need a hint?
-		if (level.data.hint == false and level.data.access == false and level.data.ticks > 3000 and player.x > 25 and player.x < 54) then
+		if (level.data.hint == false and level.data.access2 == false and level.data.ticks > 3000 and player.x > 25 and player.x < 54) then
 			level.data.hint = true
 			ui.msg("Maybe it's a time lock.")
 		end
 
+		--Are they in a side vault?
+		if (level.data.access1 == false and (level.data.leftinside[1]:contains(player.position) or level.data.leftinside[2]:contains(player.position) or level.data.rightinside[1]:contains(player.position) or level.data.rightinside[2]:contains(player.position))) then
+			level.data.access1 = true
+		end
+
 		--Are they in the main vault?
-		if (level.data.access == false and (level.data.center1:contains(player.position) or level.data.center2:contains(player.position))) then
-			level.data.access = true
-			level.status = level.status + 2
+		if (level.data.access2 == false and (level.data.centerinside[1]:contains(player.position) or level.data.centerinside[2]:contains(player.position))) then
+			level.data.access2 = true
 		end
 
 		--Rotate the vault door, plonker (not too often though, that's annoying)
@@ -228,28 +296,25 @@ register_level "vault" {
 		end
 	end,
 
-	OnKillAll = function ()
-		level.status = level.status + 1
-	end,
-
 	OnExit = function (being)
-		local result = level.status
-
-		if result == 0 then
+		if level.data.access1 == false and level.data.access2 == false then
 			player:add_history("He came, he saw, he left.")
-		elseif result == 1 then
+			level.status = 0
+		elseif level.data.access1 == true and level.data.access2 == false then
 			player:add_history("He managed to scavenge a part of the Vault's treasures.")
-		elseif result == 2 then
+			level.status = 1
+		elseif level.data.access1 == false and level.data.access2 == true then
 			player:add_history("He cracked the main vault and cleared it out.")
-		elseif result >= 3 then
+			level.status = 2
+		elseif level.data.access1 == true and level.data.access2 == true then
 			if statistics.damage_on_level == 0 then
 				player:add_history("He ghosted the vaults flawlessly.")
 			else
 				player:add_history("He managed to clear the Vaults completely!")
 			end
+			level.status = 3
 		end
 
-		level.status = level.status + 2
-		player.wolf_levelstatus[level.id] = level.status
+		player.level_statuses[level.id] = level.status
 	end,
 }

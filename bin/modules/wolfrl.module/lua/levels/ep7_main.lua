@@ -95,6 +95,11 @@ function DoomRL.ep7_OnCreateEpisode()
 	end
 	statistics.bonus_levels_count = SpecLevCount
 end
+function DoomRL.ep7_OnCreatePlayer()
+	--In theory we are SUPPOSED to have access to a custom level's level.status value after it is run.
+	--In practice we don't and nobody's gotten around to fixing that ergo player property hack.
+	player:add_property( "level_statuses", {} )
+end
 function DoomRL.ep7_OnIntro()
 	DoomRL.plot_intro_7()
 	return false
@@ -109,7 +114,6 @@ function DoomRL.ep7_OnWinGame()
 	return false
 end
 function DoomRL.ep7_OnGenerate()
-
 	core.log("DoomRL.OnGenerate()")
 
 	local dlevel = level.danger_level
@@ -121,6 +125,6 @@ function DoomRL.ep7_OnGenerate()
 		end
 	end
 	if choice:size() == 0 then error("NO GENERATOR AVAILABLE!") end
-	local gen = choice:roll()
+	local gen = generator.clone(choice:roll())
 	generator.run( gen )
 end

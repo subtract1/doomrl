@@ -493,20 +493,17 @@ function DoomRL.loadchallenges()
 		arch_rank        = 7,
 
 		OnCreateEpisode = function ()
-			local LevCount = 100
 			local LevName = "Killing Fields"
 			local DethName = "the Killing Fields"
-			player.episode = {}
 
 			if ARCHANGEL then
-				LevCount = 1000
 				LevName = "Valhalla"
 				DethName = "Valhalla"
 			end
 
-			for i=1,LevCount do
-				player.episode[i] = { style = math.random(7), number = i, name = LevName, deathname = DethName, danger = i }
-			end
+			--We can't reasonably allocate an infinite amount of levels here so we will be cheating and rolling five at a time.
+			player.episode = {}
+			player.episode[1] = { style = math.random(7), number = 1, name = LevName, deathname = DethName, danger = 1 }
 			statistics.bonus_levels_count = 0
 		end,
 
@@ -518,17 +515,33 @@ function DoomRL.loadchallenges()
 			DoomRL.OnCreateEpisode()
 		end,
 
-		OnEnter = function (l)
-			if ARCHANGEL and l % 1000 == 0 then
-				--Add another 1000 levels.  FOREVER.
-				--(I realize eventually we'd hit 4 bil and everything would break but you will stop caring long before that point)
-				for i=l - 1001, l - 1 do
-					player.episode[i] = nil
-				end
-				for i=l+1, l + 1000 do
-					player.episode[i] = { style = math.random(7), number = i, name = "Valhalla", danger = i }
-				end
+		OnEnter = function ( dlvl, id )
+			local LevName = "Killing Fields"
+			local DethName = "the Killing Fields"
+
+			if ARCHANGEL then
+				LevName = "Valhalla"
+				DethName = "Valhalla"
 			end
+
+			--Clear out the last level, generate the future one.
+			player.episode[dlvl-1] = nil
+			player.episode[dlvl+1] = { style = math.random(7), number = dlvl+1, name = LevName, deathname = DethName, danger = dlvl+1 }
+
+			--Levels 50 and 100 have bosses in regular 100
+			if not ARCHANGEL and dlvl == 50 then
+				level:summon("wolf_bossangel")
+				generator.transmute("stairs", "floor")
+			elseif not ARCHANGEL and dlvl == 100 then
+				level:summon("wolf_nhans")
+				generator.transmute("stairs", "floor")
+			end
+		end,
+
+		OnKill = function (being)
+			if being.id == "wolf_bossangel" or being.id == "wolf_nhans" then
+				level.map[ being.position ] = "stairs"
+		 	end
 		end,
 
 		OnExit = function (l)

@@ -355,7 +355,7 @@ register_level "tower5" {
 			player:add_history("He fled the apex in fear.")
 		end
 
-		player.wolf_levelstatus[level.id] = level.status
+		player.level_statuses[level.id] = level.status
 		player:remove_property( "tower_damage_on_level" )
 	end,
 }

@@ -7,7 +7,6 @@ function DoomRL.loadnpcs()
 		color        = BROWN,
 		sprite       = SPRITE_WOLF_GUARD1,
 		hp           = 10,
-		armor        = 0,
 		speed        = 90,
 		todam        = -1,
 		tohit        = -4,
@@ -15,7 +14,7 @@ function DoomRL.loadnpcs()
 		max_lev      = 15,
 		corpse       = true,
 		danger       = 1,
-		weight       = 20,
+		weight       = 80,
 		bulk         = 100,
 		flags        = { BF_OPENDOORS },
 		ai_type      = "former_ai",
@@ -62,7 +61,6 @@ function DoomRL.loadnpcs()
 		color        = GREEN,
 		sprite       = SPRITE_WOLF_GUARD2,
 		hp           = 10,
-		armor        = 0,
 		speed        = 110,
 		todam        = -1,
 		tohit        = -5,
@@ -118,7 +116,6 @@ function DoomRL.loadnpcs()
 		color        = LIGHTBLUE,
 		sprite       = SPRITE_WOLF_SS1,
 		hp           = 10,
-		armor        = 1,
 		speed        = 70,
 		todam        = -1,
 		tohit        = -2,
@@ -126,10 +123,12 @@ function DoomRL.loadnpcs()
 		max_lev      = 16,
 		corpse       = true,
 		danger       = 3,
-		weight       = 10,
+		weight       = 40,
 		bulk         = 100,
 		flags        = { BF_OPENDOORS },
 		ai_type      = "former_ai",
+
+		resist = { melee = 15, sharpnel = 20, bullet = 15, plasma = 10, fire = 15, acid = 10 },
 
 		desc            = "SS troops have MP-40s and poor dispositions. Take them out and, hey, free automatic.",
 		kill_desc       = "killed by an SS nazi",
@@ -164,7 +163,6 @@ function DoomRL.loadnpcs()
 		color        = LIGHTGRAY,
 		sprite       = SPRITE_WOLF_SS2,
 		hp           = 10,
-		armor        = 1,
 		speed        = 90,
 		todam        = -1,
 		tohit        = -1,
@@ -172,10 +170,12 @@ function DoomRL.loadnpcs()
 		max_lev      = 16,
 		corpse       = true,
 		danger       = 4,
-		weight       = 2,
+		weight       = 8,
 		bulk         = 100,
 		flags        = { BF_OPENDOORS },
 		ai_type      = "former_ai",
+
+		resist = { melee = 15, sharpnel = 20, bullet = 15, plasma = 10, fire = 15, acid = 10 },
 
 		desc            = "SS troops have MP-40s and poor dispositions. SS leaders tend to be better armored too.",
 		kill_desc       = "killed by an SS section leader",
@@ -211,7 +211,6 @@ function DoomRL.loadnpcs()
 		color        = WHITE,
 		sprite       = SPRITE_WOLF_OFFICER1,
 		hp           = 15,
-		armor        = 1,
 		speed        = 130,
 		todam        = 1,
 		tohit        = -1,
@@ -219,10 +218,12 @@ function DoomRL.loadnpcs()
 		max_lev      = 20,
 		corpse       = true,
 		danger       = 4,
-		weight       = 10,
+		weight       = 40,
 		bulk         = 100,
 		flags        = { BF_OPENDOORS },
 		ai_type      = "former_ai",
+
+		resist = { melee = 15, sharpnel = 20, bullet = 15, plasma = 10, fire = 15, acid = 10 },
 
 		desc            = "Officers are better equipped than guards but their real strength lies in their training. Hit them hard before they hit you.",
 		kill_desc       = "killed by an officer",
@@ -257,7 +258,6 @@ function DoomRL.loadnpcs()
 		color        = WHITE,
 		sprite       = SPRITE_WOLF_OFFICER2,
 		hp           = 15,
-		armor        = 1,
 		speed        = 130,
 		todam        = 1,
 		tohit        = 0,
@@ -265,10 +265,12 @@ function DoomRL.loadnpcs()
 		max_lev      = 20,
 		corpse       = true,
 		danger       = 4,
-		weight       = 2,
+		weight       = 8,
 		bulk         = 100,
 		flags        = { BF_OPENDOORS },
 		ai_type      = "flee_former_ai",
+
+		resist = { melee = 15, sharpnel = 20, bullet = 15, plasma = 10, fire = 15, acid = 10 },
 
 		desc            = "Officers are better equipped than guards but their real strength lies in their training. Of course not all officers excel in direct combat.",
 		kill_desc       = "killed by a commander",
@@ -298,13 +300,12 @@ function DoomRL.loadnpcs()
 		end,
 	}
 
-	register_being "wolf_dog1" { --Dogs should die in one hit but I cannot figure out a way to do that short of reducing HP to instagib levels.
+	register_being "wolf_dog1" { --Dogs die very quickly.  I've decided against guaranteed one hit kills.
 		name         = "dog",
 		ascii        = "d",
 		color        = BROWN,
 		sprite       = SPRITE_WOLF_DOG1,
 		hp           = 5,
-		armor        = 0,
 		todam        = 4,
 		tohit        = 2,
 		speed        = 150,
@@ -313,7 +314,7 @@ function DoomRL.loadnpcs()
 		max_lev      = 10,
 		corpse       = true,
 		danger       = 1,
-		weight       = 5,
+		weight       = 20,
 		bulk         = 100,
 		flags        = { BF_CHARGE },
 		ai_type      = "melee_seek_ai",
@@ -343,7 +344,6 @@ function DoomRL.loadnpcs()
 		color        = DARKGRAY,
 		sprite       = SPRITE_WOLF_DOG2,
 		hp           = 6,
-		armor        = 0,
 		todam        = 5,
 		tohit        = 3,
 		speed        = 170,
@@ -352,7 +352,7 @@ function DoomRL.loadnpcs()
 		max_lev      = 10,
 		corpse       = true,
 		danger       = 2,
-		weight       = 2,
+		weight       = 8,
 		bulk         = 100,
 		flags        = { BF_CHARGE },
 		ai_type      = "melee_seek_ai",
@@ -383,7 +383,6 @@ function DoomRL.loadnpcs()
 		color        = GREEN,
 		sprite       = SPRITE_WOLF_MUTANT1,
 		hp           = 30,
-		armor        = 0,
 		todam        = 4,
 		tohit        = -2,
 		tohitmelee   = 5,
@@ -393,7 +392,7 @@ function DoomRL.loadnpcs()
 		max_lev      = 20,
 		corpse       = true,
 		danger       = 3,
-		weight       = 10,
+		weight       = 40,
 		bulk         = 100,
 		ai_type      = "melee_ranged_ai",
 
@@ -429,7 +428,6 @@ function DoomRL.loadnpcs()
 		color        = MAGENTA,
 		sprite       = SPRITE_WOLF_MUTANT2,
 		hp           = 25,
-		armor        = 0,
 		todam        = 2,
 		tohit        = -1,
 		tohitmelee   = 4,
@@ -439,7 +437,7 @@ function DoomRL.loadnpcs()
 		max_lev      = 20,
 		corpse       = true,
 		danger       = 3,
-		weight       = 10,
+		weight       = 40,
 		bulk         = 100,
 		ai_type      = "melee_ranged_ai",
 
@@ -476,19 +474,18 @@ function DoomRL.loadnpcs()
 		color        = DARKGRAY,
 		sprite       = SPRITE_WOLF_FAKEHITLER,
 		hp           = 40,
-		armor        = 1,
 		todam        = 2,
 		tohit        = 3,
 		min_lev      = 12,
 		max_lev      = 50,
 		corpse       = false,
 		danger       = 7,
-		weight       = 5,
+		weight       = 20,
 		flags        = { BF_OPENDOORS, BF_ENVIROSAFE, BF_UNIQUENAME },
 		bulk         = 100,
 		ai_type      = "ranged_ai",
 
-		resist = { melee = 20, acid = 20, fire = 50 },
+		resist = { melee = 35, sharpnel = 20, bullet = 15, plasma = 10, fire = 60, acid = 35 },
 
 		desc            = "It's Hitler! Well maybe not. You must be getting close though for something like THIS to come after you.",
 		kill_desc       = "killed by Hitler's Ghost",
@@ -518,7 +515,6 @@ function DoomRL.loadnpcs()
 		color        = BROWN,
 		sprite       = SPRITE_WOLF_SOLDIER1,
 		hp           = 25,
-		armor        = 1,
 		speed        = 120,
 		todam        = 2,
 		tohit        = 0,
@@ -527,10 +523,12 @@ function DoomRL.loadnpcs()
 		max_lev      = 25,
 		corpse       = true,
 		danger       = 7,
-		weight       = 6,
+		weight       = 24,
 		bulk         = 100,
 		flags        = { BF_OPENDOORS },
 		ai_type      = "former_ai",
+
+		resist = { melee = 15, sharpnel = 20, bullet = 15, plasma = 10, fire = 15, acid = 10 },
 
 		desc            = "Riflemen are the bread and butter of any army, and these marksmen are no exception. Wielding bolt action Karabiners they can put a very large hole in you if you stand still too long.",
 		kill_desc       = "killed by a marksman",
@@ -565,7 +563,6 @@ function DoomRL.loadnpcs()
 		color        = GREEN,
 		sprite       = SPRITE_WOLF_SOLDIER2,
 		hp           = 30,
-		armor        = 1,
 		speed        = 120,
 		todam        = 2,
 		tohit        = 0,
@@ -574,10 +571,12 @@ function DoomRL.loadnpcs()
 		max_lev      = 28,
 		corpse       = true,
 		danger       = 8,
-		weight       = 6,
+		weight       = 24,
 		bulk         = 100,
 		flags        = { BF_OPENDOORS },
 		ai_type      = "former_ai",
+
+		resist = { melee = 15, sharpnel = 20, bullet = 15, plasma = 10, fire = 15, acid = 10 },
 
 		desc            = "Rifleman aren't stuck with just the standard bolt acton rifle. Some are issued the Gewehr 43, the Axis answer to the M1.",
 		kill_desc       = "killed by a rifleman",
@@ -612,7 +611,6 @@ function DoomRL.loadnpcs()
 		color        = RED,
 		sprite       = SPRITE_WOLF_SOLDIER3,
 		hp           = 35,
-		armor        = 1,
 		speed        = 120,
 		todam        = 2,
 		tohit        = 0,
@@ -621,10 +619,12 @@ function DoomRL.loadnpcs()
 		max_lev      = 31,
 		corpse       = true,
 		danger       = 9,
-		weight       = 6,
+		weight       = 24,
 		bulk         = 100,
 		flags        = { BF_OPENDOORS },
 		ai_type      = "former_ai",
+
+		resist = { melee = 15, sharpnel = 20, bullet = 15, plasma = 10, fire = 15, acid = 10 },
 
 		desc            = "The airborne infantry is fast and effective. They will ventilate you with their specialized FG42s if you are not careful.",
 		kill_desc       = "killed by a paratrooper",
@@ -655,13 +655,119 @@ function DoomRL.loadnpcs()
 		end,
 	}
 
+	register_being "wolf_supermutant1" { --Again these are mirrors of each other.  Zombies are tanks that hit with acid attacks.
+		name         = "draugr",
+		ascii        = "T",
+		color        = GREEN,
+		sprite       = SPRITE_WOLF_MUTANT1,  --Todo create beefier sprite
+		hp           = 80,
+		todam        = 8,
+		tohit        = 0,
+		tohitmelee   = 5,
+		speed        = 120,
+		vision       = -1,
+		min_lev      = 18,
+		max_lev      = 50,
+		corpse       = true,
+		danger       = 3,
+		weight       = 20,
+		bulk         = 100,
+		ai_type      = "melee_ranged_ai",
+
+		desc            = "These horrible zombies are courtesy of Dr. Schabbs. Their bodies have been twisted to produce venom with every bite.",
+		kill_desc       = "killed by a zombie",
+		kill_desc_melee = "eaten by a zombie",
+
+		OnCreate = function (self)
+
+			--Tinker
+
+			if(level.danger_level > 5) then
+				if(level.danger_level > 15) then
+					if(math.random(10) == 1) then self.tohit = self.tohit + 1                                    self.expvalue = self.expvalue + 6 end
+					if(math.random(15) == 1) then self.hpmax = math.floor(self.hpmax * 1.2) self.hp = self.hpmax self.expvalue = self.expvalue + 6 end
+				end
+				if(math.random(15) == 1) then self.tohit = self.tohit + 1                                    self.expvalue = self.expvalue + 6 end
+				if(math.random(20) == 1) then self.hpmax = math.floor(self.hpmax * 1.2) self.hp = self.hpmax self.expvalue = self.expvalue + 6 end
+			end
+
+			if(math.random(30) == 1) then self.hp = math.floor(self.hpmax * math.random(70,90) / 100) self.expvalue = self.expvalue - 6 end
+
+			if(math.random(10) == 1) then
+				self.eq.weapon = item.new("nat_wolf_supermutant2")
+			end
+		end,
+	}
+	register_being "wolf_supermutant2" { --Again these are mirrors of each other.  Mutants are fragile and throw acid.
+		name         = "draugr",
+		ascii        = "T",
+		color        = MAGENTA,
+		sprite       = SPRITE_WOLF_MUTANT2, --Todo create beefier sprite
+		hp           = 40,
+		todam        = 4,
+		tohit        = 0,
+		tohitmelee   = 4,
+		speed        = 100,
+		vision       = -1,
+		min_lev      = 18,
+		max_lev      = 50,
+		corpse       = true,
+		danger       = 3,
+		weight       = 20,
+		bulk         = 100,
+		ai_type      = "melee_ranged_ai",
+
+		desc            = "These horrible mutants are courtesy of Dr. Schabbs. Their bodies have been twisted to produce venom they can spit at you.",
+		kill_desc       = "killed by a super mutant",
+		kill_desc_melee = "eaten by a super mutant",
+
+		weapon = {
+			damage     = "4d5",
+			damagetype = DAMAGE_ACID,
+			acc        = 0,
+			fire       = 10,
+			radius     = 1,
+			missile = {
+				sound_id   = "wolf_supermutant2",
+				ascii      = "*",
+				color      = LIGHTGREEN,
+				sprite     = SPRITE_ACIDSHOT,
+				coscolor   = { 0.0, 1.0, 0.0, 1.0 },
+				delay      = 35,
+				miss_base  = 50,
+				miss_dist  = 3,
+				expl_delay = 40,
+				expl_color = GREEN,
+			},
+		},
+
+		OnCreate = function (self)
+
+			--Tinker
+
+			if(level.danger_level > 5) then
+				if(level.danger_level > 15) then
+					if(math.random(10) == 1) then self.tohit = self.tohit + 1                                    self.expvalue = self.expvalue + 6 end
+					if(math.random(15) == 1) then self.hpmax = math.floor(self.hpmax * 1.2) self.hp = self.hpmax self.expvalue = self.expvalue + 6 end
+				end
+				if(math.random(15) == 1) then self.tohit = self.tohit + 1                                    self.expvalue = self.expvalue + 6 end
+				if(math.random(20) == 1) then self.hpmax = math.floor(self.hpmax * 1.2) self.hp = self.hpmax self.expvalue = self.expvalue + 6 end
+			end
+
+			if(math.random(30) == 1) then self.hp = math.floor(self.hpmax * math.random(70,90) / 100) self.expvalue = self.expvalue - 6 end
+
+			if(math.random(10) == 1) then
+				self.eq.weapon = nil
+			end
+		end,
+	}
+
 	register_being "wolf_trooper1" { --Flame troopers have flamethrowers
 		name         = "flame trooper",
 		ascii        = "V",
 		color        = LIGHTRED,
 		sprite       = SPRITE_WOLF_TROOPER1,
 		hp           = 40,
-		armor        = 1,
 		speed        = 110,
 		todam        = 3,
 		tohit        = 0,
@@ -669,12 +775,12 @@ function DoomRL.loadnpcs()
 		min_lev      = 20,
 		corpse       = true,
 		danger       = 8,
-		weight       = 6,
+		weight       = 24,
 		bulk         = 100,
 		flags        = { BF_OPENDOORS },
 		ai_type      = "former_ai",
 
-		resist = { melee = 10, fire = 50 },
+		resist = { melee = 25, sharpnel = 20, bullet = 15, plasma = 10, fire = 60, acid = 10 },
 
 		desc            = "Your average Flame Trooper would like nothing more than to turn you into a crispy critter. Sadly they take precautions against extreme heat so you can't turn the tables as easily.",
 		kill_desc       = "killed by a flame trooper",
@@ -709,7 +815,6 @@ function DoomRL.loadnpcs()
 		color        = LIGHTCYAN,
 		sprite       = SPRITE_WOLF_TROOPER2,
 		hp           = 45,
-		armor        = 1,
 		speed        = 130,
 		todam        = 3,
 		tohit        = 0,
@@ -717,12 +822,12 @@ function DoomRL.loadnpcs()
 		min_lev      = 20,
 		corpse       = true,
 		danger       = 9,
-		weight       = 6,
+		weight       = 24,
 		bulk         = 100,
 		flags        = { BF_OPENDOORS },
 		ai_type      = "former_ai",
 
-		resist = { melee = 20 },
+		resist = { melee = 35, sharpnel = 20, bullet = 15, plasma = 10, fire = 15, acid = 10 },
 
 		desc            = "Watch out! Shock troopers are fast and agile and they excel on the rapidly changing battlefield.",
 		kill_desc       = "killed by an assault trooper",
@@ -757,7 +862,6 @@ function DoomRL.loadnpcs()
 		color        = DARKGRAY,
 		sprite       = SPRITE_WOLF_TROOPER3,
 		hp           = 50,
-		armor        = 1,
 		speed        = 110,
 		todam        = 3,
 		tohit        = 0,
@@ -765,12 +869,12 @@ function DoomRL.loadnpcs()
 		min_lev      = 20,
 		corpse       = true,
 		danger       = 10,
-		weight       = 6,
+		weight       = 24,
 		bulk         = 100,
 		flags        = { BF_OPENDOORS },
 		ai_type      = "melee_ranged_ai",
 
-		resist = { melee = 20 },
+		resist = { melee = 35, sharpnel = 20, bullet = 15, plasma = 10, fire = 15, acid = 10 },
 
 		desc            = "Chain troopers carry the big guns. Best to reply in kind.",
 		kill_desc       = "killed by a chain trooper",
@@ -824,7 +928,6 @@ function DoomRL.loadnpcs()
 		color        = BROWN,
 		sprite       = SPRITE_WOLF_SUPER,
 		hp           = 60,
-		armor        = 3,
 		attackchance = 50,
 		speed        = 80,
 		todam        = 8,
@@ -832,12 +935,12 @@ function DoomRL.loadnpcs()
 		min_lev      = 20,
 		corpse       = true,
 		danger       = 12,
-		weight       = 2,
+		weight       = 8,
 		bulk         = 100,
 		flags        = { BF_OPENDOORS },
 		ai_type      = "ranged_ai",
 
-		resist = { fire = 50 },
+		resist = { melee = 45, sharpnel = 60, bullet = 45, plasma = 30, fire = 75, acid = 30 },
 
 		desc            = "Super soldiers are decked in armor and can stomp you flat. Dodge their rockets if you want to live to see another day.",
 		kill_desc       = "killed by a super soldier",
@@ -871,6 +974,7 @@ function DoomRL.loadnpcs()
 
 
 	--Nightmare enemies (min_lev must be 35 to prevent appearance in main campaign)
+
 	register_being "wolf_nguard1" {
 		name         = "nightmare guard",
 		sound_id     = "wolf_guard1",
@@ -880,8 +984,7 @@ function DoomRL.loadnpcs()
 		coscolor     = { 1.0, 0.2, 0.0, 1.0 },
 		--overlay      = { 0.8, 0.2, 0.0, 1.0 },
 		glow         = { 1.0, 0.1, 0.1, 1.0 },
-		hp           = 30,
-		armor        = 1,
+		hp           = 40,
 		speed        = 115,
 		todam        = 1,
 		tohit        = 0,
@@ -894,9 +997,9 @@ function DoomRL.loadnpcs()
 		flags        = { BF_OPENDOORS },
 		ai_type      = "former_ai",
 
-		resist = { fire = 50 },
+		resist = { melee = 15, sharpnel = 20, bullet = 15, plasma = 10, fire = 60, acid = 15 },
 
-		desc            = "War takes both good men and bad men. Judging by the crimson aura this was not one of the good men.",
+		desc            = "War takes good men and war takes bad men. This was not one of the good men.",
 		kill_desc       = "killed by a nightmare guard",
 		kill_desc_melee = "beaten by a nightmare guard",
 
@@ -936,7 +1039,7 @@ function DoomRL.loadnpcs()
 		end,
 	}
 	register_being "wolf_nguard2" {
-		name         = "nightmare sub guard",
+		name         = "nightmare submarine guard",
 		sound_id     = "wolf_guard2",
 		ascii        = "h",
 		color        = GREEN + (RED * 16),
@@ -944,23 +1047,22 @@ function DoomRL.loadnpcs()
 		coscolor     = { 1.0, 0.2, 0.0, 1.0 },
 		--overlay      = { 0.8, 0.2, 0.0, 1.0 },
 		glow         = { 1.0, 0.1, 0.1, 1.0 },
-		hp           = 30,
-		armor        = 1,
-		speed        = 125,
+		hp           = 40,
+		speed        = 135,
 		todam        = 1,
-		tohit        = -2,
-		min_lev      = 35,
+		tohit        = -1,
+		min_lev      = 37,
 		max_lev      = 60,
 		corpse       = true,
 		danger       = 6,
-		weight       = 5,
+		weight       = 1,
 		bulk         = 100,
 		flags        = { BF_OPENDOORS },
 		ai_type      = "former_ai",
 
-		resist = { fire = 50 },
+		resist = { melee = 15, sharpnel = 20, bullet = 15, plasma = 10, fire = 60, acid = 15 },
 
-		desc            = "War takes both good men and bad men. Judging by the crimson aura this was not one of the good men.",
+		desc            = "War takes good men and war takes bad men. This was not one of the good men.",
 		kill_desc       = "killed by Willie's nightmare guard",
 		kill_desc_melee = "beaten by Willie's nightmare guard",
 
@@ -1000,6 +1102,1024 @@ function DoomRL.loadnpcs()
 		end,
 	}
 
+	register_being "wolf_nss1" {
+		name         = "nightmare schutzstaffel",
+		sound_id     = "wolf_ss1",
+		ascii        = "h",
+		color        = LIGHTBLUE + (RED * 16),
+		sprite       = SPRITE_WOLF_SS1,
+		coscolor     = { 1.0, 0.2, 0.0, 1.0 },
+		--overlay      = { 0.8, 0.2, 0.0, 1.0 },
+		glow         = { 1.0, 0.1, 0.1, 1.0 },
+		hp           = 40,
+		speed        = 95,
+		todam        = 1,
+		tohit        = 2,
+		min_lev      = 40,
+		max_lev      = 70,
+		corpse       = true,
+		danger       = 8,
+		weight       = 10,
+		bulk         = 100,
+		flags        = { BF_OPENDOORS },
+		ai_type      = "former_ai",
+
+		resist = { melee = 30, sharpnel = 40, bullet = 30, plasma = 20, fire = 70, acid = 30 },
+
+		desc            = "War takes good men and war takes bad men. This was not one of the good men.",
+		kill_desc       = "killed by a nightmare SS nazi",
+		kill_desc_melee = "beaten by a nightmare SS nazi",
+
+		OnCreate = function (self)
+
+			--Hellion bonus
+			self.todamall = self.todamall + 1
+
+			--Tinker
+			local armor = 0
+
+			if(level.danger_level > 5) then
+				if(level.danger_level > 14) then
+					if(math.random(10) == 1) then self.tohit = self.tohit + 1                                    self.expvalue = self.expvalue + 4 end
+					if(math.random(15) == 1) then self.hpmax = math.floor(self.hpmax * 1.2) self.hp = self.hpmax self.expvalue = self.expvalue + 4 end
+					if(math.random(20) == 1) then armor = armor + 1                                              self.expvalue = self.expvalue + 4 end
+				end
+				if(math.random(15) == 1) then self.tohit = self.tohit + 1                                    self.expvalue = self.expvalue + 4 end
+				if(math.random(20) == 1) then self.hpmax = math.floor(self.hpmax * 1.2) self.hp = self.hpmax self.expvalue = self.expvalue + 4 end
+				if(math.random(30) == 1) then armor = armor + 1                                              self.expvalue = self.expvalue + 4 end
+			end
+
+			if(math.random(30) == 1) then self.hp = math.floor(self.hpmax * math.random(70,90) / 100) self.expvalue = self.expvalue - 4 end
+
+			self.eq.weapon = item.new("wolf_sub1")
+			if(armor > 0) then self.eq.armor  = item.new("wolf_armor" .. armor) end
+			self.inv:add(item.new("wolf_9mm", { ammo = 32 }))
+		end,
+	}
+	register_being "wolf_nss2"{
+		name         = "nightmare schutzstaffel leader",
+		sound_id     = "wolf_ss2",
+		ascii        = "h",
+		color        = LIGHTGRAY + (RED * 16),
+		sprite       = SPRITE_WOLF_SS2,
+		coscolor     = { 1.0, 0.2, 0.0, 1.0 },
+		--overlay      = { 0.8, 0.2, 0.0, 1.0 },
+		glow         = { 1.0, 0.1, 0.1, 1.0 },
+		hp           = 10,
+		speed        = 115,
+		todam        = 2,
+		tohit        = 3,
+		min_lev      = 42,
+		max_lev      = 70,
+		corpse       = true,
+		danger       = 9,
+		weight       = 2,
+		bulk         = 100,
+		flags        = { BF_OPENDOORS },
+		ai_type      = "former_ai",
+
+		resist = { melee = 30, sharpnel = 40, bullet = 30, plasma = 20, fire = 70, acid = 30 },
+
+		desc            = "War takes good men and war takes bad men. This was not one of the good men.",
+		kill_desc       = "killed by a nightmare SS section leader",
+		kill_desc_melee = "beaten by a nightmare SS section leader",
+
+		OnCreate = function (self)
+
+			--Hellion bonus
+			self.todamall = self.todamall + 1
+
+			--Tinker
+			local armor = 0
+
+			if(level.danger_level > 5) then
+				if(level.danger_level > 14) then
+					if(math.random(10) == 1) then self.tohit = self.tohit + 1                                    self.expvalue = self.expvalue + 4 end
+					if(math.random(15) == 1) then self.hpmax = math.floor(self.hpmax * 1.2) self.hp = self.hpmax self.expvalue = self.expvalue + 4 end
+					if(math.random(5)  == 1) then armor = armor + 1                                              self.expvalue = self.expvalue + 4 end
+				end
+				if(math.random(15) == 1) then self.tohit = self.tohit + 1                                    self.expvalue = self.expvalue + 4 end
+				if(math.random(20) == 1) then self.hpmax = math.floor(self.hpmax * 1.2) self.hp = self.hpmax self.expvalue = self.expvalue + 4 end
+				if(math.random(5)  == 1) then armor = armor + 1                                              self.expvalue = self.expvalue + 4 end
+			end
+
+			if(math.random(30) == 1) then self.hp = math.floor(self.hpmax * math.random(70,90) / 100) self.expvalue = self.expvalue - 4 end
+
+			self.eq.weapon = item.new("wolf_sub1")
+			if(armor > 0) then self.eq.armor  = item.new("wolf_armor" .. armor) end
+			self.inv:add("wolf_9mm", { ammo = 32 })
+		end,
+	}
+
+	register_being "wolf_nofficer1" {
+		name         = "nightmare officer",
+		sound_id     = "wolf_officer1",
+		ascii        = "h",
+		color        = WHITE + (RED * 16),
+		sprite       = SPRITE_WOLF_OFFICER1,
+		coscolor     = { 1.0, 0.2, 0.0, 1.0 },
+		--overlay      = { 0.8, 0.2, 0.0, 1.0 },
+		glow         = { 1.0, 0.1, 0.1, 1.0 },
+		hp           = 45,
+		speed        = 155,
+		todam        = 3,
+		tohit        = 3,
+		min_lev      = 45,
+		max_lev      = 75,
+		corpse       = true,
+		danger       = 9,
+		weight       = 10,
+		bulk         = 100,
+		flags        = { BF_OPENDOORS },
+		ai_type      = "former_ai",
+
+		resist = { melee = 30, sharpnel = 40, bullet = 30, plasma = 20, fire = 70, acid = 30 },
+
+		desc            = "War takes good men and war takes bad men. This was not one of the good men.",
+		kill_desc       = "killed by a nightmare officer",
+		kill_desc_melee = "beaten by a nightmare officer",
+
+		OnCreate = function (self)
+
+			--Hellion bonus
+			self.todamall = self.todamall + 1
+
+			--Tinker
+			local armor = 0
+
+			if(level.danger_level > 5) then
+				if(level.danger_level > 16) then
+					if(math.random(10) == 1) then self.tohit = self.tohit + 1                                    self.expvalue = self.expvalue + 4 end
+					if(math.random(15) == 1) then self.hpmax = math.floor(self.hpmax * 1.2) self.hp = self.hpmax self.expvalue = self.expvalue + 4 end
+					if(math.random(4) == 1)  then armor = 1                                                      self.expvalue = self.expvalue + 4 end
+				end
+				if(math.random(15) == 1) then self.tohit = self.tohit + 1                                    self.expvalue = self.expvalue + 4 end
+				if(math.random(20) == 1) then self.hpmax = math.floor(self.hpmax * 1.2) self.hp = self.hpmax self.expvalue = self.expvalue + 4 end
+				if(math.random(4) == 1)  then armor = 1                                                      self.expvalue = self.expvalue + 4 end
+			end
+
+			if(math.random(30) == 1) then self.hp = math.floor(self.hpmax * math.random(70,90) / 100) self.expvalue = self.expvalue - 4 end
+
+			self.eq.weapon = item.new("wolf_pistol3")
+			if(armor > 0) then self.eq.armor  = item.new("wolf_armor1") end
+			self.inv:add(item.new("wolf_9mm"))
+		end,
+	}
+	register_being "wolf_nofficer2" {
+		name         = "nightmare commander",
+		sound_id     = "wolf_officer2",
+		ascii        = "h",
+		color        = WHITE + (RED * 16),
+		sprite       = SPRITE_WOLF_OFFICER2,
+		coscolor     = { 1.0, 0.2, 0.0, 1.0 },
+		--overlay      = { 0.8, 0.2, 0.0, 1.0 },
+		glow         = { 1.0, 0.1, 0.1, 1.0 },
+		hp           = 45,
+		speed        = 155,
+		todam        = 3,
+		tohit        = 4,
+		min_lev      = 47,
+		max_lev      = 75,
+		corpse       = true,
+		danger       = 9,
+		weight       = 2,
+		bulk         = 100,
+		flags        = { BF_OPENDOORS },
+		ai_type      = "flee_former_ai",
+
+		resist = { melee = 30, sharpnel = 40, bullet = 30, plasma = 20, fire = 70, acid = 30 },
+
+		desc            = "War takes good men and war takes bad men. This was not one of the good men.",
+		kill_desc       = "killed by a nightmare commander",
+		kill_desc_melee = "beaten by a nightmare commander",
+
+		OnCreate = function (self)
+
+			--Hellion bonus
+			self.todamall = self.todamall + 1
+
+			--Tinker
+			local armor = 0
+
+			if(level.danger_level > 5) then
+				if(level.danger_level > 16) then
+					if(math.random(10) == 1) then self.tohit = self.tohit + 1                                    self.expvalue = self.expvalue + 4 end
+					if(math.random(15) == 1) then self.hpmax = math.floor(self.hpmax * 1.2) self.hp = self.hpmax self.expvalue = self.expvalue + 4 end
+					if(math.random(4) == 1)  then armor = 1                                                      self.expvalue = self.expvalue + 4 end
+				end
+				if(math.random(15) == 1) then self.tohit = self.tohit + 1                                    self.expvalue = self.expvalue + 4 end
+				if(math.random(20) == 1) then self.hpmax = math.floor(self.hpmax * 1.2) self.hp = self.hpmax self.expvalue = self.expvalue + 4 end
+				if(math.random(4) == 1)  then armor = 1                                                      self.expvalue = self.expvalue + 4 end
+			end
+
+			if(math.random(30) == 1) then self.hp = math.floor(self.hpmax * math.random(70,90) / 100) self.expvalue = self.expvalue - 4 end
+
+			self.eq.weapon = item.new("wolf_pistol3")
+			if(armor > 0) then self.eq.armor  = item.new("wolf_armor1") end
+			self.inv:add(item.new("wolf_9mm"))
+		end,
+	}
+
+	register_being "wolf_ndog1" {
+		name         = "hellhound",
+		sound_id     = "wolf_dog1",
+		ascii        = "d",
+		color        = BROWN + (RED * 16),
+		sprite       = SPRITE_WOLF_DOG1,
+		coscolor     = { 1.0, 0.2, 0.0, 1.0 },
+		--overlay      = { 0.8, 0.2, 0.0, 1.0 },
+		glow         = { 1.0, 0.1, 0.1, 1.0 },
+		hp           = 30,
+		todam        = 6,
+		tohit        = 6,
+		speed        = 175,
+		vision       = 1,
+		min_lev      = 35,
+		max_lev      = 55,
+		corpse       = true,
+		danger       = 6,
+		weight       = 5,
+		bulk         = 100,
+		flags        = { BF_CHARGE },
+		ai_type      = "melee_seek_ai",
+
+		resist = { melee = 15, sharpnel = 20, bullet = 15, plasma = 10, fire = 60, acid = 15 },
+
+		desc            = "Not all dogs go to Heaven.",
+		kill_desc_melee = "chewed on by a hellhound",
+
+		OnCreate = function (self)
+
+			--Hellion bonus
+			self.todamall = self.todamall + 1
+
+			--Tinker
+
+			if(level.danger_level > 5) then
+				if(level.danger_level > 15) then
+					if(math.random(10) == 1) then self.speed = self.speed + 10 self.expvalue = self.expvalue + 1 end
+					if(math.random(15) == 1) then self.todam = self.todam + 1  self.expvalue = self.expvalue + 1 end
+				end
+				if(math.random(10) == 1) then self.speed = self.speed + 10 self.expvalue = self.expvalue + 1 end
+				if(math.random(15) == 1) then self.todam = self.todam + 1  self.expvalue = self.expvalue + 1 end
+			end
+
+			if(math.random(30) == 1) then self.hp = math.floor(self.hpmax * math.random(70,90) / 100) end
+		end,
+	}
+	register_being "wolf_ndog2" {
+		name         = "adjule",
+		sound_id     = "wolf_dog2",
+		ascii        = "d",
+		color        = LIGHTGRAY + (RED * 16),
+		sprite       = SPRITE_WOLF_DOG2,
+		coscolor     = { 1.0, 0.2, 0.0, 1.0 },
+		--overlay      = { 0.8, 0.2, 0.0, 1.0 },
+		glow         = { 1.0, 0.1, 0.1, 1.0 },
+		hp           = 35,
+		armor        = 0,
+		todam        = 7,
+		tohit        = 7,
+		speed        = 195,
+		vision       = 1,
+		min_lev      = 37,
+		max_lev      = 55,
+		corpse       = true,
+		danger       = 7,
+		weight       = 2,
+		bulk         = 100,
+		flags        = { BF_CHARGE },
+		ai_type      = "melee_seek_ai",
+
+		resist = { melee = 15, sharpnel = 20, bullet = 15, plasma = 10, fire = 60, acid = 15 },
+
+		desc            = "Not all dogs go to Heaven.",
+		kill_desc_melee = "chewed on by an adjule",
+
+		OnCreate = function (self)
+
+			--Hellion bonus
+			self.todamall = self.todamall + 1
+
+			--Tinker
+
+			if(level.danger_level > 5) then
+				if(level.danger_level > 15) then
+					if(math.random(10) == 1) then self.speed = self.speed + 10 self.expvalue = self.expvalue + 1 end
+					if(math.random(15) == 1) then self.todam = self.todam + 1  self.expvalue = self.expvalue + 1 end
+				end
+				if(math.random(10) == 1) then self.speed = self.speed + 10 self.expvalue = self.expvalue + 1 end
+				if(math.random(15) == 1) then self.todam = self.todam + 1  self.expvalue = self.expvalue + 1 end
+			end
+
+			if(math.random(30) == 1) then self.hp = math.floor(self.hpmax * math.random(70,90) / 100) self.expvalue = self.expvalue - 1 end
+		end,
+	}
+
+	register_being "wolf_nmutant1" {
+		name         = "nightmare zombie",
+		sound_id     = "wolf_mutant1",
+		ascii        = "Z",
+		color        = LIGHTGREEN + (RED * 16),
+		sprite       = SPRITE_WOLF_MUTANT1,
+		coscolor     = { 1.0, 0.2, 1.0, 1.0 },
+		--overlay      = { 0.8, 0.2, 0.0, 1.0 },
+		glow         = { 1.0, 0.1, 1.0, 1.0 },
+		hp           = 60,
+		todam        = 6,
+		tohit        = 2,
+		tohitmelee   = 9,
+		speed        = 125,
+		vision       = -1,
+		min_lev      = 40,
+		max_lev      = 70,
+		corpse       = true,
+		danger       = 8,
+		weight       = 10,
+		bulk         = 100,
+		ai_type      = "melee_ranged_ai",
+
+		resist = { melee = 15, sharpnel = 20, bullet = 15, plasma = 10, fire = 15, acid = 50 },
+
+		desc            = "As in life, so in death.",
+		kill_desc       = "killed by a nightmare zombie",
+		kill_desc_melee = "eaten by a nightmare zombie",
+
+		OnCreate = function (self)
+
+			--Hellion bonus
+			self.todamall = self.todamall + 1
+
+			--Tinker
+
+			if(level.danger_level > 5) then
+				if(level.danger_level > 15) then
+					if(math.random(10) == 1) then self.tohit = self.tohit + 1                                    self.expvalue = self.expvalue + 4 end
+					if(math.random(15) == 1) then self.hpmax = math.floor(self.hpmax * 1.2) self.hp = self.hpmax self.expvalue = self.expvalue + 4 end
+				end
+				if(math.random(15) == 1) then self.tohit = self.tohit + 1                                    self.expvalue = self.expvalue + 4 end
+				if(math.random(20) == 1) then self.hpmax = math.floor(self.hpmax * 1.2) self.hp = self.hpmax self.expvalue = self.expvalue + 4 end
+			end
+
+			if(math.random(30) == 1) then self.hp = math.floor(self.hpmax * math.random(70,90) / 100) self.expvalue = self.expvalue - 4 end
+
+			if(math.random(10) == 1) then
+				self.eq.weapon = item.new("wolf_pistol1")
+				self.inv:add(item.new("wolf_9mm"))
+				self.eq.weapon.flags[IF_NODROP] = true
+			end
+		end,
+	}
+	register_being "wolf_nmutant2" {
+		name         = "nightmare mutant",
+		sound_id     = "wolf_mutant2",
+		ascii        = "Z",
+		color        = LIGHTMAGENTA + (RED * 16),
+		sprite       = SPRITE_WOLF_MUTANT2,
+		coscolor     = { 1.0, 0.2, 1.0, 1.0 },
+		--overlay      = { 0.8, 0.2, 0.0, 1.0 },
+		glow         = { 1.0, 0.1, 1.0, 1.0 },
+		hp           = 55,
+		todam        = 4,
+		tohit        = 3,
+		tohitmelee   = 8,
+		speed        = 105,
+		vision       = -1,
+		min_lev      = 40,
+		max_lev      = 70,
+		corpse       = true,
+		danger       = 8,
+		weight       = 10,
+		bulk         = 100,
+		ai_type      = "melee_ranged_ai",
+
+		resist = { melee = 15, sharpnel = 20, bullet = 15, plasma = 10, fire = 15, acid = 50 },
+
+		desc            = "As in life, so in death.",
+		kill_desc       = "killed by a nightmare mutant",
+		kill_desc_melee = "eaten by a nightmare mutant",
+
+		OnCreate = function (self)
+
+			--Hellion bonus
+			self.todamall = self.todamall + 1
+
+			--Tinker
+
+			if(level.danger_level > 5) then
+				if(level.danger_level > 15) then
+					if(math.random(10) == 1) then self.tohit = self.tohit + 1                                    self.expvalue = self.expvalue + 4 end
+					if(math.random(15) == 1) then self.hpmax = math.floor(self.hpmax * 1.2) self.hp = self.hpmax self.expvalue = self.expvalue + 4 end
+				end
+				if(math.random(15) == 1) then self.tohit = self.tohit + 1                                    self.expvalue = self.expvalue + 4 end
+				if(math.random(20) == 1) then self.hpmax = math.floor(self.hpmax * 1.2) self.hp = self.hpmax self.expvalue = self.expvalue + 4 end
+			end
+
+			if(math.random(30) == 1) then self.hp = math.floor(self.hpmax * math.random(70,90) / 100) self.expvalue = self.expvalue - 4 end
+
+			if(math.random(10) ~= 1) then
+				self.eq.weapon = item.new("wolf_pistol1")
+				self.inv:add(item.new("wolf_9mm"))
+				self.eq.weapon.flags[IF_NODROP] = true
+			end
+		end,
+	}
+
+	register_being "wolf_nfakehitler" {
+		name         = "Hitler's Shadow",
+		sound_id     = "wolf_fakehitler",
+		ascii        = "@",
+		color        = LIGHTGRAY + (RED * 16),
+		sprite       = SPRITE_WOLF_FAKEHITLER,
+		coscolor     = { 1.0, 0.2, 0.0, 1.0 },
+		--overlay      = { 0.8, 0.2, 0.0, 1.0 },
+		glow         = { 1.0, 0.1, 0.1, 1.0 },
+		hp           = 70,
+		todam        = 4,
+		tohit        = 7,
+		min_lev      = 50,
+		corpse       = false,
+		danger       = 12,
+		weight       = 5,
+		flags        = { BF_OPENDOORS, BF_ENVIROSAFE, BF_UNIQUENAME },
+		bulk         = 100,
+		ai_type      = "ranged_ai",
+
+		resist = { melee = 50, sharpnel = 40, bullet = 30, plasma = 20, fire = 70, acid = 50 },
+
+		desc            = "An idea is the most resilient parasite ever known. They can survive long after the one who spawned them has died.",
+		kill_desc       = "killed by Hitler's Shadow",
+		kill_desc_melee = "spooked by Hitler's Shadow",
+
+		OnCreate = function (self)
+
+			--Hellion bonus
+			self.todamall = self.todamall + 1
+
+			self.eq.weapon = "nat_wolf_fakehitler"
+		end,
+
+	}
+
+	register_being "wolf_nsoldier1" {
+		name         = "nightmare marksman",
+		sound_id     = "wolf_soldier1",
+		ascii        = "R",
+		color        = BROWN + (RED * 16),
+		sprite       = SPRITE_WOLF_SOLDIER1,
+		coscolor     = { 1.0, 0.2, 0.0, 1.0 },
+		--overlay      = { 0.8, 0.2, 0.0, 1.0 },
+		glow         = { 1.0, 0.1, 0.1, 1.0 },
+		hp           = 50,
+		speed        = 145,
+		todam        = 4,
+		tohit        = 4,
+		tohitmelee   = 6,
+		min_lev      = 55,
+		corpse       = true,
+		danger       = 12,
+		weight       = 6,
+		bulk         = 100,
+		flags        = { BF_OPENDOORS },
+		ai_type      = "former_ai",
+
+		resist = { melee = 30, sharpnel = 40, bullet = 30, plasma = 20, fire = 70, acid = 30 },
+
+		desc            = "War takes good men and war takes bad men. This was not one of the good men.",
+		kill_desc       = "killed by a nightmare marksman",
+		kill_desc_melee = "beaten by a nightmare marksman",
+
+		OnCreate = function (self)
+
+			--Hellion bonus
+			self.todamall = self.todamall + 1
+
+			--Tinker
+			local armor = 0
+
+			if(level.danger_level > 5) then
+				if(level.danger_level > 16) then
+					if(math.random(10) == 1) then self.tohit = self.tohit + 1                                    self.expvalue = self.expvalue + 6 end
+					if(math.random(15) == 1) then self.hpmax = math.floor(self.hpmax * 1.2) self.hp = self.hpmax self.expvalue = self.expvalue + 6 end
+					if(math.random(75) == 1) then armor = 1                                                      self.expvalue = self.expvalue + 6 end
+				end
+				if(math.random(15) == 1) then self.tohit = self.tohit + 1                                    self.expvalue = self.expvalue + 6 end
+				if(math.random(20) == 1) then self.hpmax = math.floor(self.hpmax * 1.2) self.hp = self.hpmax self.expvalue = self.expvalue + 6 end
+				if(math.random(75) == 1) then armor = 1                                                      self.expvalue = self.expvalue + 6 end
+			end
+
+			if(math.random(30) == 1) then self.hp = math.floor(self.hpmax * math.random(70,90) / 100) self.expvalue = self.expvalue - 6 end
+
+			self.eq.weapon = item.new("wolf_bolt1")
+			if(armor > 0) then self.eq.armor  = item.new("wolf_armor" .. armor) end
+			self.inv:add(item.new("wolf_8mm"))
+		end,
+	}
+	register_being "wolf_nsoldier2" {
+		name         = "nightmare rifleman",
+		sound_id     = "wolf_soldier2",
+		ascii        = "R",
+		color        = LIGHTGREEN + (RED * 16),
+		sprite       = SPRITE_WOLF_SOLDIER2,
+		coscolor     = { 1.0, 0.2, 0.0, 1.0 },
+		--overlay      = { 0.8, 0.2, 0.0, 1.0 },
+		glow         = { 1.0, 0.1, 0.1, 1.0 },
+		hp           = 55,
+		speed        = 145,
+		todam        = 4,
+		tohit        = 4,
+		tohitmelee   = 6,
+		min_lev      = 60,
+		corpse       = true,
+		danger       = 13,
+		weight       = 6,
+		bulk         = 100,
+		flags        = { BF_OPENDOORS },
+		ai_type      = "former_ai",
+
+		resist = { melee = 30, sharpnel = 40, bullet = 30, plasma = 20, fire = 70, acid = 30 },
+
+		desc            = "War takes good men and war takes bad men. This was not one of the good men.",
+		kill_desc       = "killed by a nightmare rifleman",
+		kill_desc_melee = "beaten by a nightmare rifleman",
+
+		OnCreate = function (self)
+
+			--Hellion bonus
+			self.todamall = self.todamall + 1
+
+			--Tinker
+			local armor = 0
+
+			if(level.danger_level > 5) then
+				if(level.danger_level > 16) then
+					if(math.random(10) == 1) then self.tohit = self.tohit + 1                                    self.expvalue = self.expvalue + 6 end
+					if(math.random(15) == 1) then self.hpmax = math.floor(self.hpmax * 1.2) self.hp = self.hpmax self.expvalue = self.expvalue + 6 end
+					if(math.random(75) == 1) then armor = 1                                                      self.expvalue = self.expvalue + 6 end
+				end
+				if(math.random(15) == 1) then self.tohit = self.tohit + 1                                    self.expvalue = self.expvalue + 6 end
+				if(math.random(20) == 1) then self.hpmax = math.floor(self.hpmax * 1.2) self.hp = self.hpmax self.expvalue = self.expvalue + 6 end
+				if(math.random(75) == 1) then armor = 1                                                      self.expvalue = self.expvalue + 6 end
+			end
+
+			if(math.random(30) == 1) then self.hp = math.floor(self.hpmax * math.random(70,90) / 100) self.expvalue = self.expvalue - 6 end
+
+			self.eq.weapon = item.new("wolf_semi1")
+			if(armor > 0) then self.eq.armor  = item.new("wolf_armor" .. armor) end
+			self.inv:add("wolf_8mm", { ammo = 24 })
+		end,
+	}
+	register_being "wolf_nsoldier3" {
+		name         = "nightmare paratrooper",
+		sound_id     = "wolf_soldier3",
+		ascii        = "R",
+		color        = LIGHTRED + (RED * 16),
+		sprite       = SPRITE_WOLF_SOLDIER3,
+		coscolor     = { 1.0, 0.2, 0.0, 1.0 },
+		--overlay      = { 0.8, 0.2, 0.0, 1.0 },
+		glow         = { 1.0, 0.1, 0.1, 1.0 },
+		hp           = 60,
+		speed        = 145,
+		todam        = 4,
+		tohit        = 4,
+		tohitmelee   = 6,
+		min_lev      = 65,
+		corpse       = true,
+		danger       = 14,
+		weight       = 6,
+		bulk         = 100,
+		flags        = { BF_OPENDOORS },
+		ai_type      = "former_ai",
+
+		resist = { melee = 30, sharpnel = 40, bullet = 30, plasma = 20, fire = 70, acid = 30 },
+
+		desc            = "War takes good men and war takes bad men. This was not one of the good men.",
+		kill_desc       = "killed by a nightmare paratrooper",
+		kill_desc_melee = "beaten by a nightmare paratrooper",
+
+		OnCreate = function (self)
+
+			--Hellion bonus
+			self.todamall = self.todamall + 1
+
+			--Tinker
+			local armor = 0
+
+			if(level.danger_level > 5) then
+				if(level.danger_level > 16) then
+					if(math.random(10) == 1) then self.tohit = self.tohit + 1                                    self.expvalue = self.expvalue + 6 end
+					if(math.random(15) == 1) then self.hpmax = math.floor(self.hpmax * 1.2) self.hp = self.hpmax self.expvalue = self.expvalue + 6 end
+					if(math.random(75) == 1) then armor = 1                                                      self.expvalue = self.expvalue + 6 end
+				end
+				if(math.random(15) == 1) then self.tohit = self.tohit + 1                                    self.expvalue = self.expvalue + 6 end
+				if(math.random(20) == 1) then self.hpmax = math.floor(self.hpmax * 1.2) self.hp = self.hpmax self.expvalue = self.expvalue + 6 end
+				if(math.random(75) == 1) then armor = 1                                                      self.expvalue = self.expvalue + 6 end
+			end
+
+			if(math.random(30) == 1) then self.hp = math.floor(self.hpmax * math.random(70,90) / 100) self.expvalue = self.expvalue - 6 end
+
+			self.eq.weapon = item.new("wolf_auto1")
+			if(armor > 0) then self.eq.armor  = item.new("wolf_armor" .. armor) end
+			self.inv:add("wolf_8mm", { ammo = 20 })
+			self.inv:add("wolf_8mm", { ammo = 20 })
+		end,
+	}
+
+	register_being "wolf_nsupermutant1" {
+		name         = "nightmare draugr",
+		sound_id     = "wolf_supermutant1",
+		ascii        = "T",
+		color        = LIGHTGREEN + (RED * 16),
+		sprite       = SPRITE_WOLF_MUTANT1,
+		coscolor     = { 1.0, 0.2, 1.0, 1.0 },
+		--overlay      = { 0.8, 0.2, 0.0, 1.0 },
+		glow         = { 1.0, 0.1, 1.0, 1.0 },
+		hp           = 120,
+		todam        = 10,
+		tohit        = 4,
+		tohitmelee   = 7,
+		speed        = 145,
+		vision       = -1,
+		min_lev      = 62,
+		corpse       = true,
+		danger       = 8,
+		weight       = 10,
+		bulk         = 100,
+		ai_type      = "melee_ranged_ai",
+
+		resist = { melee = 15, sharpnel = 20, bullet = 15, plasma = 10, fire = 60, acid = 15 },
+
+		desc            = "As in life, so in death.",
+		kill_desc       = "killed by a nightmare super zombie",
+		kill_desc_melee = "eaten by a nightmare super zombie",
+
+		OnCreate = function (self)
+
+			--Hellion bonus
+			self.todamall = self.todamall + 1
+
+			--Tinker
+
+			if(level.danger_level > 5) then
+				if(level.danger_level > 15) then
+					if(math.random(10) == 1) then self.tohit = self.tohit + 1                                    self.expvalue = self.expvalue + 6 end
+					if(math.random(15) == 1) then self.hpmax = math.floor(self.hpmax * 1.2) self.hp = self.hpmax self.expvalue = self.expvalue + 6 end
+				end
+				if(math.random(15) == 1) then self.tohit = self.tohit + 1                                    self.expvalue = self.expvalue + 6 end
+				if(math.random(20) == 1) then self.hpmax = math.floor(self.hpmax * 1.2) self.hp = self.hpmax self.expvalue = self.expvalue + 6 end
+			end
+
+			if(math.random(30) == 1) then self.hp = math.floor(self.hpmax * math.random(70,90) / 100) self.expvalue = self.expvalue - 6 end
+
+			if(math.random(10) == 1) then
+				self.eq.weapon = item.new("nat_wolf_supermutant2")
+			end
+		end,
+	}
+	register_being "wolf_nsupermutant2" {
+		name         = "nightmare draugr",
+		sound_id     = "wolf_supermutant2",
+		ascii        = "T",
+		color        = LIGHTMAGENTA + (RED * 16),
+		sprite       = SPRITE_WOLF_MUTANT2,
+		coscolor     = { 1.0, 0.2, 1.0, 1.0 },
+		--overlay      = { 0.8, 0.2, 0.0, 1.0 },
+		glow         = { 1.0, 0.1, 1.0, 1.0 },
+		hp           = 80,
+		todam        = 6,
+		tohit        = 4,
+		tohitmelee   = 6,
+		speed        = 125,
+		vision       = -1,
+		min_lev      = 62,
+		corpse       = true,
+		danger       = 8,
+		weight       = 10,
+		bulk         = 100,
+		ai_type      = "melee_ranged_ai",
+
+		resist = { melee = 15, sharpnel = 20, bullet = 15, plasma = 10, fire = 60, acid = 15 },
+
+		desc            = "As in life, so in death.",
+		kill_desc       = "killed by a nightmare super mutant",
+		kill_desc_melee = "eaten by a nightmare super mutant",
+
+		OnCreate = function (self)
+
+			--Hellion bonus
+			self.todamall = self.todamall + 1
+
+			--Tinker
+
+			if(level.danger_level > 5) then
+				if(level.danger_level > 15) then
+					if(math.random(10) == 1) then self.tohit = self.tohit + 1                                    self.expvalue = self.expvalue + 6 end
+					if(math.random(15) == 1) then self.hpmax = math.floor(self.hpmax * 1.2) self.hp = self.hpmax self.expvalue = self.expvalue + 6 end
+				end
+				if(math.random(15) == 1) then self.tohit = self.tohit + 1                                    self.expvalue = self.expvalue + 6 end
+				if(math.random(20) == 1) then self.hpmax = math.floor(self.hpmax * 1.2) self.hp = self.hpmax self.expvalue = self.expvalue + 6 end
+			end
+
+			if(math.random(30) == 1) then self.hp = math.floor(self.hpmax * math.random(70,90) / 100) self.expvalue = self.expvalue - 6 end
+
+			if(math.random(10) ~= 1) then
+				self.eq.weapon = item.new("nat_wolf_supermutant2")
+			end
+		end,
+	}
+
+	register_being "wolf_ntrooper1" {
+		name         = "nightmare flame trooper",
+		sound_id     = "wolf_trooper1",
+		ascii        = "V",
+		color        = LIGHTRED + (RED * 16),
+		sprite       = SPRITE_WOLF_TROOPER1,
+		coscolor     = { 1.0, 0.2, 0.0, 1.0 },
+		--overlay      = { 0.8, 0.2, 0.0, 1.0 },
+		glow         = { 1.0, 0.1, 0.1, 1.0 },
+		hp           = 70,
+		speed        = 135,
+		todam        = 5,
+		tohit        = 4,
+		tohitmelee   = 5,
+		min_lev      = 67,
+		corpse       = true,
+		danger       = 13,
+		weight       = 6,
+		bulk         = 100,
+		flags        = { BF_OPENDOORS },
+		ai_type      = "former_ai",
+
+		resist = { melee = 40, sharpnel = 40, bullet = 30, plasma = 20, fire = 90, acid = 30 },
+
+		desc            = "War takes good men and war takes bad men. This was not one of the good men.",
+		kill_desc       = "killed by a nightmare flame trooper",
+		kill_desc_melee = "beaten by a nightmare flame trooper",
+
+		OnCreate = function (self)
+
+			--Hellion bonus
+			self.todamall = self.todamall + 1
+
+			--Tinker
+			local armor = 0
+
+			if(level.danger_level > 5) then
+				if(level.danger_level > 16) then
+					if(math.random(10) == 1) then self.tohit = self.tohit + 1                                    self.expvalue = self.expvalue + 6 end
+					if(math.random(15) == 1) then self.hpmax = math.floor(self.hpmax * 1.2) self.hp = self.hpmax self.expvalue = self.expvalue + 6 end
+					if(math.random(75) == 1) then armor = 1                                                      self.expvalue = self.expvalue + 6 end
+				end
+				if(math.random(15) == 1) then self.tohit = self.tohit + 1                                    self.expvalue = self.expvalue + 6 end
+				if(math.random(20) == 1) then self.hpmax = math.floor(self.hpmax * 1.2) self.hp = self.hpmax self.expvalue = self.expvalue + 6 end
+				if(math.random(75) == 1) then armor = 1                                                      self.expvalue = self.expvalue + 6 end
+			end
+
+			if(math.random(30) == 1) then self.hp = math.floor(self.hpmax * math.random(70,90) / 100) self.expvalue = self.expvalue - 6 end
+
+			self.eq.weapon = item.new("wolf_flamethrower")
+			if(armor > 0) then self.eq.armor  = item.new("wolf_armor" .. armor) end
+			self.inv:add(item.new("wolf_fuel"))
+		end,
+	}
+	register_being "wolf_ntrooper2" {
+		name         = "nightmare assault trooper",
+		sound_id     = "wolf_trooper2",
+		ascii        = "V",
+		color        = LIGHTCYAN + (RED * 16),
+		sprite       = SPRITE_WOLF_TROOPER2,
+		coscolor     = { 1.0, 0.2, 0.0, 1.0 },
+		--overlay      = { 0.8, 0.2, 0.0, 1.0 },
+		glow         = { 1.0, 0.1, 0.1, 1.0 },
+		hp           = 75,
+		speed        = 155,
+		todam        = 5,
+		tohit        = 4,
+		tohitmelee   = 5,
+		min_lev      = 72,
+		corpse       = true,
+		danger       = 14,
+		weight       = 6,
+		bulk         = 100,
+		flags        = { BF_OPENDOORS },
+		ai_type      = "former_ai",
+
+		resist = { melee = 45, sharpnel = 40, bullet = 30, plasma = 20, fire = 70, acid = 30 },
+
+		desc            = "War takes good men and war takes bad men. This was not one of the good men.",
+		kill_desc       = "killed by a nightmare assault trooper",
+		kill_desc_melee = "beaten by a nightmare assault trooper",
+
+		OnCreate = function (self)
+
+			--Hellion bonus
+			self.todamall = self.todamall + 1
+
+			--Tinker
+			local armor = 0
+
+			if(level.danger_level > 5) then
+				if(level.danger_level > 16) then
+					if(math.random(10) == 1) then self.tohit = self.tohit + 1                                    self.expvalue = self.expvalue + 6 end
+					if(math.random(15) == 1) then self.hpmax = math.floor(self.hpmax * 1.2) self.hp = self.hpmax self.expvalue = self.expvalue + 6 end
+					if(math.random(75) == 1) then armor = 1                                                      self.expvalue = self.expvalue + 6 end
+				end
+				if(math.random(15) == 1) then self.tohit = self.tohit + 1                                    self.expvalue = self.expvalue + 6 end
+				if(math.random(20) == 1) then self.hpmax = math.floor(self.hpmax * 1.2) self.hp = self.hpmax self.expvalue = self.expvalue + 6 end
+				if(math.random(75) == 1) then armor = 1                                                      self.expvalue = self.expvalue + 6 end
+			end
+
+			if(math.random(30) == 1) then self.hp = math.floor(self.hpmax * math.random(70,90) / 100) self.expvalue = self.expvalue - 6 end
+
+			self.eq.weapon = item.new("wolf_assault1")
+			if(armor > 0) then self.eq.armor  = item.new("wolf_armor" .. armor) end
+			self.inv:add("wolf_kurz", { ammo = 30 })
+		end,
+	}
+	register_being "wolf_ntrooper3" {
+		name         = "nightmare chain trooper",
+		sound_id     = "wolf_trooper3",
+		ascii        = "V",
+		color        = LIGHTGRAY + (RED * 16),
+		sprite       = SPRITE_WOLF_TROOPER3,
+		coscolor     = { 1.0, 0.2, 0.0, 1.0 },
+		--overlay      = { 0.8, 0.2, 0.0, 1.0 },
+		glow         = { 1.0, 0.1, 0.1, 1.0 },
+		hp           = 80,
+		speed        = 135,
+		todam        = 5,
+		tohit        = 4,
+		tohitmelee   = 5,
+		min_lev      = 77,
+		corpse       = true,
+		danger       = 15,
+		weight       = 6,
+		bulk         = 100,
+		flags        = { BF_OPENDOORS },
+		ai_type      = "melee_ranged_ai",
+
+		resist = { melee = 45, sharpnel = 40, bullet = 30, plasma = 20, fire = 70, acid = 30 },
+
+		desc            = "War takes good men and war takes bad men. This was not one of the good men.",
+		kill_desc       = "killed by a nightmare chain trooper",
+		kill_desc_melee = "beaten by a nightmare chain trooper",
+
+		OnCreate = function (self)
+
+			--Hellion bonus
+			self.todamall = self.todamall + 1
+
+			--Tinker
+			local armor = 0
+
+			if(level.danger_level > 5) then
+				if(level.danger_level > 16) then
+					if(math.random(10) == 1) then self.tohit = self.tohit + 1                                    self.expvalue = self.expvalue + 6 end
+					if(math.random(15) == 1) then self.hpmax = math.floor(self.hpmax * 1.2) self.hp = self.hpmax self.expvalue = self.expvalue + 6 end
+					if(math.random(75) == 1) then armor = 1                                                      self.expvalue = self.expvalue + 6 end
+				end
+				if(math.random(15) == 1) then self.tohit = self.tohit + 1                                    self.expvalue = self.expvalue + 6 end
+				if(math.random(20) == 1) then self.hpmax = math.floor(self.hpmax * 1.2) self.hp = self.hpmax self.expvalue = self.expvalue + 6 end
+				if(math.random(75) == 1) then armor = 1                                                      self.expvalue = self.expvalue + 6 end
+			end
+
+			if(math.random(30) == 1) then self.hp = math.floor(self.hpmax * math.random(70,90) / 100) self.expvalue = self.expvalue - 6 end
+
+			self.eq.weapon = item.new("wolf_assault2")
+			self.eq.weapon.shots = self.eq.weapon.shots - 1
+			self.eq.weapon.acc = self.eq.weapon.acc + 1
+			self.eq.weapon.usetime = 10
+			self.eq.weapon.ammo = 40
+			self.eq.weapon.ammomax = 40
+			if(armor > 0) then self.eq.armor  = item.new("wolf_armor" .. armor) end
+			self.inv:add("wolf_kurz", { ammo = 40 })
+		end,
+		OnDieCheck = function (self, overkill)
+			--re-adjust weapon properties
+			local weapon = self.eq.weapon
+
+			weapon.shots = items[ weapon.id ].shots
+			weapon.acc = items[ weapon.id ].acc
+			weapon.usetime = items[ weapon.id ].fire
+			weapon.ammo = math.ceil(weapon.ammo * items[ weapon.id ].ammomax / weapon.ammomax)
+			weapon.ammomax = items[ weapon.id ].ammomax
+
+			return true
+		end,
+	}
+
+	register_being "wolf_nsuper" {
+		name         = "nightmare super soldier",
+		sound_id     = "wolf_super",
+		ascii        = "H",
+		color        = BROWN + (RED * 16),
+		sprite       = SPRITE_WOLF_SUPER,
+		coscolor     = { 1.0, 0.2, 0.0, 1.0 },
+		--overlay      = { 0.8, 0.2, 0.0, 1.0 },
+		glow         = { 1.0, 0.1, 0.1, 1.0 },
+		hp           = 100,
+		attackchance = 50,
+		speed        = 105,
+		todam        = 12,
+		tohit        = 7,
+		min_lev      = 80,
+		corpse       = true,
+		danger       = 12,
+		weight       = 2,
+		bulk         = 100,
+		flags        = { BF_OPENDOORS },
+		ai_type      = "ranged_ai",
+
+		resist = { melee = 45, sharpnel = 60, bullet = 45, plasma = 30, fire = 80, acid = 30 },
+
+		desc            = "War takes good men and war takes bad men. This was not one of the good men.",
+		kill_desc       = "killed by a nightmare super soldier",
+		kill_desc_melee = "crushed by a nightmare super soldier",
+
+		OnCreate = function (self)
+
+			--Hellion bonus
+			self.todamall = self.todamall + 1
+
+			--Tinker
+			local armor = 0
+
+			if(level.danger_level > 5) then
+				if(level.danger_level > 16) then
+					if(math.random(10) == 1) then self.tohit = self.tohit + 1                                    self.expvalue = self.expvalue + 6 end
+					if(math.random(15) == 1) then self.hpmax = math.floor(self.hpmax * 1.2) self.hp = self.hpmax self.expvalue = self.expvalue + 6 end
+					if(math.random(75) == 1) then armor = 1                                                      self.expvalue = self.expvalue + 6 end
+				end
+				if(math.random(15) == 1) then self.tohit = self.tohit + 1                                    self.expvalue = self.expvalue + 6 end
+				if(math.random(20) == 1) then self.hpmax = math.floor(self.hpmax * 1.2) self.hp = self.hpmax self.expvalue = self.expvalue + 6 end
+			end
+
+			if(math.random(30) == 1) then self.hp = math.floor(self.hpmax * math.random(70,90) / 100) self.expvalue = self.expvalue - 6 end
+
+			self.eq.weapon = item.new("wolf_bazooka")
+			if(armor > 0) then
+				self.armor = 0
+				self.eq.armor  = item.new("wolf_armor3")
+			end
+			self.inv:add("wolf_rocket", { ammo = 5 })
+		end,
+	}
+	register_being "wolf_nhans" {
+		name         = "šber Hans",
+		ascii        = "@",
+		color        = LIGHTBLUE + (RED * 16),
+		sprite       = SPRITE_WOLF_HANS,
+		coscolor     = { 1.0, 0.2, 0.0, 1.0 },
+		--overlay      = { 0.8, 0.2, 0.0, 1.0 },
+		glow         = { 1.0, 0.1, 0.1, 1.0 },
+		hp           = 250,
+		speed        = 120,
+		vision       = 2,
+		todam        = 5,
+		tohit        = 2,
+		tohitmelee   = 2,
+		min_lev      = 200,
+		corpse       = true,
+		danger       = 20,
+		xp           = 0,
+		weight       = 0,
+		flags        = { BF_OPENDOORS, BF_KNOCKIMMUNE, BF_UNIQUENAME },
+		bulk         = 100,
+		ai_type      = "teleboss_ai",
+
+		resist = { melee = 90, sharpnel = 95, bullet = 90, plasma = 85, fire = 95, acid = 85 },
+
+		desc            = "Well where did you think he's end up? Detroit?.",
+		kill_desc       = "killed by Über Hans",
+		kill_desc_melee = "crushed by Über Hans",
+
+		OnCreate = function (self)
+			--Hellion bonus
+			self.todamall = self.todamall + 10
+
+			--Not that you get to actually enjoy it but yes, at the end of Ao100 this weapon becomes your own
+			local weapon = item.new("wolf_assault2")
+			weapon.name = "infinite chaingun"
+			weapon.color = LIGHTCYAN
+			weapon.flags[ IF_NODESTROY ] = true
+			weapon.flags[ IF_NONMODABLE ] = true
+			weapon.flags[ IF_MODIFIED ] = false
+			weapon.flags[ IF_ASSEMBLED ] = true
+			weapon.flags[ IF_NOAMMO ] = true
+			weapon.shots = weapon.shots + 1
+			weapon.acc = weapon.acc + 1
+			weapon.usetime = 10
+			self.eq.weapon = weapon
+		end,
+
+		OnAction = function (self)
+			if not core.is_playing() or not self.__ptr then return end
+			if self.hp < self.hpmax / 2 then
+				self.hp = self.hp + 2
+			end
+		end,
+	}
+
 
 	--Special enemies (exclusive to special levels obviously)
 	register_being "wolf_rat" { --Meant to be annoying and hard to hit
@@ -1008,7 +2128,6 @@ function DoomRL.loadnpcs()
 		color        = BROWN,
 		sprite       = SPRITE_WOLF_RAT,
 		hp           = 5,
-		armor        = 0,
 		todam        = 2,
 		tohit        = 2,
 		speed        = 140,
@@ -1021,6 +2140,8 @@ function DoomRL.loadnpcs()
 		bulk         = 100,
 		flags        = { BF_CHARGE },
 		ai_type      = "melee_seek_ai",
+
+		resist = { acid = 100 },
 
 		desc            = "Looks like some rats escaped from the lab. That's okay. They don't look too tough.",
 		kill_desc_melee = "gnawed on by a Mutant Rat",
@@ -1051,6 +2172,41 @@ function DoomRL.loadnpcs()
 			end
 		end,
 	}
+	register_being "wolf_piranha" { --Not meant to be attacked at all, just scenery
+		name         = "piranha",
+		ascii        = ";",
+		color        = GREEN,
+		sprite       = SPRITE_WOLF_PIRANHA,
+		hp           = 5,
+		todam        = 2,
+		tohit        = 2,
+		speed        = 140,
+		vision       = 1,
+		min_lev      = 0,
+		max_lev      = 10,
+		corpse       = true,
+		danger       = 0,
+		xp           = 0,
+		weight       = 0,
+		bulk         = 100,
+		flags        = { },
+		ai_type      = "demon_ai",
+
+		desc            = "A cute, innocent little fish with sharp pointy teeth.",
+		kill_desc_melee = "dilacreated by a Piranha",
+
+		OnAction = function (self)
+			--Pirahnas can only flap about in shallow water and will die if exposed.
+			local cell = level.map[ self.position ]
+			if cell == "deepwater" then --Carry on
+			else
+				self.scount = 0
+				if cell ~= "water" or math.random(3) == 1 then
+					if self.hp == 1 then self:kill() else self:apply_damage(1, TARGET_INTERNAL, DAMAGE_MELEE ) end
+				end
+			end
+		end,
+	}
 	register_being "wolf_spirit" {
 		name         = "spirit",
 		ascii        = "°",
@@ -1059,7 +2215,6 @@ function DoomRL.loadnpcs()
 		sprite       = SPRITE_WOLF_SPIRIT,
 		coscolor     = { 0.8, 0.8, 0.8, 1.0 },
 		hp           = 1,
-		armor        = 0,
 		todam        = 1,
 		tohit        = 3,
 		speed        = 250,
@@ -1095,6 +2250,8 @@ function DoomRL.loadnpcs()
 		flags        = { BF_UNIQUENAME },
 		ai_type      = "pac_blinky_ai",
 
+		resist = { melee = 100, sharpnel = 100, bullet = 100, plasma = 100, fire = 100, acid = 100 },
+
 		desc            = "Shadow",
 		kill_desc_melee = "chased down by Blinky",
 	}
@@ -1117,6 +2274,8 @@ function DoomRL.loadnpcs()
 		bulk         = 100,
 		flags        = { BF_UNIQUENAME },
 		ai_type      = "pac_pinky_ai",
+
+		resist = { melee = 100, sharpnel = 100, bullet = 100, plasma = 100, fire = 100, acid = 100 },
 
 		desc            = "Speedy",
 		kill_desc_melee = "ambushed by Pinky",
@@ -1141,6 +2300,8 @@ function DoomRL.loadnpcs()
 		flags        = { BF_UNIQUENAME },
 		ai_type      = "pac_inky_ai",
 
+		resist = { melee = 100, sharpnel = 100, bullet = 100, plasma = 100, fire = 100, acid = 100 },
+
 		desc            = "Bashful",
 		kill_desc_melee = "hounded by Inky",
 	}
@@ -1164,6 +2325,8 @@ function DoomRL.loadnpcs()
 		flags        = { BF_UNIQUENAME },
 		ai_type      = "pac_clyde_ai",
 
+		resist = { melee = 100, sharpnel = 100, bullet = 100, plasma = 100, fire = 100, acid = 100 },
+
 		desc            = "Pokey",
 		kill_desc_melee = "surprised by Clyde",
 	}
@@ -1174,7 +2337,6 @@ function DoomRL.loadnpcs()
 		color        = WHITE,
 		sprite       = SPRITE_WOLF_GUARD2,
 		hp           = 5,
-		armor        = 0,
 		speed        = 100,
 		todam        = -1,
 		tohit        = -4,
@@ -1206,7 +2368,6 @@ function DoomRL.loadnpcs()
 		color        = WHITE,
 		sprite       = SPRITE_WOLF_GUARD2,
 		hp           = 10,
-		armor        = 0,
 		speed        = 100,
 		todam        = -1,
 		tohit        = -4,
@@ -1238,7 +2399,6 @@ function DoomRL.loadnpcs()
 		color        = BLUE,
 		sprite       = SPRITE_WOLF_GUARD2,
 		hp           = 10,
-		armor        = 0,
 		speed        = 100,
 		todam        = 0,
 		tohit        = -2,
@@ -1270,7 +2430,6 @@ function DoomRL.loadnpcs()
 		color        = MAGENTA,
 		sprite       = SPRITE_WOLF_GUARD2,
 		hp           = 20,
-		armor        = 0,
 		speed        = 100,
 		todam        = 0,
 		tohit        = -1,
@@ -1297,7 +2456,6 @@ function DoomRL.loadnpcs()
 		color        = GREEN,
 		sprite       = SPRITE_WOLF_GUARD2,
 		hp           = 40,
-		armor        = 1,
 		speed        = 110,
 		todam        = 0,
 		tohit        = 0,
@@ -1308,6 +2466,8 @@ function DoomRL.loadnpcs()
 		bulk         = 100,
 		flags        = { BF_OPENDOORS },
 		ai_type      = "former_ai",
+
+		resist = { melee = 15, sharpnel = 20, bullet = 15, plasma = 10, fire = 15, acid = 10 },
 
 		desc            = "STAR troopers are by far the most experienced guards in the facility, and the only ones with good uniforms to boot.",
 		kill_desc       = "killed by a trooper",
@@ -1325,7 +2485,6 @@ function DoomRL.loadnpcs()
 		color        = BROWN,
 		sprite       = SPRITE_WOLF_FAKEHITLER,
 		hp           = 15,
-		armor        = 0,
 		speed        = 100,
 		todam        = 0,
 		tohit        = -1,
@@ -1367,7 +2526,6 @@ function DoomRL.loadnpcs()
 		color        = GREEN,
 		sprite       = SPRITE_WOLF_FAKEHITLER,
 		hp           = 30,
-		armor        = 0,
 		speed        = 100,
 		todam        = 4,
 		tohit        = -1,
@@ -1396,7 +2554,6 @@ function DoomRL.loadnpcs()
 		color        = LIGHTBLUE,
 		sprite       = SPRITE_WOLF_FAKEHITLER,
 		hp           = 10,
-		armor        = 0,
 		speed        = 220,
 		todam        = 6,
 		tohit        = 5,
@@ -1420,7 +2577,6 @@ function DoomRL.loadnpcs()
 		color        = LIGHTBLUE,
 		sprite       = SPRITE_WOLF_FAKEHITLER,
 		hp           = 40,
-		armor        = 0,
 		attackchance = 40,
 		speed        = 100,
 		todam        = 2,
@@ -1464,7 +2620,6 @@ function DoomRL.loadnpcs()
 		color        = GREEN,
 		sprite       = SPRITE_WOLF_FAKEHITLER,
 		hp           = 20,
-		armor        = 0,
 		attackchance = 40,
 		speed        = 120,
 		todam        = 4,
@@ -1504,7 +2659,6 @@ function DoomRL.loadnpcs()
 		color        = LIGHTCYAN,
 		sprite       = SPRITE_WOLF_FAKEHITLER,
 		hp           = 40,
-		armor        = 2,
 		speed        = 70,
 		todam        = 2,
 		tohit        = 0,
@@ -1516,7 +2670,7 @@ function DoomRL.loadnpcs()
 		bulk         = 100,
 		ai_type      = "melee_ranged_ai",
 
-		resist = { acid = 20, },
+		resist = { melee = 30, sharpnel = 40, bullet = 30, plasma = 20, fire = 30, acid = 30 },
 
 		desc            = "Robot guards are always harder to kill than their flesh and blood counterparts.",
 		kill_desc       = "killed by a robot sentinel",
@@ -1555,34 +2709,31 @@ function DoomRL.loadnpcs()
 	Knight  HP 1250 (skill 1), 1350 (skill 2), 1450 (skill 3), 1600 (skill 4) Speed    2048
 	Angel   HP 1450 (Skill 1), 1550 (Skill 2), 1650 (Skill 3), 2000 (Skill 4) 
 	--]]
-	register_being "wolf_bosshans" {
+	register_being "wolf_bosshans" { --Hans tends to show up in special levels a lot.  Run with it and make this the 'base' Hans with the proper boss getting in-level upgrades.
 		name         = "Hans Grosse",
 		ascii        = "@",
 		color        = BLUE,
 		sprite       = SPRITE_WOLF_HANS,
-		hp           = 60,
+		hp           = 40,
 		speed        = 100,
-		armor        = 2,
 		todam        = 4,
 		tohit        = -1,
-		tohitmelee   = 4,
+		tohitmelee   = 2,
 		min_lev      = 200,
 		corpse       = true,
-		danger       = 14,
+		danger       = 10,
 		weight       = 0,
-		xp           = 1000,
-		flags        = { BF_OPENDOORS, BF_HUNTING, BF_UNIQUENAME },
+		flags        = { BF_OPENDOORS, BF_UNIQUENAME },
 		bulk         = 100,
-		ai_type      = "ranged_ai",
+		ai_type      = "ranged_ai", --Was former but the risk of a boss getting a med-pack is too high
 
-		desc            = "Hauptsturmfuhrer Hans Grosse guards the exit of Castle Wolfenstein. If you want out you will have to go through him.",
+		resist = { melee = 15, sharpnel = 20, bullet = 15, plasma = 10, fire = 15, acid = 10 },
+
+		desc            = "Hauptsturmfhrer Hans Grosse. Hans may not be a smart man or a wise man, but he is a very big man.",
 		kill_desc       = "killed by Hans Grosse",
 		kill_desc_melee = "crushed by Hans Grosse",
 
 		OnCreate = function (self)
-			self.hpmax = self.hpmax + DIFFICULTY * DIFFICULTY * 2.5
-			self.hp = self.hpmax
-
 			local weapon = item.new("wolf_assault2")
 			weapon.shots = weapon.shots - 1
 			weapon.acc = weapon.acc + 1
@@ -1591,10 +2742,6 @@ function DoomRL.loadnpcs()
 			weapon.ammomax = 40
 
 			self.eq.weapon = weapon
-			self.inv:add( "wolf_kurz", { ammo = 50 } )
-			self.inv:add( "wolf_kurz", { ammo = 50 } )
-			self.inv:add( "wolf_kurz", { ammo = 50 } )
-			self.inv:add( "wolf_kurz", { ammo = 50 } )
 			self.inv:add( "wolf_kurz", { ammo = 50 } )
 			self.inv:add( "wolf_kurz", { ammo = 50 } )
 		end,
@@ -1618,7 +2765,6 @@ function DoomRL.loadnpcs()
 		sprite       = SPRITE_WOLF_SCHABBS,
 		hp           = 80,
 		speed        = 110,
-		armor        = 0,
 		todam        = 2,
 		tohit        = 0,
 		tohitmelee   = 4,
@@ -1675,7 +2821,6 @@ function DoomRL.loadnpcs()
 		sprite       = SPRITE_WOLF_MHITLER,
 		hp           = 120,
 		speed        = 90,
-		armor        = 3,
 		todam        = 8, --Cyberarmor == hurt
 		tohit        = -1,
 		tohitmelee   = 4,
@@ -1687,6 +2832,8 @@ function DoomRL.loadnpcs()
 		flags        = { BF_OPENDOORS, BF_HUNTING, BF_UNIQUENAME },
 		bulk         = 100,
 		ai_type      = "melee_ranged_ai",
+
+		resist = { melee = 45, sharpnel = 60, bullet = 45, plasma = 30, fire = 45, acid = 30 },
 
 		desc            = "Hitler is bad enough on his own. Power armor just takes it up to 11.",
 		kill_desc       = "killed by Mecha Hitler",
@@ -1772,7 +2919,6 @@ function DoomRL.loadnpcs()
 		sprite       = SPRITE_WOLF_HITLER,
 		hp           = 80,
 		speed        = 120,
-		armor        = 3,
 		todam        = 3,
 		tohit        = -1,
 		tohitmelee   = 4,
@@ -1784,6 +2930,8 @@ function DoomRL.loadnpcs()
 		flags        = { BF_OPENDOORS, BF_HUNTING, BF_UNIQUENAME },
 		bulk         = 100,
 		ai_type      = "ranged_ai",
+
+		resist = { melee = 30, sharpnel = 40, bullet = 30, plasma = 20, fire = 30, acid = 20 },
 
 		desc            = "It's almost over!  Finish the job and the West has won.",
 		kill_desc       = "killed by Hitler",
@@ -1825,7 +2973,6 @@ function DoomRL.loadnpcs()
 		sprite       = SPRITE_WOLF_GIFT,
 		hp           = 80,
 		speed        = 120,
-		armor        = 0,
 		todam        = 2,
 		tohit        = 0,
 		tohitmelee   = 4,
@@ -1857,29 +3004,26 @@ function DoomRL.loadnpcs()
 		ascii        = "@",
 		color        = LIGHTRED,
 		sprite       = SPRITE_WOLF_GRETEL,
-		hp           = 60,
+		hp           = 40,
 		speed        = 110,
-		armor        = 2,
 		todam        = 5,
 		tohit        = -1,
-		tohitmelee   = 2,
+		tohitmelee   = 1,
 		min_lev      = 200,
 		corpse       = true,
-		danger       = 14,
+		danger       = 10,
 		weight       = 0,
-		xp           = 1000,
-		flags        = { BF_OPENDOORS, BF_HUNTING, BF_UNIQUENAME },
+		flags        = { BF_OPENDOORS, BF_UNIQUENAME },
 		bulk         = 100,
 		ai_type      = "ranged_ai",
 
-		desc            = "Gretel Grosse, the 'Giantess Guardian', is acting as the bodyguard for one of the higher ups here for the meeting.",
+		resist = { melee = 15, sharpnel = 20, bullet = 15, plasma = 10, fire = 15, acid = 10 },
+
+		desc            = "Gretel Grosse, the 'Giantess Guardian', often acts as a bodyguard for higher-ups in the regime.",
 		kill_desc       = "killed by Gretel Grosse",
 		kill_desc_melee = "crushed by Gretel Grosse",
 
 		OnCreate = function (self)
-			self.hpmax = self.hpmax + DIFFICULTY * DIFFICULTY * 3
-			self.hp = self.hpmax
-
 			local weapon = item.new("wolf_assault2")
 			weapon.shots = weapon.shots - 1
 			weapon.acc = weapon.acc + 1
@@ -1888,10 +3032,6 @@ function DoomRL.loadnpcs()
 			weapon.ammomax = 40
 
 			self.eq.weapon = weapon
-			self.inv:add( "wolf_kurz", { ammo = 50 } )
-			self.inv:add( "wolf_kurz", { ammo = 50 } )
-			self.inv:add( "wolf_kurz", { ammo = 50 } )
-			self.inv:add( "wolf_kurz", { ammo = 50 } )
 			self.inv:add( "wolf_kurz", { ammo = 50 } )
 			self.inv:add( "wolf_kurz", { ammo = 50 } )
 		end,
@@ -1988,29 +3128,26 @@ function DoomRL.loadnpcs()
 		ascii        = "@",
 		color        = GREEN,
 		sprite       = SPRITE_WOLF_TRANS,
-		hp           = 70,
+		hp           = 50,
 		speed        = 90,
-		armor        = 1,
 		todam        = 4,
 		tohit        = -1,
-		tohitmelee   = 2,
+		tohitmelee   = 1,
 		min_lev      = 200,
 		corpse       = true,
-		danger       = 14,
+		danger       = 10,
 		weight       = 0,
-		xp           = 1000,
-		flags        = { BF_OPENDOORS, BF_HUNTING, BF_UNIQUENAME },
+		flags        = { BF_OPENDOORS, BF_UNIQUENAME },
 		bulk         = 100,
-		ai_type      = "ranged_ai",
+		ai_type      = "former_ai",
+
+		resist = { melee = 15, sharpnel = 20, bullet = 15, plasma = 10, fire = 15, acid = 10 },
 
 		desc            = "A cousin of the Grosse family! Trans posesses both the family passion for chainguns and the overactive pituitary gland.",
 		kill_desc       = "killed by Trans Grosse",
 		kill_desc_melee = "crushed by Trans Grosse",
 
 		OnCreate = function (self)
-			self.hpmax = self.hpmax + DIFFICULTY * DIFFICULTY * 1
-			self.hp = self.hpmax
-
 			local weapon = item.new("wolf_assault2")
 			weapon.shots = weapon.shots - 1
 			weapon.acc = weapon.acc + 1
@@ -2019,10 +3156,6 @@ function DoomRL.loadnpcs()
 			weapon.ammomax = 40
 
 			self.eq.weapon = weapon
-			self.inv:add( "wolf_kurz", { ammo = 50 } )
-			self.inv:add( "wolf_kurz", { ammo = 50 } )
-			self.inv:add( "wolf_kurz", { ammo = 50 } )
-			self.inv:add( "wolf_kurz", { ammo = 50 } )
 			self.inv:add( "wolf_kurz", { ammo = 50 } )
 			self.inv:add( "wolf_kurz", { ammo = 50 } )
 		end,
@@ -2046,7 +3179,6 @@ function DoomRL.loadnpcs()
 		sprite       = SPRITE_WOLF_BARNEY,
 		hp           = 110,
 		speed        = 100,
-		armor        = 1,
 		todam        = 2,
 		tohit        = -1,
 		tohitmelee   = 2,
@@ -2058,6 +3190,8 @@ function DoomRL.loadnpcs()
 		flags        = { BF_OPENDOORS, BF_HUNTING, BF_UNIQUENAME },
 		bulk         = 100,
 		ai_type      = "ranged_ai",
+
+		resist = { melee = 15, sharpnel = 20, bullet = 15, plasma = 10, fire = 15, acid = 10 },
 
 		desc            = "No one in intelligence is quite sure what Wilhelm's position is in the German army, but then again, it's not like they can just go up to him and ask...",
 		kill_desc       = "killed by Barnacle Wilhelm",
@@ -2159,7 +3293,6 @@ function DoomRL.loadnpcs()
 		color        = DARKGRAY,
 		sprite       = SPRITE_WOLF_KNIGHT,
 		hp           = 150,
-		armor        = 4,
 		speed        = 90,
 		todam        = 6,
 		tohit        = -1,
@@ -2172,6 +3305,8 @@ function DoomRL.loadnpcs()
 		flags        = { BF_OPENDOORS, BF_HUNTING, BF_UNIQUENAME },
 		bulk         = 100,
 		ai_type      = "melee_ranged_ai",
+
+		resist = { melee = 60, sharpnel = 80, bullet = 60, plasma = 40, fire = 60, acid = 40 },
 
 		desc            = "The only thing left between you and the Spear is the most monsterous Nazi you've ever seen.",
 		kill_desc       = "obliterated by the Death Knight",
@@ -2246,7 +3381,7 @@ function DoomRL.loadnpcs()
 		color        = RED,
 		sprite       = SPRITE_WOLF_AOD,
 		hp           = 250,
-		armor        = 10,
+		armor        = 10, --Different game different rules.  Let it slide.
 		todam        = 15,
 		tohit        = 8,
 		speed        = 150,
@@ -2266,6 +3401,8 @@ function DoomRL.loadnpcs()
 			damage     = "8d8",
 			damagetype = DAMAGE_ACID,
 			radius     = 1,
+			flags    = { IF_HALFKNOCK },
+
 			missile = {
 				sound_id   = "wolf_bossangel",
 				ascii      = "*",
@@ -2276,7 +3413,6 @@ function DoomRL.loadnpcs()
 				miss_dist  = 5,
 				expl_delay = 40,
 				expl_color = GREEN,
-				expl_flags = { EFHALFKNOCK },
 			},
 		},
 
@@ -2293,7 +3429,6 @@ function DoomRL.loadnpcs()
 		sprite       = SPRITE_WOLF_WILLIE,
 		hp           = 70,
 		speed        = 130,
-		armor        = 0,
 		todam        = 4,
 		tohit        = -2,
 		tohitmelee   = 2,
@@ -2302,7 +3437,7 @@ function DoomRL.loadnpcs()
 		danger       = 9,
 		weight       = 0,
 		xp           = 500,
-		flags        = { BF_OPENDOORS, BF_HUNTING, BF_UNIQUENAME },
+		flags        = { BF_OPENDOORS, BF_UNIQUENAME },
 		bulk         = 100,
 		ai_type      = "ranged_ai",
 
@@ -2328,7 +3463,6 @@ function DoomRL.loadnpcs()
 		sprite       = SPRITE_WOLF_QUARK,
 		hp           = 110,
 		speed        = 100,
-		armor        = 2,
 		todam        = 1,
 		tohit        = -1,
 		tohitmelee   = 3,
@@ -2337,9 +3471,11 @@ function DoomRL.loadnpcs()
 		danger       = 13,
 		weight       = 0,
 		xp           = 1000,
-		flags        = { BF_OPENDOORS, BF_HUNTING, BF_UNIQUENAME },
+		flags        = { BF_OPENDOORS, BF_UNIQUENAME },
 		bulk         = 100,
 		ai_type      = "flee_ranged_ai",
+
+		resist = { melee = 30, sharpnel = 40, bullet = 30, plasma = 20, fire = 30, acid = 20 },
 
 		desc            = "Professor Quarkblitz thinks of himself as a brilliant scientist, completely unappreciated as he works tirelessly in the shadow of the insufferable Doctor Schabbs. In truth he is nothing but a madman whose experiments are rarely successful and always abominations.",
 		kill_desc       = "killed by Professor Quarkblitz",
@@ -2387,7 +3523,6 @@ function DoomRL.loadnpcs()
 		sprite       = SPRITE_WOLF_AXE,
 		hp           = 100,
 		speed        = 130,
-		armor        = 4,
 		attackchance = 30,
 		todam        = 3,
 		tohit        = -1,
@@ -2400,6 +3535,8 @@ function DoomRL.loadnpcs()
 		flags        = { BF_QUICKSWAP, BF_OPENDOORS, BF_HUNTING, BF_UNIQUENAME },
 		bulk         = 100,
 		ai_type      = "melee_ranged_ai",
+
+		resist = { melee = 60, sharpnel = 80, bullet = 60, plasma = 40, fire = 60, acid = 40 },
 
 		desc            = "The Axe, believed named Hans Von Schlieffen before service, was once an unassuming major. Now it is unclear if the Axe is even human. Believed responsible for originally capturing the Spear for the Axis powers, he follows orders with brutal efficiency and without question.",
 		kill_desc       = "ventilated by the Axe",
@@ -2441,7 +3578,6 @@ function DoomRL.loadnpcs()
 		color        = LIGHTRED,
 		sprite       = SPRITE_WOLF_ROBOT,
 		hp           = 200,
-		armor        = 2,
 		speed        = 110,
 		todam        = 6,
 		tohit        = -1,
@@ -2454,6 +3590,8 @@ function DoomRL.loadnpcs()
 		flags        = { BF_HUNTING, BF_UNIQUENAME },
 		bulk         = 100,
 		ai_type      = "wolf_robot_ai",
+
+		resist = { melee = 30, sharpnel = 40, bullet = 30, plasma = 20, fire = 30, acid = 20 },
 
 		desc            = "The robot that stands before you is one of Professor Quarkblitz's successful (relatively speaking) inventions. It feels no pain and shows no mercy, but with enough bullets in the chassie it will go down.",
 		kill_desc       = "obliterated by the Robot",
@@ -2561,157 +3699,6 @@ function DoomRL.loadnpcs()
 		end,
 	}
 
-	--To Consider: make the below the standard definitions and adjust on special levels for bosses
-	register_being "wolf_minihans" { --Hans is also usually constrained to the end of an episode, but he tends to show up in special levels a lot too.  Run with it.
-		name         = "Hans Grosse",
-		sound_id     = "wolf_bosshans",
-		ascii        = "@",
-		color        = BLUE,
-		sprite       = SPRITE_WOLF_HANS,
-		hp           = 40,
-		speed        = 100,
-		armor        = 1,
-		todam        = 4,
-		tohit        = -1,
-		tohitmelee   = 2,
-		min_lev      = 200,
-		corpse       = true,
-		danger       = 10,
-		weight       = 0,
-		flags        = { BF_OPENDOORS, BF_UNIQUENAME },
-		bulk         = 100,
-		ai_type      = "former_ai",
-
-		desc            = "Hauptsturmfuhrer Hans Grosse. Hans may not be a smart man or a wise man, but he is a very big man.",
-		kill_desc       = "killed by Hans Grosse",
-		kill_desc_melee = "crushed by Hans Grosse",
-
-		OnCreate = function (self)
-			local weapon = item.new("wolf_assault2")
-			weapon.shots = weapon.shots - 1
-			weapon.acc = weapon.acc + 1
-			weapon.usetime = 10
-			weapon.ammo = 40
-			weapon.ammomax = 40
-
-			self.eq.weapon = weapon
-			self.inv:add( "wolf_kurz", { ammo = 50 } )
-			self.inv:add( "wolf_kurz", { ammo = 50 } )
-		end,
-
-		OnDieCheck = function (self, overkill)
-			--re-adjust weapon properties
-			local weapon = self.eq.weapon
-
-			weapon.shots = items[ weapon.id ].shots
-			weapon.acc = items[ weapon.id ].acc
-			weapon.usetime = items[ weapon.id ].fire
-			weapon.ammo = math.ceil(weapon.ammo * items[ weapon.id ].ammomax / weapon.ammomax)
-			weapon.ammomax = items[ weapon.id ].ammomax
-
-			return true
-		end,
-	}
-	register_being "wolf_minitrans" { --Same as above
-		name         = "Trans Grosse",
-		sound_id     = "wolf_bosstrans",
-		ascii        = "@",
-		color        = GREEN,
-		sprite       = SPRITE_WOLF_TRANS,
-		hp           = 50,
-		speed        = 90,
-		armor        = 1,
-		todam        = 4,
-		tohit        = -1,
-		tohitmelee   = 1,
-		min_lev      = 200,
-		corpse       = true,
-		danger       = 10,
-		weight       = 0,
-		flags        = { BF_OPENDOORS, BF_UNIQUENAME },
-		bulk         = 100,
-		ai_type      = "former_ai",
-
-		desc            = "A cousin of the Grosse family! Trans posesses both the family passion for chainguns and the overactive pituitary gland.",
-		kill_desc       = "killed by Trans Grosse",
-		kill_desc_melee = "crushed by Trans Grosse",
-
-		OnCreate = function (self)
-			local weapon = item.new("wolf_assault2")
-			weapon.shots = weapon.shots - 1
-			weapon.acc = weapon.acc + 1
-			weapon.usetime = 10
-			weapon.ammo = 40
-			weapon.ammomax = 40
-
-			self.eq.weapon = weapon
-			self.inv:add( "wolf_kurz", { ammo = 50 } )
-			self.inv:add( "wolf_kurz", { ammo = 50 } )
-		end,
-
-		OnDieCheck = function (self, overkill)
-			--re-adjust weapon properties
-			local weapon = self.eq.weapon
-
-			weapon.shots = items[ weapon.id ].shots
-			weapon.acc = items[ weapon.id ].acc
-			weapon.usetime = items[ weapon.id ].fire
-			weapon.ammo = math.ceil(weapon.ammo * items[ weapon.id ].ammomax / weapon.ammomax)
-			weapon.ammomax = items[ weapon.id ].ammomax
-
-			return true
-		end,
-	}
-	register_being "wolf_minigretel" { --Same as above
-		name         = "Gretel Grosse",
-		sound_id     = "wolf_bossgretel",
-		ascii        = "@",
-		color        = LIGHTRED,
-		sprite       = SPRITE_WOLF_GRETEL,
-		hp           = 40,
-		speed        = 110,
-		armor        = 1,
-		todam        = 5,
-		tohit        = -1,
-		tohitmelee   = 1,
-		min_lev      = 200,
-		corpse       = true,
-		danger       = 10,
-		weight       = 0,
-		flags        = { BF_OPENDOORS, BF_UNIQUENAME },
-		bulk         = 100,
-		ai_type      = "former_ai",
-
-		desc            = "Gretel Grosse, the 'Giantess Guardian', is acting as the bodyguard for one of the higher ups here for the meeting.",
-		kill_desc       = "killed by Gretel Grosse",
-		kill_desc_melee = "crushed by Gretel Grosse",
-
-		OnCreate = function (self)
-			local weapon = item.new("wolf_assault2")
-			weapon.shots = weapon.shots - 1
-			weapon.acc = weapon.acc + 1
-			weapon.usetime = 10
-			weapon.ammo = 40
-			weapon.ammomax = 40
-
-			self.eq.weapon = weapon
-			self.inv:add( "wolf_kurz", { ammo = 50 } )
-			self.inv:add( "wolf_kurz", { ammo = 50 } )
-		end,
-
-		OnDieCheck = function (self, overkill)
-			--re-adjust weapon properties
-			local weapon = self.eq.weapon
-
-			weapon.shots = items[ weapon.id ].shots
-			weapon.acc = items[ weapon.id ].acc
-			weapon.usetime = items[ weapon.id ].fire
-			weapon.ammo = math.ceil(weapon.ammo * items[ weapon.id ].ammomax / weapon.ammomax)
-			weapon.ammomax = items[ weapon.id ].ammomax
-
-			return true
-		end,
-	}
 
 	--Groups (I've only made one because otherwise things will break and I'm not ready to balance these)
 	register_being_group {

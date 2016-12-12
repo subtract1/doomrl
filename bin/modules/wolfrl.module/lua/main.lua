@@ -676,7 +676,6 @@ function DoomRL.loadbasedata()
 			self:add_property( "wolf_treasure3", 0 )
 			self:add_property( "wolf_treasure4", 0 )
 			self:add_property( "wolf_drankblood", false )
-			self:add_property( "wolf_levelstatus", {} )
 
 			self:add_property( "medals", {} )
 			self:add_property( "badges", {} )
@@ -837,6 +836,9 @@ function DoomRL.isepisode()
 end
 function DoomRL.OnCreateEpisode()
 	DoomRL.ep7_OnCreateEpisode()
+end
+function DoomRL.OnCreatePlayer()
+	DoomRL.ep7_OnCreatePlayer()
 end
 
 function DoomRL.logo_text()

@@ -15,7 +15,9 @@ require( "doomrl:levels/ep1_boss1" )
     brown some white
     red
     red
---possible dungeon setting for a special level
+
+    The castle is kept far more plain than other castles.
+    Half chance for non-standard generators, no caves, only guard/ss/dogs.
 ]]--
 
 function DoomRL.loadepisode1()
@@ -67,12 +69,11 @@ function DoomRL.loadepisode1()
 		win_mortem    = "Escaped Castle Wolfenstein",
 		win_highscore = "Completed Episode 1",
 
-		--I would like to prevent officers, zombies, mutants, and everything above them
-		--from spawning.  This could be doable with some generous level generation abuse.
-		--It is explicitly NOT doable by modifying the current beings[] records; any such
-		--change would be reverted on a save/load.
 		OnCreateEpisode = function ()
 			DoomRL.ep1_OnCreateEpisode()
+		end,
+		OnCreatePlayer = function ()
+			DoomRL.ep1_OnCreatePlayer()
 		end,
 		OnIntro = function ()
 			return DoomRL.ep1_OnIntro()
@@ -83,6 +84,9 @@ function DoomRL.loadepisode1()
 		OnGenerate = function ()
 			DoomRL.ep1_OnGenerate()
 			return false
+		end,
+		OnEnter = function ( dlvl, id )
+			DoomRL.ep1_OnEnter(dlvl, id)
 		end,
 
 		OnMortem = function ()
@@ -122,6 +126,9 @@ function DoomRL.ep1_OnCreateEpisode()
 	end
 	statistics.bonus_levels_count = 0
 end
+function DoomRL.ep1_OnCreatePlayer()
+	--Nothing to do right now
+end
 function DoomRL.ep1_OnIntro()
 	DoomRL.plot_intro_1()
 	return false
@@ -131,6 +138,44 @@ function DoomRL.ep1_OnWinGame()
 	return false
 end
 function DoomRL.ep1_OnGenerate()
-	--Maybe I can tweak this later.
-	DoomRL.ep7_OnGenerate()
+	core.log("DoomRL.OnGenerate()")
+
+	--Select the level type based on (modified) weights
+	local dlevel = level.danger_level
+	local choice = weight_table.new()
+	for _,g in ipairs(generators) do
+		if dlevel >= g.min_dlevel and DIFFICULTY >= g.min_diff then
+			local weight = core.ranged_table( g.weight, dlevel )
+			if g.id ~= "gen_tiled" then weight = math.ceil(weight / 2) end
+			if g.id == "gen_caves" or g.id == "gen_caves_2" then weight = 0 end
+			if weight > 0 then choice:add( g, weight ) end
+		end
+	end
+	if choice:size() == 0 then error("NO GENERATOR AVAILABLE!") end
+
+	--Clone the generator.  Modify the generator to prevent high level enemies from spawning.
+	local gen = generator.clone(choice:roll())
+	if type( gen.monsters ) ~= "function" and gen.monsters > 0.01 then
+		--Assign the generator our own custom inline function.
+		--Normally the generator uses level:flood_monsters and just passes a weight.
+		--That function actually has a LOT of potential arguments INCLUDING a 'permissible'
+		--list.  The bad news is we lose groups since those don't have a name 
+		local weight_adj = gen.monsters
+		gen.monsters = function ( weight )
+			local arg_danger = math.ceil( weight * weight_adj )
+			local arg_list = { "wolf_guard1", "wolf_ss1", "wolf_dog1" }
+			level:flood_monsters{ danger = arg_danger, list = arg_list }
+		end
+	end
+
+	generator.run( gen )
+end
+function DoomRL.ep1_OnEnter(dlvl, id)
+	core.log("DoomRL.OnEnter()")
+
+	--Hack to account for the lack of a dynamic music sheet.
+	--If the id string begins with 'level' replace that with 'ep' and play that track.
+	if ( string.sub(id, 1, string.len("level")) == "level" ) then
+		core.play_music('ep1_' .. string.sub(id, 6))
+	end
 end

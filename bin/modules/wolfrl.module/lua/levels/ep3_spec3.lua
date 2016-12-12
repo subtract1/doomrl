@@ -1,7 +1,5 @@
 --[[ Pac-Man! The ghosts actually follow proper pac-man ghost AI
      (or as reasonable an approximation as I can make).
-
-     Todo: make all of the pac cells.
 --]]
 
 register_level "spec3" {
@@ -113,6 +111,7 @@ Z---------X-----X---------C,,,,,,,,,,,,|5|,,,,,,,,,,,,Z-----------------C
 		ui.msg("wakka wakka")
 		player.vision = player.vision - 7
 
+		--Count up dots
 		local pac_small = 0
 		local pac_large = 0
 		for item in level:items() do
@@ -123,6 +122,14 @@ Z---------X-----X---------C,,,,,,,,,,,,|5|,,,,,,,,,,,,Z-----------------C
 			end
 		end
 
+		--Count ghost enemies, since they aren't meant to be killed don't count them against the statistics
+		for b in level:beings() do
+			if (b.id == "pac_blinky" or b.id == "pac_pinky" or b.id == "pac_inky" or b.id == "pac_clyde") then
+				statistics.max_kills = statistics.max_kills - 1
+			end
+		end
+
+		--Award the history
 		if (pac_small == 0 and pac_large == 0) then
 			if statistics.damage_on_level == 0 then
 				player:add_history("He scavenged the maze flawlessly.")
@@ -140,6 +147,7 @@ Z---------X-----X---------C,,,,,,,,,,,,|5|,,,,,,,,,,,,Z-----------------C
 			player:add_history("The ghosts quickly scared him off.")
 		end
 
+		--Award medals
 		if (kills.get("pac_blinky") > 0 or  kills.get("pac_pinky") > 0 or  kills.get("pac_inky") > 0 or  kills.get("pac_clyde") > 0) then player:add_medal("pac1") end
 		if (kills.get("pac_blinky") > 0 and kills.get("pac_pinky") > 0 and kills.get("pac_inky") > 0 and kills.get("pac_clyde") > 0) then player:add_medal("pac2") end
 	end,

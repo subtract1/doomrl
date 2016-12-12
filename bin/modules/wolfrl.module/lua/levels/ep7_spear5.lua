@@ -75,8 +75,9 @@ register_level "spear5" {
 	end,
 
 	OnFire = function(item,being)
-		--Gunplay is not allowed unless you brought along an otherwise worthless trinket from an as of yet undefined special level.
-		if being:is_player() and item.itype == ITEMTYPE_RANGED then
+		--Gunplay is not allowed unless you brought along the otherwise useless sigil from the lab.
+		if being:is_player() and item.itype == ITEMTYPE_RANGED and not being.inv[items["wolf_sigil"].id]
+		then
 			ui.msg("You pull the trigger... nothing happens!")
 			return false
 		end

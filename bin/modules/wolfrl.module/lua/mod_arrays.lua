@@ -1,13 +1,13 @@
---[[Mod assemblies are hard to make plausible in normal gameplay.  They're virtually
-    impossible to do so in WolfRL.  For that reason I am grading on a curve, but if
-    an assembly falls below a certain bare minimum threshold for believability it
-    goes pronto.
+--[[Mod assemblies are hard to make plausible in normal gameplay.  They're
+    virtually impossible to do so in WolfRL.  For that reason I am grading on a
+    curve, but if an assembly falls below a certain bare minimum threshold for
+    believability it goes pronto.
 
-    In earlier versions of DoomRL mod order actually affected the result.  This was
-    intentional at the time but met with some backlash and all assemblies were recoded
-    to result in the same property values regardless of mod order.  Booo-ring.
-    I am sticking with the old way, at least in some circumstances, because I think
-    it is more fun.
+    In earlier versions of DoomRL mod order actually affected the result.  This
+    was intentional at the time but met with some backlash and all assemblies
+    were recoded to result in the same property values regardless of mod order.
+    Booo-ring.  I am sticking with the old way, at least in some circumstances
+    because I think it is more fun.
 --]]
 function DoomRL.load_mod_arrays()
 
@@ -15,7 +15,11 @@ function DoomRL.load_mod_arrays()
 	register_mod_array "pblade" {
 		name  = "piercing blade",
 		mods  = { P = 1, A = 1 },
-		request_type = ITEMTYPE_MELEE,
+		desc  = "any common blade",
+
+		Match = function (item)
+			return item.flags[IF_BLADE] and not item.flags[IF_EXOTIC] and not item.flags[IF_UNIQUE]
+		end,
 
 		OnApply = function (item)
 			item.name         = "piercing "..item.name
@@ -61,8 +65,12 @@ function DoomRL.load_mod_arrays()
 			item.movemod      = 15
 			item.dodgemod     = 10
 			item.armor        = 0
-			item.resist.shrapnel = 0
-			item.resist.bullet   = 0
+			item.resist.melee     = 0
+			item.resist.shrapnel  = 0
+			item.resist.bullet    = 0
+			item.resist.plasma    = 0
+			item.resist.fire      = 0
+			item.resist.acid      = 0
 
 			item.flags[ IF_RECHARGE ] = true
 			item.rechargeamount       = 2
@@ -81,6 +89,12 @@ function DoomRL.load_mod_arrays()
 			item.dodgemod  = 0
 			item.knockmod  = 0
 			item.armor     = 0
+			item.resist.melee     = 0
+			item.resist.shrapnel  = 0
+			item.resist.bullet    = 0
+			item.resist.plasma    = 0
+			item.resist.fire      = 0
+			item.resist.acid      = 0
 
 			item.flags[ IF_RECHARGE ] = true
 			item.rechargeamount       = 2
@@ -96,13 +110,12 @@ function DoomRL.load_mod_arrays()
 		OnApply = function (item)
 			item.name    = "nanofiber "..item.name
 			item.movemod = item.__proto.movemod
-			item.armor   = math.ceil(item.__proto.armor / 2)
-			item.resist.bullet = math.ceil((item.__proto.resist.bullet or 0) / 2)
-			item.resist.shrapnel = math.ceil((item.__proto.resist.shrapnel or 0) / 2)
-			item.resist.melee = math.ceil((item.__proto.resist.melee or 0) / 2)
-			item.resist.fire = math.ceil((item.__proto.resist.fire or 0) / 2)
-			item.resist.acid = math.ceil((item.__proto.resist.acid or 0) / 2)
-			item.resist.plasma = math.ceil((item.__proto.resist.plasma or 0) / 2)
+			item.resist.melee     = math.ceil((item.__proto.resist.melee    or 0) / 2)
+			item.resist.shrapnel  = math.ceil((item.__proto.resist.shrapnel or 0) / 2)
+			item.resist.bullet    = math.ceil((item.__proto.resist.bullet   or 0) / 2)
+			item.resist.plasma    = math.ceil((item.__proto.resist.plasma   or 0) / 2)
+			item.resist.fire      = math.ceil((item.__proto.resist.fire     or 0) / 2)
+			item.resist.acid      = math.ceil((item.__proto.resist.acid     or 0) / 2)
 			item.flags[ IF_NODURABILITY ] = true
 		end,
 	}
@@ -147,12 +160,17 @@ function DoomRL.load_mod_arrays()
 
 		OnApply = function (item)
 			item.name           = "tower shield"
-			item.armor          = 12
+			item.armor          = 0
 			item.durability     = 150
 			item.maxdurability  = 150
 			item.movemod        = -50
 			item.knockmod       = -90
-			item.resist.fire       = 0
+			item.resist.melee     = 95
+			item.resist.shrapnel  = 100
+			item.resist.bullet    = 95
+			item.resist.plasma    = 90
+			item.resist.fire      = 95
+			item.resist.acid      = 90
 			item.flags[ IF_NOREPAIR ] = true
 			item.flags[ IF_NONMODABLE ] = true
 			item.flags[ IF_NODEGRADE ] = true
@@ -193,7 +211,7 @@ function DoomRL.load_mod_arrays()
 			item.resist.bullet    = math.min( (item.resist.bullet or 0) + 30, 95 )
 			item.resist.shrapnel  = math.min( (item.resist.shrapnel or 0) + 30, 95 )
 			item.resist.fire      = (item.resist.fire or 0) - 30
-			item.resist.plasma    = 0
+			item.resist.plasma    = (item.resist.plasma or 0)
 			item.resist.acid      = 0
 		end,
 	}
@@ -205,7 +223,12 @@ function DoomRL.load_mod_arrays()
 		OnApply = function (item)
 			item.name      = "grappling "..item.name
 			item.movemod   = item.__proto.movemod - 10
-			item.armor     = item.armor + 1
+			item.resist.melee     = math.min( (item.resist.melee    or 0) + 5, 95 )
+			item.resist.shrapnel  = math.min( (item.resist.shrapnel or 0) + 5, 95 )
+			item.resist.bullet    = math.min( (item.resist.bullet   or 0) + 5, 95 )
+			item.resist.plasma    = math.min( (item.resist.plasma   or 0) + 5, 95 )
+			item.resist.fire      = math.min( (item.resist.fire     or 0) + 5, 95 )
+			item.resist.acid      = math.min( (item.resist.acid     or 0) + 5, 95 )
 			item.knockmod  = math.max( -90, item.__proto.knockmod - 50 )
 		end,
 	}
@@ -370,11 +393,14 @@ function DoomRL.load_mod_arrays()
 
 		OnApply = function (item)
 			item.name     = "cerberus "..item.name
-			item.armor    = 0
+			item.resist.melee     = 0
+			item.resist.shrapnel  = 0
+			item.resist.bullet    = 0
+			item.resist.plasma    = 0
+			item.resist.fire      = 100
+			item.resist.acid      = 100
 			item.movemod  = -30
 			item.knockmod = -30
-			item.resist.fire = 100
-			item.resist.acid = 100
 		end,
 	}
 	register_mod_array "cerarmor" {
@@ -391,6 +417,9 @@ function DoomRL.load_mod_arrays()
 			item.resist.fire   = 70
 			item.resist.acid   = 70
 			item.resist.plasma = 50
+			item.resist.fire      = math.ceil( math.min( (item.__proto.resist.fire   or 0) + 20, 95 ), 70 )
+			item.resist.acid      = math.ceil( math.min( (item.__proto.resist.acid   or 0) + 20, 95 ), 70 )
+			item.resist.plasma    = math.ceil( math.min( (item.__proto.resist.plasma or 0) + 10, 95 ), 50 )
 		end,
 	}
 
